@@ -18,9 +18,9 @@ namespace CoreCraft.Core
 
         [Header("Audio")]
         [SerializeField] private AudioMixer _audioMixer;
-        private const string MAIN_VOLUME = "masterVolume";
-        private const string MUSIC_VOLUME = "musicVolume";
-        private const string SFX_VOLUME = "sfxVolume";
+        private const string MAIN_VOLUME = "Master";
+        private const string MUSIC_VOLUME = "Music";
+        private const string SFX_VOLUME = "SFX";
 
         [Header("Camera")]
         public CinemachineVirtualCamera VirtualCamera;
