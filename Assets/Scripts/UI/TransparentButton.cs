@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace JamCraft.GMTK2023.Code
+namespace CoreCraft.Core
 {
     public class TransparentButton : MonoBehaviour
     {

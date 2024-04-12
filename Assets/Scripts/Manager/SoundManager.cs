@@ -1,11 +1,10 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using CoreCraft.Core;
 using Sirenix.OdinInspector;
 using System.Linq;
 
-namespace JamCraft.GMTK2023.Code
+namespace CoreCraft.Core
 {
     public class SoundManager : Singleton<SoundManager>
     {
@@ -76,9 +75,6 @@ namespace JamCraft.GMTK2023.Code
             }
 
             EventManager.Instance.PlayAudio.AddListener(PlaySFXDelayed);
-
-            EventManager.Instance.PointMultiplyEvent.AddListener(MusicMultiply);
-            EventManager.Instance.StreakEndEvent?.AddListener(MusicReset);
         }
 
         private IEnumerator EaseInCoroutine(int index)

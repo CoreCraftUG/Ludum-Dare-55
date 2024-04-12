@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace JamCraft.GMTK2023.Code
+namespace CoreCraft.Core
 {
     public class GameOverUI : MonoBehaviour
     {
@@ -15,8 +15,6 @@ namespace JamCraft.GMTK2023.Code
         [SerializeField] private Button _mainMenuButton;
 
         [Header("UI Texts")]
-        [SerializeField] private TextMeshProUGUI _finalScoreText;
-        [SerializeField] private TextMeshProUGUI _finalLevelText;
 
         [SerializeField] private CinemachineVirtualCamera _virtualCamera;
         [SerializeField] private Transform _gameOverUICenterTransform;
@@ -46,9 +44,6 @@ namespace JamCraft.GMTK2023.Code
             EventManager.Instance.GameOverEvent.AddListener(() =>
             {
                 GameStateManager.Instance.IsGameOver = true;
-
-                _finalScoreText.text = "Your final score is: " + ScoreUI.Instance.NewScore;
-                _finalLevelText.text = "You've reached level: " + ScoreUI.Instance.Level;
                 Show();
             });
 

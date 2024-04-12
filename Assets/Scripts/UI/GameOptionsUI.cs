@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-namespace JamCraft.GMTK2023.Code
+namespace CoreCraft.Core
 {
     public class GameOptionsUI : MonoBehaviour
     {
@@ -42,7 +42,6 @@ namespace JamCraft.GMTK2023.Code
         [SerializeField] private Slider _mainVolumeSlider;
         [SerializeField] private Slider _musicVolumeSlider;
         [SerializeField] private Slider _sfxVolumeSlider;
-        [SerializeField] private Slider _cameraDistanceSlider;
 
         [Header("UI Toggles")]
         [SerializeField] private Toggle _vSyncToggle;
@@ -54,7 +53,6 @@ namespace JamCraft.GMTK2023.Code
         [SerializeField] private TextMeshProUGUI _mainVolumeValueText;
         [SerializeField] private TextMeshProUGUI _musicVolumeValueText;
         [SerializeField] private TextMeshProUGUI _sfxVolumeValueText;
-        [SerializeField] private TextMeshProUGUI _cameraDistanceValueText;
         [SerializeField] private TextMeshProUGUI _resolutionOptionText;
         [SerializeField] private TextMeshProUGUI _displayOptionText;
         [SerializeField] private TextMeshProUGUI _windowModeOptionText;
@@ -264,7 +262,6 @@ namespace JamCraft.GMTK2023.Code
             _mainVolumeSlider.onValueChanged.AddListener(OnMainVolumeValueChanged);
             _musicVolumeSlider.onValueChanged.AddListener(OnMusicVolumeValueChanged);
             _sfxVolumeSlider.onValueChanged.AddListener(OnSfxVolumeValueChanged);
-            _cameraDistanceSlider.onValueChanged.AddListener(OnCameraHeightValueChanged);
         }
 
         /// <summary>
@@ -469,12 +466,6 @@ namespace JamCraft.GMTK2023.Code
         //    _ssaoToggleState.text = isChecked ? "Enabled" : "Disabled";
         //}
 
-        private void OnCameraHeightValueChanged(float value)
-        {
-            GameSettingsManager.Instance.SetCameraDistance(value);
-            _cameraDistanceValueText.text = Mathf.Round(GameSettingsFile.Instance.CameraDistance * 10).ToString();
-        }
-
         /// <summary>
         /// Handles the functionality of the Main Volume slider.
         /// </summary>
@@ -648,9 +639,6 @@ namespace JamCraft.GMTK2023.Code
             //if (_ssaoToggle.isOn != ES3.Load<bool>(GameSettingsFile.USERSETTINGS_SSAO, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings))
             //    return true;
 
-            if (_cameraDistanceSlider.value != ES3.Load<float>(GameSettingsFile.USERSETTINGS_CAMERA_DISTANCE, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings))
-                return true;
-
             if (_mainVolumeSlider.value != ES3.Load<float>(GameSettingsFile.USERSETTINGS_MAIN_VOLUME, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings))
                 return true;
 
@@ -698,9 +686,6 @@ namespace JamCraft.GMTK2023.Code
             //_ssaoToggle.SetIsOnWithoutNotify(ES3.Load<bool>(GameSettingsFile.USERSETTINGS_SSAO, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings));
             //_ssaoOptionText.color = _defaultSettingsColor;
             //_ssaoToggleState.text = ES3.Load<bool>(GameSettingsFile.USERSETTINGS_SSAO, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings) ? "Enabled" : "Disabled";
-
-            //_cameraDistanceOptionText.color = _defaultSettingsColor;
-            _cameraDistanceValueText.text = Mathf.Round(ES3.Load<float>(GameSettingsFile.USERSETTINGS_CAMERA_DISTANCE) * 10).ToString();
 
             //_mainVolumeOptionText.color = _defaultSettingsColor;
             _mainVolumeValueText.text = Mathf.Round(ES3.Load<float>(GameSettingsFile.USERSETTINGS_MAIN_VOLUME) * 10).ToString();
@@ -895,13 +880,6 @@ namespace JamCraft.GMTK2023.Code
             //}
 
             //_ssaoToggleState.text = GameSettingsFile.Instance.SSAO ? "Enabled" : "Disabled";
-
-            if (_cameraDistanceSlider.value != GameSettingsFile.Instance.CameraDistance)
-            {
-                _cameraDistanceSlider.value = GameSettingsFile.Instance.CameraDistance;
-            }
-
-            _cameraDistanceValueText.text = Mathf.Round(GameSettingsFile.Instance.CameraDistance * 10f).ToString();
 
             #endregion
 

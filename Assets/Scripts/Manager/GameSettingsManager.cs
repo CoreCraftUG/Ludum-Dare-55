@@ -6,7 +6,7 @@ using UnityEngine.Audio;
 using UnityEngine.Rendering.Universal;
 using ShadowResolution = UnityEngine.Rendering.Universal.ShadowResolution;
 
-namespace JamCraft.GMTK2023.Code
+namespace CoreCraft.Core
 {
     public class GameSettingsManager : MonoBehaviour
     {
@@ -317,21 +317,6 @@ namespace JamCraft.GMTK2023.Code
         //}
 
         /// <summary>
-        /// Set the Distance of the camera.
-        /// </summary>
-        /// <param name="value">Value of the Camera Distance slider.</param>
-        /// <remarks>Only called when the handle of the slider is moved.</remarks>
-        public void SetCameraDistance(float value)
-        {
-            if (VirtualCamera == null) return;
-
-            VirtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>().m_CameraDistance = value;
-            GameSettingsFile.Instance.CameraDistance = value;
-
-            ES3.Save(GameSettingsFile.USERSETTINGS_CAMERA_DISTANCE, GameSettingsFile.Instance.CameraDistance, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings);
-        }
-
-        /// <summary>
         /// Set the Main Volume of the application.
         /// </summary>
         /// <param name="value">Value of the Main Volume slider.</param>
@@ -407,20 +392,45 @@ namespace JamCraft.GMTK2023.Code
             // TODO: Find a way out to validate this shit.
             //}
 
+            if (URPGraphicSettings.SoftShadowsEnabled != GameSettingsFile.Instance.SoftShadows)
+            {
+                SetSoftShadows(GameSettingsFile.Instance.SoftShadows);
+            }
+            
+            _audioMixer.GetFloat(MAIN_VOLUME, out float mainVolume);
+
+            if (mainVolume != GameSettingsFile.Instance.MainVolume)
+            {
+                SetMainVolume(GameSettingsFile.Instance.MainVolume);
+            }
+
+            _audioMixer.GetFloat(MUSIC_VOLUME, out float musicVolume);
+
+            if (musicVolume != GameSettingsFile.Instance.MusicVolume)
+            {
+                SetMusicVolume(GameSettingsFile.Instance.MusicVolume);
+            }
+
+            _audioMixer.GetFloat(SFX_VOLUME, out float sfxVolume);
+
+            if (sfxVolume != GameSettingsFile.Instance.SfxVolume)
+            {
+                SetSFXVolume(GameSettingsFile.Instance.SfxVolume);
+            }
+
             //SetResolution(GameSettingsFile.Instance.ResolutionIndex);
             //SetDisplay(GameSettingsFile.Instance.DisplayIndex);
             //SetWindowMode(GameSettingsFile.Instance.WindowModeIndex);
             //SetVSync(GameSettingsFile.Instance.VSync);
             //SetTextureQuality(GameSettingsFile.Instance.TextureQualityIndex);
             SetShadowQuality(GameSettingsFile.Instance.ShadowQualityIndex);
-            SetSoftShadows(GameSettingsFile.Instance.SoftShadows);
+            //SetSoftShadows(GameSettingsFile.Instance.SoftShadows);
             //SetHDR(GameSettingsFile.Instance.HDR);
             //SetSSAO(GameSettingsFile.Instance.SSAO);
-            SetCameraDistance(GameSettingsFile.Instance.CameraDistance);
 
-            SetMainVolume(GameSettingsFile.Instance.MainVolume);
-            SetMusicVolume(GameSettingsFile.Instance.MusicVolume);
-            SetSFXVolume(GameSettingsFile.Instance.SfxVolume);
+            //SetMainVolume(GameSettingsFile.Instance.MainVolume);
+            //SetMusicVolume(GameSettingsFile.Instance.MusicVolume);
+            //SetSFXVolume(GameSettingsFile.Instance.SfxVolume);
         }
 
         public void SaveSettings()
@@ -437,7 +447,6 @@ namespace JamCraft.GMTK2023.Code
             ES3.Save(GameSettingsFile.USERSETTINGS_SOFT_SHADOWS, GameSettingsFile.Instance.SoftShadows, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings);
             //ES3.Save(GameSettingsFile.USERSETTINGS_HDR, GameSettingsFile.Instance.HDR, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings);
             //ES3.Save(GameSettingsFile.USERSETTINGS_SSAO, GameSettingsFile.Instance.SSAO, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings);
-            ES3.Save(GameSettingsFile.USERSETTINGS_CAMERA_DISTANCE, GameSettingsFile.Instance.CameraDistance, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings);
 
             ES3.Save(GameSettingsFile.USERSETTINGS_MAIN_VOLUME, GameSettingsFile.Instance.MainVolume, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings);
             ES3.Save(GameSettingsFile.USERSETTINGS_MUSIC_VOLUME, GameSettingsFile.Instance.MusicVolume, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings);

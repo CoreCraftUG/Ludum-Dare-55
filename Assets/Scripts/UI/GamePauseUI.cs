@@ -1,11 +1,9 @@
 using System;
 using Cinemachine;
-using CoreCraft.Core;
 using UnityEngine;
 using UnityEngine.UI;
-using static JamCraft.GMTK2023.Code.GameInputManager;
 
-namespace JamCraft.GMTK2023.Code
+namespace CoreCraft.Core
 {
     public class GamePauseUI : MonoBehaviour
     {
@@ -64,9 +62,9 @@ namespace JamCraft.GMTK2023.Code
             Hide();
         }
 
-        private void SetGamepadFocusPauseMenu(object sender, ControlScheme controlScheme)
+        private void SetGamepadFocusPauseMenu(object sender, GameInputManager.ControlScheme controlScheme)
         {
-            if (controlScheme == ControlScheme.Gamepad)
+            if (controlScheme == GameInputManager.ControlScheme.Gamepad)
             {
                 if (!gameObject.activeSelf) return;
 

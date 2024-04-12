@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace JamCraft.GMTK2023.Code
+namespace CoreCraft.Core
 {
     public class GameSettingsFile : MonoBehaviour
     {
@@ -10,7 +10,7 @@ namespace JamCraft.GMTK2023.Code
 
         public static GameSettingsFile Instance { get; private set; }
 
-        private readonly string _userSettingsFilePath = $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\\My Games\\House Always WINS!\\GameUserSettings.ini";
+        private readonly string _userSettingsFilePath = $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\\My Games\\Ludum Dare 55\\GameUserSettings.ini";
         private const string USERSETTINGS_ENCRIPTIONPASSWORD = "CoreCraftsSuperSavePassword";
         private ES3Settings _es3settings;
         public ES3Settings ES3Settings { get => _es3settings; }
@@ -32,7 +32,6 @@ namespace JamCraft.GMTK2023.Code
         [SerializeField] private bool _softShadows;
         //[SerializeField] private bool _hdr;
         //[SerializeField] private bool _ssao;
-        [SerializeField] private float _cameraDistance;
 
         // Audio Settings
         [SerializeField] private float _mainVolume;
@@ -110,11 +109,6 @@ namespace JamCraft.GMTK2023.Code
         //public bool SSAO { get => _ssao; set => _ssao = value; }
 
         /// <summary>
-        /// Saved value if the camera distance slider.
-        /// </summary>
-        public float CameraDistance { get => _cameraDistance; set => _cameraDistance = value; }
-
-        /// <summary>
         /// Saved value of the main volume.
         /// </summary>
         public float MainVolume { get => _mainVolume; set => _mainVolume = value; }
@@ -151,7 +145,6 @@ namespace JamCraft.GMTK2023.Code
         public const string USERSETTINGS_SOFT_SHADOWS = "UserSettings_SoftShadowsValue";
         //public const string USERSETTINGS_HDR = "UserSettings_HdrValue";
         //public const string USERSETTINGS_SSAO = "UserSettings_SsaoValue";
-        public const string USERSETTINGS_CAMERA_DISTANCE = "UserSettings_CameraDistanceValue"; // TODO: Fix the implementation.
         public const string USERSETTINGS_MAIN_VOLUME = "UserSettings_MainVolume";
         public const string USERSETTINGS_MUSIC_VOLUME = "UserSettings_MusicVolume";
         public const string USERSETTINGS_SFX_VOLUME = "UserSettings_SfxVolume";
@@ -266,11 +259,6 @@ namespace JamCraft.GMTK2023.Code
             //{
             //    _ssao = ES3.Load<bool>(USERSETTINGS_SSAO, _userSettingsFilePath, false, _es3settings);
             //}
-
-            if (ES3.KeyExists(USERSETTINGS_CAMERA_DISTANCE, UserSettingsFilePath, _es3settings))
-            {
-                _cameraDistance = ES3.Load<float>(USERSETTINGS_CAMERA_DISTANCE, _userSettingsFilePath, 1.5f, _es3settings);
-            }
 
             if (ES3.KeyExists(USERSETTINGS_MAIN_VOLUME, UserSettingsFilePath, _es3settings))
             {

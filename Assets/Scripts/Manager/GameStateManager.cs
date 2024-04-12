@@ -1,8 +1,7 @@
 using System;
-using CoreCraft.Core;
 using UnityEngine;
 
-namespace JamCraft.GMTK2023.Code
+namespace CoreCraft.Core
 {
     public class GameStateManager : MonoBehaviour
     {

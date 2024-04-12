@@ -4,7 +4,7 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
 
-namespace JamCraft.GMTK2023.Code
+namespace CoreCraft.Core
 {
     public class GameInputManager : MonoBehaviour
     {
@@ -17,9 +17,9 @@ namespace JamCraft.GMTK2023.Code
 
         #region EventHandlers
 
-        public event EventHandler OnTurnTableRightAction;
-        public event EventHandler OnTurnTableLeftAction;
-        public event EventHandler OnPlaceCardAction;
+        //public event EventHandler OnTurnTableRightAction;
+        //public event EventHandler OnTurnTableLeftAction;
+        //public event EventHandler OnPlaceCardAction;
         public event EventHandler OnPauseAction;
 
         #endregion
@@ -153,20 +153,20 @@ namespace JamCraft.GMTK2023.Code
             }
         }
 
-        private void PlaceCard_performed(InputAction.CallbackContext obj)
-        {
-            OnPlaceCardAction?.Invoke(this, EventArgs.Empty);
-        }
+        //private void PlaceCard_performed(InputAction.CallbackContext obj)
+        //{
+        //    OnPlaceCardAction?.Invoke(this, EventArgs.Empty);
+        //}
 
-        private void TurnTableCounterClockwise_performed(InputAction.CallbackContext obj)
-        {
-            OnTurnTableLeftAction?.Invoke(this, EventArgs.Empty);
-        }
+        //private void TurnTableCounterClockwise_performed(InputAction.CallbackContext obj)
+        //{
+        //    OnTurnTableLeftAction?.Invoke(this, EventArgs.Empty);
+        //}
 
-        private void TurnTableClockwise_performed(InputAction.CallbackContext obj)
-        {
-            OnTurnTableRightAction?.Invoke(this, EventArgs.Empty);
-        }
+        //private void TurnTableClockwise_performed(InputAction.CallbackContext obj)
+        //{
+        //    OnTurnTableRightAction?.Invoke(this, EventArgs.Empty);
+        //}
 
         private void Pause_performed(InputAction.CallbackContext obj)
         {
@@ -179,10 +179,10 @@ namespace JamCraft.GMTK2023.Code
         /// </summary>
         private void RegisterInputActions()
         {
-            _gameInput.Player.TurnTableRight.performed += TurnTableClockwise_performed;
-            _gameInput.Player.TurnTableLeft.performed += TurnTableCounterClockwise_performed;
-            _gameInput.Player.PlaceCard.performed += PlaceCard_performed;
-            _gameInput.Player.Pause.performed += Pause_performed;
+            //_gameInput.Player.TurnTableRight.performed += TurnTableClockwise_performed;
+            //_gameInput.Player.TurnTableLeft.performed += TurnTableCounterClockwise_performed;
+            //_gameInput.Player.PlaceCard.performed += PlaceCard_performed;
+            //_gameInput.Player.Pause.performed += Pause_performed;
             //InputSystem.onAnyButtonPress.CallOnce(control => Debug.Log("Test"));
         }
 
