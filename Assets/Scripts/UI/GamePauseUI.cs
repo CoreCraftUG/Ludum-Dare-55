@@ -1,0 +1,157 @@
+using System;
+using Cinemachine;
+using CoreCraft.Core;
+using UnityEngine;
+using UnityEngine.UI;
+using static JamCraft.GMTK2023.Code.GameInputManager;
+
+namespace JamCraft.GMTK2023.Code
+{
+    public class GamePauseUI : MonoBehaviour
+    {
+        public static GamePauseUI Instance { get; private set; }
+
+        [Header("UI Buttons")]
+        [SerializeField] private Button _resumeButton;
+        [SerializeField] private Button _optionsButton;
+        [SerializeField] private Button _mainMenuButton;
+
+        [SerializeField] private CinemachineVirtualCamera _virtualCamera;
+        [SerializeField] private Transform _pauseMenuCenterTransform;
+
+        private void Awake()
+        {
+            if (Instance != null)
+            {
+                Debug.LogError($"There is more than one {this} instance in the scene!");
+            }
+
+            Instance = this;
+
+            // Unpause the game and close the pause menu.
+            _resumeButton.onClick.AddListener(() =>
+            {
+                GameStateManager.Instance.OnPauseAction();
+            });
+
+            // Show the options menu and hide the pause menu.
+            _optionsButton.onClick.AddListener(() =>
+            {
+                Hide();
+                GameOptionsUI.Instance.Show();
+            });
+
+            // Got to main menu.
+            _mainMenuButton.onClick.AddListener(() =>
+            {
+                Loader.Load("mainmenu_scene");
+            });
+        }
+
+        private void Start()
+        {
+            // Subscribe to the events.
+            GameStateManager.Instance.OnGamePaused += GameStateManager_OnOnGamePaused;
+            GameStateManager.Instance.OnGameUnpaused += GameStateManager_OnOnGameUnpaused;
+
+            if (GameInputManager.Instance != null)
+            {
+                GameInputManager.Instance.OnInputDeviceChanged += SetGamepadFocusPauseMenu;
+            }
+
+            GameSettingsManager.Instance.VirtualCamera = _virtualCamera;
+
+            Hide();
+        }
+
+        private void SetGamepadFocusPauseMenu(object sender, ControlScheme controlScheme)
+        {
+            if (controlScheme == ControlScheme.Gamepad)
+            {
+                if (!gameObject.activeSelf) return;
+
+                _resumeButton.Select();
+            }
+        }
+
+        // If the game unpauses, hide the pause menu.
+        private void GameStateManager_OnOnGameUnpaused(object sender, EventArgs e)
+        {
+            Hide();
+        }
+
+        // If the game pauses, show the pause menu.
+        private void GameStateManager_OnOnGamePaused(object sender, EventArgs e)
+        {
+            Show();
+        }
+
+        public void Show()
+        {
+            gameObject.SetActive(true);
+
+            _resumeButton.Select();
+
+            _virtualCamera.Follow = _pauseMenuCenterTransform;
+
+            CinemachineComponentBase componentBase = _virtualCamera.GetCinemachineComponent(CinemachineCore.Stage.Body);
+
+            if (componentBase is CinemachineFramingTransposer)
+            {
+                (componentBase as CinemachineFramingTransposer).m_CameraDistance = 1.5f;
+            }
+        }
+
+        public void Hide()
+        {
+            gameObject.SetActive(false);
+
+            _virtualCamera.Follow = GameStateManager.Instance.LastPlayerFocusPoint;
+
+            CinemachineComponentBase componentBase = _virtualCamera.GetCinemachineComponent(CinemachineCore.Stage.Body);
+
+            if (componentBase is CinemachineFramingTransposer)
+            {
+                (componentBase as CinemachineFramingTransposer).m_CameraDistance = 3.25f;
+            }
+        }
+
+        private void OnDestroy()
+        {
+            if (GameStateManager.Instance != null)
+            {
+                // Unsubscribe from events in case of destruction.
+                GameStateManager.Instance.OnGamePaused -= GameStateManager_OnOnGamePaused;
+                GameStateManager.Instance.OnGameUnpaused -= GameStateManager_OnOnGameUnpaused;
+
+                _resumeButton.onClick.RemoveAllListeners();
+                _optionsButton.onClick.RemoveAllListeners();
+                _mainMenuButton.onClick.RemoveAllListeners();
+            }
+
+            if (GameInputManager.Instance != null)
+            {
+                GameInputManager.Instance.OnInputDeviceChanged -= SetGamepadFocusPauseMenu;
+            }
+        }
+
+        private void OnApplicationQuit()
+        {
+            if (GameStateManager.Instance != null)
+            {
+                // Unsubscribe from events in case of destruction.
+                GameStateManager.Instance.OnGamePaused -= GameStateManager_OnOnGamePaused;
+                GameStateManager.Instance.OnGameUnpaused -= GameStateManager_OnOnGameUnpaused;
+
+                _resumeButton.onClick.RemoveAllListeners();
+                _optionsButton.onClick.RemoveAllListeners();
+                _mainMenuButton.onClick.RemoveAllListeners();
+            }
+
+            if (GameInputManager.Instance != null)
+            {
+                GameInputManager.Instance.OnInputDeviceChanged -= SetGamepadFocusPauseMenu;
+            }
+        }
+    }
+}
