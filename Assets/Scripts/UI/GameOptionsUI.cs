@@ -366,7 +366,7 @@ namespace CoreCraft.Core
         /// <returns>Correctly formatted resolution options string.</returns>
         private string ResolutionToString(Resolution resolution)
         {
-            return resolution.width + " x " + resolution.height + " @ " + resolution.refreshRate + " Hz";
+            return resolution.width + " x " + resolution.height + " @ " + resolution.refreshRateRatio + " Hz";
         }
 
         /// <summary>
