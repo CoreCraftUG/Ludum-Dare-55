@@ -724,12 +724,12 @@ namespace CoreCraft.Core
             {
                 default:
                 case GameInputManager.ControlScheme.Keyboard:
-                    _turnTableRightKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableRight, 0);
-                    _turnTableRightKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableRight, 1);
-                    _turnTableLeftKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableLeft, 0);
-                    _turnTableLeftKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableLeft, 1);
-                    _placeCardKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.PlaceCard, 0);
-                    _placeCardKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.PlaceCard, 1);
+                    //_turnTableRightKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableRight, 0);
+                    //_turnTableRightKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableRight, 1);
+                    //_turnTableLeftKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableLeft, 0);
+                    //_turnTableLeftKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableLeft, 1);
+                    //_placeCardKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.PlaceCard, 0);
+                    //_placeCardKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.PlaceCard, 1);
 
                     _turnTableRightKeybindingButton1.onClick.RemoveAllListeners();
                     _turnTableRightKeybindingButton2.onClick.RemoveAllListeners();
@@ -769,12 +769,12 @@ namespace CoreCraft.Core
                     });
                     break;
                 case GameInputManager.ControlScheme.Gamepad:
-                    _turnTableRightKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableRight, 2);
-                    _turnTableRightKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableRight, 3);
-                    _turnTableLeftKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableLeft, 2);
-                    _turnTableLeftKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableLeft, 3);
-                    _placeCardKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.PlaceCard, 2);
-                    _placeCardKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.PlaceCard, 3);
+                    //_turnTableRightKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableRight, 2);
+                    //_turnTableRightKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableRight, 3);
+                    //_turnTableLeftKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableLeft, 2);
+                    //_turnTableLeftKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableLeft, 3);
+                    //_placeCardKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.PlaceCard, 2);
+                    //_placeCardKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.PlaceCard, 3);
 
                     _turnTableRightKeybindingButton1.onClick.RemoveAllListeners();
                     _turnTableRightKeybindingButton2.onClick.RemoveAllListeners();
@@ -910,12 +910,12 @@ namespace CoreCraft.Core
 
             #region Keybindings
 
-            _turnTableRightKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableRight, 0);
-            _turnTableRightKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableRight, 1);
-            _turnTableLeftKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableLeft, 0);
-            _turnTableLeftKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableLeft, 1);
-            _placeCardKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.PlaceCard, 0);
-            _placeCardKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.PlaceCard, 1);
+            //_turnTableRightKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableRight, 0);
+            //_turnTableRightKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableRight, 1);
+            //_turnTableLeftKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableLeft, 0);
+            //_turnTableLeftKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableLeft, 1);
+            //_placeCardKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.PlaceCard, 0);
+            //_placeCardKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.PlaceCard, 1);
 
             #endregion
         }

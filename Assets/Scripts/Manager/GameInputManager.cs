@@ -192,19 +192,19 @@ namespace CoreCraft.Core
         /// <param name="actions">Respective action to get the binding from.</param>
         /// <param name="bindingIndex">Respective index of the binding to return as string.</param>
         /// <returns></returns>
-        public string GetBindingText(Actions actions, int bindingIndex)
-        {
-            switch (actions)
-            {
-                default:
-                case Actions.TurnTableRight:
-                    return _gameInput.Player.TurnTableRight.bindings[bindingIndex].ToDisplayString();
-                case Actions.TurnTableLeft:
-                    return _gameInput.Player.TurnTableLeft.bindings[bindingIndex].ToDisplayString();
-                case Actions.PlaceCard:
-                    return _gameInput.Player.PlaceCard.bindings[bindingIndex].ToDisplayString();
-            }
-        }
+        //public string GetBindingText(Actions actions, int bindingIndex)
+        //{
+        //    switch (actions)
+        //    {
+        //        //default:
+        //        //case Actions.TurnTableRight:
+        //        //    return _gameInput.Player.TurnTableRight.bindings[bindingIndex].ToDisplayString();
+        //        //case Actions.TurnTableLeft:
+        //        //    return _gameInput.Player.TurnTableLeft.bindings[bindingIndex].ToDisplayString();
+        //        //case Actions.PlaceCard:
+        //        //    return _gameInput.Player.PlaceCard.bindings[bindingIndex].ToDisplayString();
+        //    }
+        //}
 
         /// <summary>
         /// Rebind an action.
@@ -221,54 +221,54 @@ namespace CoreCraft.Core
             switch (actions)
             {
                 default:
-                case Actions.TurnTableRight:
-                    inputAction = _gameInput.Player.TurnTableRight;
-                    break;
-                case Actions.TurnTableLeft:
-                    inputAction = _gameInput.Player.TurnTableLeft;
-                    break;
-                case Actions.PlaceCard:
-                    inputAction = _gameInput.Player.PlaceCard;
+                //case Actions.TurnTableRight:
+                //    inputAction = _gameInput.Player.TurnTableRight;
+                //    break;
+                //case Actions.TurnTableLeft:
+                //    inputAction = _gameInput.Player.TurnTableLeft;
+                //    break;
+                //case Actions.PlaceCard:
+                //    inputAction = _gameInput.Player.PlaceCard;
                     break;
             }
 
-            inputAction.Disable(); // Needs to be disabled, otherwise no rebinding can be performed.
+            ////inputAction.Disable(); // Needs to be disabled, otherwise no rebinding can be performed.
 
-            inputAction.PerformInteractiveRebinding(bindingIndex)
-                .WithCancelingThrough(_currentCancelKey) // Set the key to cancel the process.
-                .WithControlsExcluding("<Mouse>") // Exclude Mouse as an input device to be bound to an action.
-                .WithControlsExcluding("<Keyboard>/anyKey") // Exclude anyKey of the Keyboard to be bound to an action.
-                .OnCancel(operation =>
-                {
-                    ResetBinding(inputAction, bindingIndex); // Reset to the old binding.
-                    inputAction.Enable();
-                    onActionRebound?.Invoke();
-                    ES3.Save(GameSettingsFile.USERSETTINGS_INPUT_BINDINGS, _gameInput.SaveBindingOverridesAsJson(), GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings);
-                    operation.Dispose();
-                })
-                .OnComplete(operation =>
-                {
-                    if (CheckForDuplicateBindings(inputAction, bindingIndex/*, allCompositeParts*/))
-                    {
-                        inputAction.RemoveBindingOverride(bindingIndex);
+            //inputAction.PerformInteractiveRebinding(bindingIndex)
+            //    .WithCancelingThrough(_currentCancelKey) // Set the key to cancel the process.
+            //    .WithControlsExcluding("<Mouse>") // Exclude Mouse as an input device to be bound to an action.
+            //    .WithControlsExcluding("<Keyboard>/anyKey") // Exclude anyKey of the Keyboard to be bound to an action.
+            //    .OnCancel(operation =>
+            //    {
+            //        ResetBinding(inputAction, bindingIndex); // Reset to the old binding.
+            //        inputAction.Enable();
+            //        onActionRebound?.Invoke();
+            //        ES3.Save(GameSettingsFile.USERSETTINGS_INPUT_BINDINGS, _gameInput.SaveBindingOverridesAsJson(), GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings);
+            //        operation.Dispose();
+            //    })
+            //    .OnComplete(operation =>
+            //    {
+            //        if (CheckForDuplicateBindings(inputAction, bindingIndex/*, allCompositeParts*/))
+            //        {
+            //            inputAction.RemoveBindingOverride(bindingIndex);
 
-                        operation.Dispose();
+            //            operation.Dispose();
 
-                        RebindBinding(actions, () =>
-                        {
-                            GameOptionsUI.Instance.HideRebindPanel();
-                            GameOptionsUI.Instance.UpdateVisual();
-                        }, bindingIndex);
+            //            RebindBinding(actions, () =>
+            //            {
+            //                GameOptionsUI.Instance.HideRebindPanel();
+            //                GameOptionsUI.Instance.UpdateVisual();
+            //            }, bindingIndex);
 
-                        return;
-                    }
+            //            return;
+            //        }
 
-                    inputAction.Enable();
-                    onActionRebound?.Invoke();
-                    ES3.Save(GameSettingsFile.USERSETTINGS_INPUT_BINDINGS, _gameInput.SaveBindingOverridesAsJson(), GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings);
-                    operation.Dispose();
-                })
-                .Start();
+            //        inputAction.Enable();
+            //        onActionRebound?.Invoke();
+            //        ES3.Save(GameSettingsFile.USERSETTINGS_INPUT_BINDINGS, _gameInput.SaveBindingOverridesAsJson(), GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings);
+            //        operation.Dispose();
+            //    })
+            //    .Start();
         }
 
         /// <summary>
