@@ -15,7 +15,7 @@ namespace CoreCraft.LudumDare55
 
         public BlockMaterial Material { get { return _material; } }
         public BlockResources Resources { get { return _resources; } }
-        public BlockingType Type { get { return _blockingType; } }
+        public BlockingType BlockingType { get { return _blockingType; } }
         public bool Destructible { get { return _destructible; } }
         public int SpawnMinDepth { get { return _spawnMinDepth; } }
         public int SpawnMaxDepth { get { return _spawnMaxDepth; } }

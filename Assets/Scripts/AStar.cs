@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace CoreCraft.LudumDare55
@@ -16,7 +15,7 @@ namespace CoreCraft.LudumDare55
             if (Grid.Instance.GetCellByIndex(startIndex) == null || Grid.Instance.GetCellByIndex(targetIndex) == null)
                 throw new Exception("The start or target Index is out od bounds!");
 
-            if (Grid.Instance.GetCellByIndex(startIndex).Block.Type != BlockingType.None || Grid.Instance.GetCellByIndex(targetIndex).Block.Type != BlockingType.None)
+            if (Grid.Instance.GetCellByIndex(startIndex).Block.BlockingType != BlockingType.None || Grid.Instance.GetCellByIndex(targetIndex).Block.BlockingType != BlockingType.None)
                 throw new Exception("The start or target Index is blocked!");
 
             Node[,] pathGrid = new Node[Grid.Instance.GridWidth, Grid.Instance.GridHeight];
@@ -84,13 +83,13 @@ namespace CoreCraft.LudumDare55
         {
             List<Node> neighbourNodes = new List<Node>();
 
-            if (currentNode.Index.x - 1 >= 0 && Grid.Instance.GetCellByIndex(new Vector2Int(currentNode.Index.x - 1, currentNode.Index.y)).Block.Type != BlockingType.None)
+            if (currentNode.Index.x - 1 >= 0 && Grid.Instance.GetCellByIndex(new Vector2Int(currentNode.Index.x - 1, currentNode.Index.y)).Block.BlockingType != BlockingType.None)
                 neighbourNodes.Add(pathGrid[currentNode.Index.x - 1, currentNode.Index.y]);
-            if (currentNode.Index.x + 1 < pathGrid.GetLength(0) && Grid.Instance.GetCellByIndex(new Vector2Int(currentNode.Index.x + 1, currentNode.Index.y)).Block.Type != BlockingType.None)
+            if (currentNode.Index.x + 1 < pathGrid.GetLength(0) && Grid.Instance.GetCellByIndex(new Vector2Int(currentNode.Index.x + 1, currentNode.Index.y)).Block.BlockingType != BlockingType.None)
                 neighbourNodes.Add(pathGrid[currentNode.Index.x + 1, currentNode.Index.y]);
-            if (currentNode.Index.y - 1 >= 0 && Grid.Instance.GetCellByIndex(new Vector2Int(currentNode.Index.x, currentNode.Index.y - 1)).Block.Type != BlockingType.None)
+            if (currentNode.Index.y - 1 >= 0 && Grid.Instance.GetCellByIndex(new Vector2Int(currentNode.Index.x, currentNode.Index.y - 1)).Block.BlockingType != BlockingType.None)
                 neighbourNodes.Add(pathGrid[currentNode.Index.x, currentNode.Index.y - 1]);
-            if (currentNode.Index.y + 1 < pathGrid.GetLength(1) && Grid.Instance.GetCellByIndex(new Vector2Int(currentNode.Index.x, currentNode.Index.y + 1)).Block.Type != BlockingType.None)
+            if (currentNode.Index.y + 1 < pathGrid.GetLength(1) && Grid.Instance.GetCellByIndex(new Vector2Int(currentNode.Index.x, currentNode.Index.y + 1)).Block.BlockingType != BlockingType.None)
                 neighbourNodes.Add(pathGrid[currentNode.Index.x, currentNode.Index.y + 1]);
             
             return neighbourNodes;
