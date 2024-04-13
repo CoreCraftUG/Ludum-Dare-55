@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2dc98efa4b8ed2459c92b5b15d24dff, type: 3}
+  m_Name: Test_8
+  m_EditorClassIdentifier: 
+  _material: 1
+  _resources: 0
+  _blockingType: 0
+  _destructible: 0
+  _spawnMinDepth: 8
+  _spawnMaxDepth: 10
+  _blockPrefab: {fileID: 6628292339554572604, guid: 4ce049ff8f510ad4094db6efad2ed099,
+    type: 3}
