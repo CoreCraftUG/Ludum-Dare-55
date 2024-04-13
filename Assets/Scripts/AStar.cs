@@ -1,23 +1,23 @@
-using ES3Types;
-using Sirenix.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Experimental.GraphView;
-using UnityEditor.Recorder;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace CoreCraft.LudumDare55
 {
     public static class AStar
     {
-        public static Stack<GridCell> StandardAStar(Vector2Int startIndex, Vector2Int targetIndex)
+        public static Stack<GridCell> StandardAStar(Vector2Int startIndex, Vector2Int targetIndex, PathfindingMode mode)
         {
             if (Grid.Instance == null)
                 throw new Exception("There is no grid in ths Scene!");
 
             if (Grid.Instance.GetCellByIndex(startIndex) == null || Grid.Instance.GetCellByIndex(targetIndex) == null)
                 throw new Exception("The start or target Index is out od bounds!");
+
+            if (Grid.Instance.GetCellByIndex(startIndex).Block.Type != BlockingType.None || Grid.Instance.GetCellByIndex(targetIndex).Block.Type != BlockingType.None)
+                throw new Exception("The start or target Index is blocked!");
 
             Node[,] pathGrid = new Node[Grid.Instance.GridWidth, Grid.Instance.GridHeight];
 
@@ -53,20 +53,14 @@ namespace CoreCraft.LudumDare55
                 openList.Remove(currentNode);
                 closeList.Add(currentNode);
 
-
-                List<Node> neighbourNodes = new List<Node>();
+                List<Node> neighbourNodes = mode switch
                 {
-                    if (currentNode.Index.x - 1 >= 0)
-                        neighbourNodes.Add(pathGrid[currentNode.Index.x - 1, currentNode.Index.y]);
-                    if (currentNode.Index.x + 1 < pathGrid.GetLength(0))
-                        neighbourNodes.Add(pathGrid[currentNode.Index.x + 1, currentNode.Index.y]);
-                    if (currentNode.Index.y - 1 >= 0)
-                        neighbourNodes.Add(pathGrid[currentNode.Index.x, currentNode.Index.y - 1]);
-                    if (currentNode.Index.y + 1 < pathGrid.GetLength(1))
-                        neighbourNodes.Add(pathGrid[currentNode.Index.x, currentNode.Index.y + 1]);
-                }
+                    PathfindingMode.Default => GetNeighbourNodesDefaultMode(currentNode, pathGrid),
+                    PathfindingMode.NoWalls => GetNeighbourNodesNoWallsMode(currentNode, pathGrid),
+                    _ => new List<Node>()
+                };
 
-                foreach(Node neighbourNode in neighbourNodes)
+                foreach (Node neighbourNode in neighbourNodes)
                 {
                     if (closeList.Contains(neighbourNode))
                         continue;
@@ -84,6 +78,38 @@ namespace CoreCraft.LudumDare55
             }
 
             return null;
+        }
+
+        private static List<Node> GetNeighbourNodesDefaultMode(Node currentNode, Node[,] pathGrid)
+        {
+            List<Node> neighbourNodes = new List<Node>();
+
+            if (currentNode.Index.x - 1 >= 0 && Grid.Instance.GetCellByIndex(new Vector2Int(currentNode.Index.x - 1, currentNode.Index.y)).Block.Type != BlockingType.None)
+                neighbourNodes.Add(pathGrid[currentNode.Index.x - 1, currentNode.Index.y]);
+            if (currentNode.Index.x + 1 < pathGrid.GetLength(0) && Grid.Instance.GetCellByIndex(new Vector2Int(currentNode.Index.x + 1, currentNode.Index.y)).Block.Type != BlockingType.None)
+                neighbourNodes.Add(pathGrid[currentNode.Index.x + 1, currentNode.Index.y]);
+            if (currentNode.Index.y - 1 >= 0 && Grid.Instance.GetCellByIndex(new Vector2Int(currentNode.Index.x, currentNode.Index.y - 1)).Block.Type != BlockingType.None)
+                neighbourNodes.Add(pathGrid[currentNode.Index.x, currentNode.Index.y - 1]);
+            if (currentNode.Index.y + 1 < pathGrid.GetLength(1) && Grid.Instance.GetCellByIndex(new Vector2Int(currentNode.Index.x, currentNode.Index.y + 1)).Block.Type != BlockingType.None)
+                neighbourNodes.Add(pathGrid[currentNode.Index.x, currentNode.Index.y + 1]);
+            
+            return neighbourNodes;
+        }
+
+        private static List<Node> GetNeighbourNodesNoWallsMode(Node currentNode, Node[,] pathGrid)
+        {
+            List<Node> neighbourNodes = new List<Node>();
+
+            if (currentNode.Index.x - 1 >= 0)
+                neighbourNodes.Add(pathGrid[currentNode.Index.x - 1, currentNode.Index.y]);
+            if (currentNode.Index.x + 1 < pathGrid.GetLength(0))
+                neighbourNodes.Add(pathGrid[currentNode.Index.x + 1, currentNode.Index.y]);
+            if (currentNode.Index.y - 1 >= 0)
+                neighbourNodes.Add(pathGrid[currentNode.Index.x, currentNode.Index.y - 1]);
+            if (currentNode.Index.y + 1 < pathGrid.GetLength(1))
+                neighbourNodes.Add(pathGrid[currentNode.Index.x, currentNode.Index.y + 1]);
+            
+            return neighbourNodes;
         }
 
         private static int CalculateDistance(Vector2Int start, Vector2Int end) => Mathf.Abs(start.x - end.x) + Mathf.Abs(start.y - end.y);
@@ -140,5 +166,11 @@ namespace CoreCraft.LudumDare55
         }
 
         public void CalculateFCost() => FCost = GCost + HCost;
+    }
+
+    public enum PathfindingMode
+    {
+        Default,
+        NoWalls
     }
 }
