@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 632608984}
   - component: {fileID: 632608983}
+  - component: {fileID: 632608985}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -167,6 +168,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b359b784df3960048833b8828cda1198, type: 2}
   - {fileID: 11400000, guid: f4b8f4def14db9843a894e171b088869, type: 2}
   - {fileID: 11400000, guid: fe8b040d38fae7a45a3dacaa5079356f, type: 2}
+  _emptyBlock: {fileID: 11400000, guid: 8ab301595c0e73b49ac48f1ba2f6808d, type: 2}
+  _debugSelectedCell: {x: 5, y: 5}
 --- !u!4 &632608984
 Transform:
   m_ObjectHideFlags: 0
@@ -182,6 +185,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &632608985
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 632608982}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 11, y: 1, z: 11}
+  m_Center: {x: 4.95, y: 0, z: 4.95}
 --- !u!1 &1131274287
 GameObject:
   m_ObjectHideFlags: 0

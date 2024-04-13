@@ -33,5 +33,10 @@ namespace CoreCraft.LudumDare55
         {
             Height += heightIncrease;
         }
+
+        public void Mined()
+        {
+
+        }
     }
 }

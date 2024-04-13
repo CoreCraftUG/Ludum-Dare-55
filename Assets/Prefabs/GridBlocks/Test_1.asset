@@ -15,7 +15,7 @@ MonoBehaviour:
   _material: 1
   _resources: 0
   _blockingType: 0
-  _destructible: 0
+  _destructible: 1
   _spawnMinDepth: 0
   _spawnMaxDepth: 3
   _blockPrefab: {fileID: 6628292339554572604, guid: 2ff1cfd29ad366f47a6b9618ad94fa73,

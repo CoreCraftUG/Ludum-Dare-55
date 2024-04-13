@@ -5,9 +5,11 @@ using System.Linq;
 using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Unity.VisualScripting;
 
 namespace CoreCraft.LudumDare55
 {
+    [RequireComponent(typeof(BoxCollider))]
     public class Grid : MonoBehaviour
     {
         [SerializeField] private int _gridWidth;
@@ -17,17 +19,28 @@ namespace CoreCraft.LudumDare55
         [SerializeField] private float _gridCellMargin;
         [SerializeField] private float _weightFactor;
         [SerializeField] private Block[] _blockPrefabs;
+        [SerializeField] private Block _emptyBlock;
 
         private GridCell[,] _grid = new GridCell[,] { };
         private int _currentGroundLevelHeight;
 
+        private BoxCollider _collider => GetComponent<BoxCollider>();
+
         #region Generating Grid
 
-        [Button("Start")]
+        [Button("Start"), FoldoutGroup("Debug")]
         private void Start()
         {
             _grid = new GridCell[_gridWidth, _gridHeight];
             _currentGroundLevelHeight = _gridHeight;
+
+            _collider.center = new Vector3(((_gridWidth - 1) * _gridCellScale + (_gridWidth - 1) * _gridCellMargin) / 2,
+                                            0,
+                                            ((_gridHeight - 1) * _gridCellScale + (_gridHeight - 1) * _gridCellMargin) / 2);
+
+            _collider.size = new Vector3((_gridWidth * _gridCellScale + _gridWidth * _gridCellMargin),
+                                            _gridCellScale,
+                                            (_gridHeight * _gridCellScale + _gridHeight * _gridCellMargin));
 
             for(int x = 0 ; x < _gridWidth; x++)
             {
@@ -126,9 +139,17 @@ namespace CoreCraft.LudumDare55
             return retunBlock;
         }
 
+        private void ReplaceCell(Vector2Int index)
+        {
+            _grid[index.x, index.y].Mined();
+            if(_grid[index.x, index.y].CellObject != null)
+                DestroyImmediate(_grid[index.x, index.y].CellObject);
+            _grid[index.x, index.y].SetBlock(_emptyBlock, transform);
+        }
+
         #endregion
 
-        #region GEt Information
+        #region Grid Interaction
 
         public GridCell GetCellByDirection(Vector3 hitPosition)
         {
@@ -157,11 +178,50 @@ namespace CoreCraft.LudumDare55
             return returnCell;
         }
 
+        public void MineCell(GridCell cell)
+        {
+            Vector2Int index = cell.GridPosition;
+
+            if (_grid[index.x, index.y] != null)
+            {
+                if (_grid[index.x, index.y].Block.Destructible)
+                    ReplaceCell(index);
+            }
+            else
+                throw new Exception($"Cell: {index} does not exist!");
+        }
+
+        public void MineCell(Vector2Int index)
+        {
+            if (_grid[index.x, index.y] != null)
+            {
+                if (_grid[index.x, index.y].Block.Destructible)
+                    ReplaceCell(index);
+            }
+            else
+                throw new Exception($"Cell: {index} does not exist!");
+        }
+
+        public void MineCell(int x, int y)
+        {
+            Vector2Int index = new Vector2Int(x, y);
+
+            if (_grid[index.x, index.y] != null)
+            {
+                if (_grid[index.x, index.y].Block.Destructible)
+                    ReplaceCell(index);
+            }
+            else
+                throw new Exception($"Cell: {index} does not exist!");
+        }
+
         #endregion
 
+        #region Debug
 #if UNITY_EDITOR
-        [Button("Kill All Children")]
-        private void KillAllChildren()
+
+        [Button("Kill All Children"), FoldoutGroup("Debug")]
+        private void DebugKillAllChildren()
         {
             for(int i = 0; i < transform.childCount; i++)
             {
@@ -170,10 +230,19 @@ namespace CoreCraft.LudumDare55
 
             while (transform.childCount > 0)
             {
-                KillAllChildren();
+                DebugKillAllChildren();
             }
         }
+
+        [SerializeField, FoldoutGroup("Debug")] private Vector2Int _debugSelectedCell;
+        [Button("Mine Selected Cell"), FoldoutGroup("Debug")]
+        private void DebugMineSelectedCell()
+        {
+            MineCell(_debugSelectedCell);
+        }
+
 #endif
+        #endregion
 
         private struct WeightedBlock
         {
