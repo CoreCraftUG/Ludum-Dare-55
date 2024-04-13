@@ -151,7 +151,7 @@ namespace CoreCraft.LudumDare55
             return new Stack<GridCell>();
         }
 
-        private static bool HalloIchBinJulianUndIchWillWissenObIchNebenIhnenStehe(Vector2Int juliansPosition,  Vector2Int juliansZiel) => Mathf.Abs(juliansPosition.x - juliansZiel.x) + Mathf.Abs(juliansPosition.y - juliansZiel.y) == 1;
+        public static bool HalloIchBinJulianUndIchWillWissenObIchNebenIhnenStehe(Vector2Int juliansPosition,  Vector2Int juliansZiel) => Mathf.Abs(juliansPosition.x - juliansZiel.x) + Mathf.Abs(juliansPosition.y - juliansZiel.y) == 1;
     }
 
     public class Node

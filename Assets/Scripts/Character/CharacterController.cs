@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using CoreCraft.LudumDare55;
 using Grid = CoreCraft.LudumDare55.Grid;
 using DG.Tweening;
+using System.Linq;
 
 
 namespace CoreCraft.Core
@@ -13,6 +14,8 @@ namespace CoreCraft.Core
     {
         [SerializeField] private Grid grid;
         [SerializeField] private GameObject _carriedResource;
+        [SerializeField] private GameObject _tempTable;
+        [SerializeField] private GameObject _alchemyTable;
         
 
         private void Awake()
@@ -53,6 +56,10 @@ namespace CoreCraft.Core
         {
             if (_carriedResource != null)
                 _carriedResource.transform.position = Input.mousePosition;
+            if(AStar.HalloIchBinJulianUndIchWillWissenObIchNebenIhnenStehe(grid.GetCellByDirection(transform.position).GridPosition, grid.GetCellByDirection(_tempTable.transform.position).GridPosition))
+            {
+                _tempTable.GetComponent<AlchemyTable>().Activate();
+            }
         }
         private bool CharacterTryMove()
         {
@@ -67,7 +74,9 @@ namespace CoreCraft.Core
                     return false;
                 if (cell.Block.Material != BlockMaterial.None)
                 {
-                    //if(temp.Peek().) checken ob spieler neben click feld steht und altar bauen
+                    if(_tempTable != null)
+                        Destroy(_tempTable);
+                    _tempTable = Instantiate(_alchemyTable, cell.WorldPosition, new Quaternion(0,0,0,0));
                     
                 }
                 return true;
@@ -75,10 +84,6 @@ namespace CoreCraft.Core
             return false;
         }
 
-        private void CharacterMove()
-        {
-
-        }
 
         private void RightClick(object sender, System.EventArgs e)
         {
