@@ -31,7 +31,9 @@ namespace CoreCraft.LudumDare55
     public enum BlockResources
     {
         None,
-        ManaCrystal
+        Kristall,
+        Schleim,
+        Gold
     }
 
     public enum BlockingType
