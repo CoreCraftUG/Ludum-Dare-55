@@ -112,7 +112,7 @@ namespace CoreCraft.LudumDare55
             return neighbourNodes;
         }
 
-        private static int CalculateDistance(Vector2Int start, Vector2Int end) => Mathf.Abs(start.x - end.x) + Mathf.Abs(start.y - end.y);
+        public static int CalculateDistance(Vector2Int start, Vector2Int end) => Mathf.Abs(start.x - end.x) + Mathf.Abs(start.y - end.y);
 
         private static Node GetSmallestFCostNode(List<Node> list)
         {
@@ -150,6 +150,8 @@ namespace CoreCraft.LudumDare55
 
             return new Stack<GridCell>();
         }
+
+        private static bool HalloIchBinJulianUndIchWillWissenObIchNebenIhnenStehe(Vector2Int juliansPosition,  Vector2Int juliansZiel) => Mathf.Abs(juliansPosition.x - juliansZiel.x) + Mathf.Abs(juliansPosition.y - juliansZiel.y) == 1;
     }
 
     public class Node
