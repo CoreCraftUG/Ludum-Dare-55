@@ -15,7 +15,6 @@ namespace CoreCraft.Core
         #region UI Fields
 
         [Header("UI Buttons")]
-        [SerializeField] private Button _saveButton;
         [SerializeField] private Button _resetToDefaultButton;
         [SerializeField] private Button _backButton;
 
@@ -46,30 +45,30 @@ namespace CoreCraft.Core
         [Header("UI Toggles")]
         [SerializeField] private Toggle _vSyncToggle;
         [SerializeField] private Toggle _softShadowsToggle;
-        [SerializeField] private Toggle _hdrToggle;
-        [SerializeField] private Toggle _ssaoToggle;
+        //[SerializeField] private Toggle _hdrToggle;
+        //[SerializeField] private Toggle _ssaoToggle;
 
         [Header("UI Texts")]
         [SerializeField] private TextMeshProUGUI _mainVolumeValueText;
         [SerializeField] private TextMeshProUGUI _musicVolumeValueText;
         [SerializeField] private TextMeshProUGUI _sfxVolumeValueText;
-        [SerializeField] private TextMeshProUGUI _resolutionOptionText;
-        [SerializeField] private TextMeshProUGUI _displayOptionText;
-        [SerializeField] private TextMeshProUGUI _windowModeOptionText;
-        [SerializeField] private TextMeshProUGUI _mainVolumeOptionText;
-        [SerializeField] private TextMeshProUGUI _musicVolumeOptionText;
-        [SerializeField] private TextMeshProUGUI _sfxVolumeOptionText;
-        [SerializeField] private TextMeshProUGUI _vSyncOptionText;
-        [SerializeField] private TextMeshProUGUI _textureQualityOptionText;
-        [SerializeField] private TextMeshProUGUI _shadowQualityOptionText;
-        [SerializeField] private TextMeshProUGUI _softShadowsOptionText;
-        [SerializeField] private TextMeshProUGUI _hdrOptionText;
-        [SerializeField] private TextMeshProUGUI _ssaoOptionText;
-        [SerializeField] private TextMeshProUGUI _cameraDistanceOptionText;
+        //[SerializeField] private TextMeshProUGUI _resolutionOptionText;
+        //[SerializeField] private TextMeshProUGUI _displayOptionText;
+        //[SerializeField] private TextMeshProUGUI _windowModeOptionText;
+        //[SerializeField] private TextMeshProUGUI _mainVolumeOptionText;
+        //[SerializeField] private TextMeshProUGUI _musicVolumeOptionText;
+        //[SerializeField] private TextMeshProUGUI _sfxVolumeOptionText;
+        //[SerializeField] private TextMeshProUGUI _vSyncOptionText;
+        //[SerializeField] private TextMeshProUGUI _textureQualityOptionText;
+        //[SerializeField] private TextMeshProUGUI _shadowQualityOptionText;
+        //[SerializeField] private TextMeshProUGUI _softShadowsOptionText;
+        //[SerializeField] private TextMeshProUGUI _hdrOptionText;
+        //[SerializeField] private TextMeshProUGUI _ssaoOptionText;
+        //[SerializeField] private TextMeshProUGUI _cameraDistanceOptionText;
         [SerializeField] private TextMeshProUGUI _vSyncToggleState;
         [SerializeField] private TextMeshProUGUI _softShadowsToggleState;
-        [SerializeField] private TextMeshProUGUI _hdrToggleState;
-        [SerializeField] private TextMeshProUGUI _ssaoToggleState;
+        //[SerializeField] private TextMeshProUGUI _hdrToggleState;
+        //[SerializeField] private TextMeshProUGUI _ssaoToggleState;
 
         [Header("Graphic Options Pop-Up")]
         [SerializeField] private GameObject _graphicOptionsChangedPopUpPanel;
@@ -78,10 +77,10 @@ namespace CoreCraft.Core
         [SerializeField] private int _maxPopUpTimer = 15;
         [SerializeField] private TextMeshProUGUI _graphicOptionsChangedPopUpText;
 
-        [Header("Unsaved Changes Pop-Up")]
-        [SerializeField] private GameObject _unsavedChangesPopUpPanel;
-        [SerializeField] private Button _acceptUnsavedChangesButton;
-        [SerializeField] private Button _cancelUnsavedChangesButton;
+        //[Header("Unsaved Changes Pop-Up")]
+        //[SerializeField] private GameObject _unsavedChangesPopUpPanel;
+        //[SerializeField] private Button _acceptUnsavedChangesButton;
+        //[SerializeField] private Button _cancelUnsavedChangesButton;
 
         [Header("Keybindings")]
         [SerializeField] private GameObject _rebindPanel;
@@ -101,13 +100,12 @@ namespace CoreCraft.Core
 
         #endregion
 
-        [Header("UI Colors")]
-        [SerializeField] private Color _unsavedChangesColor;
-        [SerializeField] private Color _defaultSettingsColor;
+        //[Header("UI Colors")]
+        //[SerializeField] private Color _unsavedChangesColor;
+        //[SerializeField] private Color _defaultSettingsColor;
         
         [Header("Camera")]
         [SerializeField] private CinemachineVirtualCamera _uiCamera;
-        public Transform OptionsCameraFocus;
 
         public event EventHandler OnResetToDefault;
 
@@ -160,7 +158,7 @@ namespace CoreCraft.Core
             //    GameSettingsManager.Instance.SaveSettings();
             //});
 
-            _resetToDefaultButton.onClick.AddListener(() =>
+            _resetToDefaultButton?.onClick.AddListener(() =>
             {
                 OnResetToDefault?.Invoke(this, EventArgs.Empty);
                 UpdateVisual();
@@ -227,8 +225,8 @@ namespace CoreCraft.Core
                 _controlsPanel.SetActive(false);
             });
 
-            _acceptUnsavedChangesButton.onClick.AddListener(AcceptUnsavedChanges);
-            _cancelUnsavedChangesButton.onClick.AddListener(CancelUnsavedChanges);
+            //_acceptUnsavedChangesButton.onClick.AddListener(AcceptUnsavedChanges);
+            //_cancelUnsavedChangesButton.onClick.AddListener(CancelUnsavedChanges);
         }
 
         /// <summary>
@@ -269,35 +267,35 @@ namespace CoreCraft.Core
         /// </summary>
         private void SetupKeybindings()
         {
-            _turnTableRightKeybindingButton1.onClick.AddListener(() =>
-            {
-                RebindBinding(GameInputManager.Actions.TurnTableRight, 0);
-            });
+            //_turnTableRightKeybindingButton1.onClick.AddListener(() =>
+            //{
+            //    RebindBinding(GameInputManager.Actions.TurnTableRight, 0);
+            //});
 
-            _turnTableRightKeybindingButton2.onClick.AddListener(() =>
-            {
-                RebindBinding(GameInputManager.Actions.TurnTableRight, 1);
-            });
+            //_turnTableRightKeybindingButton2.onClick.AddListener(() =>
+            //{
+            //    RebindBinding(GameInputManager.Actions.TurnTableRight, 1);
+            //});
 
-            _turnTableLeftKeybindingButton1.onClick.AddListener(() =>
-            {
-                RebindBinding(GameInputManager.Actions.TurnTableLeft, 0);
-            });
+            //_turnTableLeftKeybindingButton1.onClick.AddListener(() =>
+            //{
+            //    RebindBinding(GameInputManager.Actions.TurnTableLeft, 0);
+            //});
 
-            _turnTableLeftKeybindingButton2.onClick.AddListener(() =>
-            {
-                RebindBinding(GameInputManager.Actions.TurnTableLeft, 1);
-            });
+            //_turnTableLeftKeybindingButton2.onClick.AddListener(() =>
+            //{
+            //    RebindBinding(GameInputManager.Actions.TurnTableLeft, 1);
+            //});
 
-            _placeCardKeybindingButton1.onClick.AddListener(() =>
-            {
-                RebindBinding(GameInputManager.Actions.PlaceCard, 0);
-            });
+            //_placeCardKeybindingButton1.onClick.AddListener(() =>
+            //{
+            //    RebindBinding(GameInputManager.Actions.PlaceCard, 0);
+            //});
 
-            _placeCardKeybindingButton2.onClick.AddListener(() =>
-            {
-                RebindBinding(GameInputManager.Actions.PlaceCard, 1);
-            });
+            //_placeCardKeybindingButton2.onClick.AddListener(() =>
+            //{
+            //    RebindBinding(GameInputManager.Actions.PlaceCard, 1);
+            //});
         }
         
         private void Start()
@@ -319,8 +317,6 @@ namespace CoreCraft.Core
 
             SetupPanels();
             UpdateVisual();
-
-            GameSettingsManager.Instance.VirtualCamera = _uiCamera;
 
             Hide();
             HideRebindPanel();
@@ -654,59 +650,59 @@ namespace CoreCraft.Core
         /// <summary>
         /// Accept the unsaved changes, close the panel and revert to the previously saved values.
         /// </summary>
-        private void AcceptUnsavedChanges()
-        {
-            _resolutionDropdown.SetValueWithoutNotify(ES3.Load<int>(GameSettingsFile.USERSETTINGS_RESOLUTION, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings));
-            //_resolutionOptionText.color = _defaultSettingsColor;
+        //private void AcceptUnsavedChanges()
+        //{
+        //    _resolutionDropdown.SetValueWithoutNotify(ES3.Load<int>(GameSettingsFile.USERSETTINGS_RESOLUTION, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings));
+        //    //_resolutionOptionText.color = _defaultSettingsColor;
 
-            _displayDropdown.SetValueWithoutNotify(ES3.Load<int>(GameSettingsFile.USERSETTINGS_DISPLAY, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings));
-            //_displayOptionText.color = _defaultSettingsColor;
+        //    _displayDropdown.SetValueWithoutNotify(ES3.Load<int>(GameSettingsFile.USERSETTINGS_DISPLAY, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings));
+        //    //_displayOptionText.color = _defaultSettingsColor;
 
-            _windowModeDropdown.SetValueWithoutNotify(ES3.Load<int>(GameSettingsFile.USERSETTINGS_WINDOW_MODE, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings));
-            //_windowModeOptionText.color = _defaultSettingsColor;
+        //    _windowModeDropdown.SetValueWithoutNotify(ES3.Load<int>(GameSettingsFile.USERSETTINGS_WINDOW_MODE, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings));
+        //    //_windowModeOptionText.color = _defaultSettingsColor;
             
-            _vSyncToggle.SetIsOnWithoutNotify(ES3.Load<bool>(GameSettingsFile.USERSETTINGS_VSYNC, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings));
-            //_vSyncOptionText.color = _defaultSettingsColor;
-            _vSyncToggleState.text = ES3.Load<bool>(GameSettingsFile.USERSETTINGS_VSYNC, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings) ? "Enabled" : "Disabled";
+        //    _vSyncToggle.SetIsOnWithoutNotify(ES3.Load<bool>(GameSettingsFile.USERSETTINGS_VSYNC, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings));
+        //    //_vSyncOptionText.color = _defaultSettingsColor;
+        //    _vSyncToggleState.text = ES3.Load<bool>(GameSettingsFile.USERSETTINGS_VSYNC, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings) ? "Enabled" : "Disabled";
 
-            _textureQualityDropdown.SetValueWithoutNotify(ES3.Load<int>(GameSettingsFile.USERSETTINGS_TEXTURE_QUALITY, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings));
-            //_textureQualityOptionText.color = _defaultSettingsColor;
+        //    _textureQualityDropdown.SetValueWithoutNotify(ES3.Load<int>(GameSettingsFile.USERSETTINGS_TEXTURE_QUALITY, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings));
+        //    //_textureQualityOptionText.color = _defaultSettingsColor;
 
-            _shadowQualityDropdown.SetValueWithoutNotify(ES3.Load<int>(GameSettingsFile.USERSETTINGS_SHADOW_QUALITY, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings));
-            //_shadowQualityOptionText.color = _defaultSettingsColor;
+        //    _shadowQualityDropdown.SetValueWithoutNotify(ES3.Load<int>(GameSettingsFile.USERSETTINGS_SHADOW_QUALITY, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings));
+        //    //_shadowQualityOptionText.color = _defaultSettingsColor;
 
-            _softShadowsToggle.SetIsOnWithoutNotify(ES3.Load<bool>(GameSettingsFile.USERSETTINGS_SOFT_SHADOWS, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings));
-            //_softShadowsOptionText.color = _defaultSettingsColor;
-            _softShadowsToggleState.text = ES3.Load<bool>(GameSettingsFile.USERSETTINGS_SOFT_SHADOWS, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings) ? "Enabled" : "Disabled";
+        //    _softShadowsToggle.SetIsOnWithoutNotify(ES3.Load<bool>(GameSettingsFile.USERSETTINGS_SOFT_SHADOWS, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings));
+        //    //_softShadowsOptionText.color = _defaultSettingsColor;
+        //    _softShadowsToggleState.text = ES3.Load<bool>(GameSettingsFile.USERSETTINGS_SOFT_SHADOWS, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings) ? "Enabled" : "Disabled";
 
-            //_hdrToggle.SetIsOnWithoutNotify(ES3.Load<bool>(GameSettingsFile.USERSETTINGS_HDR, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings));
-            //_hdrOptionText.color = _defaultSettingsColor;
-            //_hdrToggleState.text = ES3.Load<bool>(GameSettingsFile.USERSETTINGS_HDR, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings) ? "Enabled" : "Disabled";
+        //    //_hdrToggle.SetIsOnWithoutNotify(ES3.Load<bool>(GameSettingsFile.USERSETTINGS_HDR, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings));
+        //    //_hdrOptionText.color = _defaultSettingsColor;
+        //    //_hdrToggleState.text = ES3.Load<bool>(GameSettingsFile.USERSETTINGS_HDR, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings) ? "Enabled" : "Disabled";
 
-            //_ssaoToggle.SetIsOnWithoutNotify(ES3.Load<bool>(GameSettingsFile.USERSETTINGS_SSAO, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings));
-            //_ssaoOptionText.color = _defaultSettingsColor;
-            //_ssaoToggleState.text = ES3.Load<bool>(GameSettingsFile.USERSETTINGS_SSAO, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings) ? "Enabled" : "Disabled";
+        //    //_ssaoToggle.SetIsOnWithoutNotify(ES3.Load<bool>(GameSettingsFile.USERSETTINGS_SSAO, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings));
+        //    //_ssaoOptionText.color = _defaultSettingsColor;
+        //    //_ssaoToggleState.text = ES3.Load<bool>(GameSettingsFile.USERSETTINGS_SSAO, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings) ? "Enabled" : "Disabled";
 
-            //_mainVolumeOptionText.color = _defaultSettingsColor;
-            _mainVolumeValueText.text = Mathf.Round(ES3.Load<float>(GameSettingsFile.USERSETTINGS_MAIN_VOLUME) * 10).ToString();
+        //    //_mainVolumeOptionText.color = _defaultSettingsColor;
+        //    _mainVolumeValueText.text = Mathf.Round(ES3.Load<float>(GameSettingsFile.USERSETTINGS_MAIN_VOLUME) * 10).ToString();
 
-            //_musicVolumeOptionText.color = _defaultSettingsColor;
-            _musicVolumeValueText.text = Mathf.Round(ES3.Load<float>(GameSettingsFile.USERSETTINGS_MUSIC_VOLUME) * 10).ToString();
+        //    //_musicVolumeOptionText.color = _defaultSettingsColor;
+        //    _musicVolumeValueText.text = Mathf.Round(ES3.Load<float>(GameSettingsFile.USERSETTINGS_MUSIC_VOLUME) * 10).ToString();
 
-            //_sfxVolumeOptionText.color = _defaultSettingsColor;
-            _sfxVolumeValueText.text = Mathf.Round(ES3.Load<float>(GameSettingsFile.USERSETTINGS_SFX_VOLUME) * 10).ToString();
+        //    //_sfxVolumeOptionText.color = _defaultSettingsColor;
+        //    _sfxVolumeValueText.text = Mathf.Round(ES3.Load<float>(GameSettingsFile.USERSETTINGS_SFX_VOLUME) * 10).ToString();
 
-            _unsavedChangesPopUpPanel.SetActive(false);
-            Hide();
-        }
+        //    _unsavedChangesPopUpPanel.SetActive(false);
+        //    Hide();
+        //}
 
         /// <summary>
         /// Close the Pop-Up.
         /// </summary>
-        private void CancelUnsavedChanges()
-        {
-            _unsavedChangesPopUpPanel.SetActive(false);
-        }
+        //private void CancelUnsavedChanges()
+        //{
+        //    _unsavedChangesPopUpPanel.SetActive(false);
+        //}
 
         private void SetGamepadFocusOptionsMenu(object sender, GameInputManager.ControlScheme controlScheme)
         {
@@ -944,14 +940,6 @@ namespace CoreCraft.Core
 
         public void Show()
         {
-            _uiCamera.Follow = OptionsCameraFocus;
-
-            CinemachineComponentBase componentBase = _uiCamera.GetCinemachineComponent(CinemachineCore.Stage.Body);
-            if (componentBase is CinemachineFramingTransposer)
-            {
-                (componentBase as CinemachineFramingTransposer).m_CameraDistance = 1.5f;
-            }
-
             gameObject.SetActive(true);
 
             _graphicsButton.Select();

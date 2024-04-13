@@ -48,6 +48,10 @@ MonoBehaviour:
     - MoreMountains.Tools
     - Plugins.Baedrick.ColoredHeaderCreator
     - ProPixelizer
+    - SoundsGood.Application
+    - SoundsGood.Demo
+    - SoundsGood.Domain
+    - SoundsGood.Editor
     showAdvancedSettings: 0
   addMgrToSceneAutomatically: 0
   autoUpdateReferences: 1

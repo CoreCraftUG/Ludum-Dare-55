@@ -12,18 +12,17 @@ namespace CoreCraft.Core
         [Header("UI Buttons")] 
         [SerializeField] private Button _playButton;
         [SerializeField] private Button _optionsButton;
+        [SerializeField] private Button _creditsButton;
         [SerializeField] private Button _quitButton;
-        [SerializeField] private Button _coreCraftButton;
 
         [Header("Quit Panel")]
-        [SerializeField] private TextMeshProUGUI _quitPanelText;
+        [SerializeField] private GameObject _quitPanel;
         [SerializeField] private Button _quitYesButton;
         [SerializeField] private Button _quitNoButton;
 
+        [Header("Camera")]
         [SerializeField] private CinemachineVirtualCamera _uiCamera;
-
-        public Transform MainMenuCenterTransform;
-
+        
         private void Awake()
         {
             if (Instance != null)
@@ -40,23 +39,18 @@ namespace CoreCraft.Core
 
         private void Start()
         {
-            _quitYesButton.gameObject.SetActive(false);
-            _quitNoButton.gameObject.SetActive(false);
+            _quitPanel.SetActive(false);
 
             if (GameInputManager.Instance != null)
             {
                 GameInputManager.Instance.OnInputDeviceChanged += SetGamepadFocusMainMenu;
             }
 
-            GameSettingsManager.Instance.VirtualCamera = _uiCamera;
-
-            _uiCamera.Follow = MainMenuCenterTransform.transform;
-
-            CinemachineComponentBase componentBase = _uiCamera.GetCinemachineComponent(CinemachineCore.Stage.Body);
-            if (componentBase is CinemachineFramingTransposer)
-            {
-                (componentBase as CinemachineFramingTransposer).m_CameraDistance = 1.25f;
-            }
+            //CinemachineComponentBase componentBase = _uiCamera.GetCinemachineComponent(CinemachineCore.Stage.Body);
+            //if (componentBase is CinemachineFramingTransposer)
+            //{
+            //    (componentBase as CinemachineFramingTransposer).m_CameraDistance = 1.25f;
+            //}
         }
 
         private void SetGamepadFocusMainMenu(object sender, GameInputManager.ControlScheme controlScheme)
@@ -74,7 +68,7 @@ namespace CoreCraft.Core
             // Load the game scene.
             _playButton.onClick.AddListener(() =>
             {
-                _uiCamera.Follow = _playButton.transform;
+                
             });
 
             // Show the options menu and hide the pause menu.
@@ -87,13 +81,11 @@ namespace CoreCraft.Core
             // Show quit panel on click.
             _quitButton.onClick.AddListener(() =>
             {
-                _quitYesButton.gameObject.SetActive(true);
-                _quitNoButton.gameObject.SetActive(true);
-                _quitYesButton.Select();
-                _uiCamera.Follow = _quitButton.transform;
+                _quitPanel.SetActive(true);
+                _quitNoButton.Select();
             });
             
-            _coreCraftButton.onClick.AddListener(() =>
+            _creditsButton.onClick.AddListener(() =>
             {
                 //Credits.Instance.Show();
                 //Hide();
@@ -112,7 +104,7 @@ namespace CoreCraft.Core
             // Close the quit panel.
             _quitNoButton.onClick.AddListener(() =>
             {
-                _uiCamera.Follow = MainMenuCenterTransform.transform;
+                _quitPanel.SetActive(false);
                 _playButton.Select();
             });
         }
@@ -124,20 +116,12 @@ namespace CoreCraft.Core
 
         public void Show()
         {
-            _uiCamera.Follow = MainMenuCenterTransform.transform;
-
             if (_playButton != null)
             {
                 _playButton.Select();
             }
 
             gameObject.SetActive(true);
-
-            CinemachineComponentBase componentBase = _uiCamera.GetCinemachineComponent(CinemachineCore.Stage.Body);
-            if (componentBase is CinemachineFramingTransposer)
-            {
-                (componentBase as CinemachineFramingTransposer).m_CameraDistance = 1.25f;
-            }
         }
 
         private void OnDestroy()

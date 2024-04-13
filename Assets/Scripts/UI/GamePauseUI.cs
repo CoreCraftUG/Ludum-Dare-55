@@ -57,8 +57,6 @@ namespace CoreCraft.Core
                 GameInputManager.Instance.OnInputDeviceChanged += SetGamepadFocusPauseMenu;
             }
 
-            GameSettingsManager.Instance.VirtualCamera = _virtualCamera;
-
             Hide();
         }
 
