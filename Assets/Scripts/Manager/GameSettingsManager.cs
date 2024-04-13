@@ -73,6 +73,12 @@ namespace CoreCraft.Core
         public void SetResolution(int index)
         {
             Screen.SetResolution(GameSettingsFile.Instance.SupportedResolutions[index].width, GameSettingsFile.Instance.SupportedResolutions[index].height, GameSettingsFile.Instance.LastSavedWindowMode, GameSettingsFile.Instance.SupportedResolutions[index].refreshRateRatio);
+
+            if (index != GameSettingsFile.Instance.ResolutionIndex)
+            {
+                GameSettingsFile.Instance.PreviousResolutionIndex = GameSettingsFile.Instance.ResolutionIndex;
+            }
+
             GameSettingsFile.Instance.ResolutionIndex = index;
             GameSettingsFile.Instance.LastSavedResolution = GameSettingsFile.Instance.SupportedResolutions[index];
 
@@ -141,6 +147,11 @@ namespace CoreCraft.Core
             {
                 _moveWindowInProgress = false;
 
+                if (index != GameSettingsFile.Instance.DisplayIndex)
+                {
+                    GameSettingsFile.Instance.PreviousDisplayIndex = GameSettingsFile.Instance.DisplayIndex;
+                }
+
                 GameSettingsFile.Instance.DisplayIndex = index;
                 GameSettingsFile.Instance.LastSavedDisplay = GameSettingsFile.Instance.SupportedDisplays[index];
 
@@ -175,6 +186,11 @@ namespace CoreCraft.Core
                     Screen.SetResolution(GameSettingsFile.Instance.LastSavedResolution.width, GameSettingsFile.Instance.LastSavedResolution.height, FullScreenMode.Windowed, GameSettingsFile.Instance.LastSavedResolution.refreshRateRatio);
                     GameSettingsFile.Instance.LastSavedWindowMode = FullScreenMode.Windowed;
                     break;
+            }
+
+            if (index != GameSettingsFile.Instance.WindowModeIndex)
+            {
+                GameSettingsFile.Instance.PreviousWindowModeIndex = GameSettingsFile.Instance.WindowModeIndex;
             }
 
             GameSettingsFile.Instance.WindowModeIndex = index;

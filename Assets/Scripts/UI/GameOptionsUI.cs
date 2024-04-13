@@ -353,6 +353,7 @@ namespace CoreCraft.Core
         private void ResolutionDropdown(int index)
         {
             GameSettingsManager.Instance.SetResolution(index);
+            _resolutionDropdown.SetValueWithoutNotify(index);
             _resolutionDropdown.RefreshShownValue();
         }
 
@@ -385,6 +386,7 @@ namespace CoreCraft.Core
         private void DisplayDropdown(int index)
         {
             GameSettingsManager.Instance.SetDisplay(index);
+            _displayDropdown.SetValueWithoutNotify(index);
             _displayDropdown.RefreshShownValue();
         }
 
@@ -395,6 +397,7 @@ namespace CoreCraft.Core
         private void WindowModeDropdown(int index)
         {
             GameSettingsManager.Instance.SetWindowMode(index);
+            _windowModeDropdown.SetValueWithoutNotify(index);
             _windowModeDropdown.RefreshShownValue();
         }
 
@@ -416,6 +419,7 @@ namespace CoreCraft.Core
         private void TextureQualityDropdown(int index)
         {
             GameSettingsManager.Instance.SetTextureQuality(index);
+            _textureQualityDropdown.SetValueWithoutNotify(index);
             _textureQualityDropdown.RefreshShownValue();
         }
 
@@ -426,6 +430,7 @@ namespace CoreCraft.Core
         private void ShadowQualityDropdown(int index)
         {
             GameSettingsManager.Instance.SetShadowQuality(index);
+            _shadowQualityDropdown.SetValueWithoutNotify(index);
             _shadowQualityDropdown.RefreshShownValue();
         }
 
@@ -509,19 +514,19 @@ namespace CoreCraft.Core
                 {
                     ResolutionDropdown(index);
                     _acceptSettingsButton.onClick.AddListener(delegate { ApplyGraphicOptionsChangedPopUp(dropdown, index); });
-                    _revertSettingsButton.onClick.AddListener(delegate { RevertGraphicsOptionsChangedPopUp(dropdown, ES3.Load<int>(GameSettingsFile.USERSETTINGS_RESOLUTION, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings)); });
+                    _revertSettingsButton.onClick.AddListener(delegate { RevertGraphicsOptionsChangedPopUp(dropdown, GameSettingsFile.Instance.PreviousResolutionIndex); });
                 }
                 else if (dropdown == _displayDropdown)
                 {
                     DisplayDropdown(index);
                     _acceptSettingsButton.onClick.AddListener(delegate { ApplyGraphicOptionsChangedPopUp(dropdown, index); });
-                    _revertSettingsButton.onClick.AddListener(delegate { RevertGraphicsOptionsChangedPopUp(dropdown, ES3.Load<int>(GameSettingsFile.USERSETTINGS_DISPLAY, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings)); });
+                    _revertSettingsButton.onClick.AddListener(delegate { RevertGraphicsOptionsChangedPopUp(dropdown, GameSettingsFile.Instance.PreviousDisplayIndex); });
                 }
                 else
                 {
                     WindowModeDropdown(index);
                     _acceptSettingsButton.onClick.AddListener(delegate { ApplyGraphicOptionsChangedPopUp(dropdown, index); });
-                    _revertSettingsButton.onClick.AddListener(delegate { RevertGraphicsOptionsChangedPopUp(dropdown, ES3.Load<int>(GameSettingsFile.USERSETTINGS_WINDOW_MODE, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings)); });
+                    _revertSettingsButton.onClick.AddListener(delegate { RevertGraphicsOptionsChangedPopUp(dropdown, GameSettingsFile.Instance.PreviousWindowModeIndex); });
                 }
 
                 StartCoroutine("GraphicOptionsChangedPopUpTimer", dropdown);

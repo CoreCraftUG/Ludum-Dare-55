@@ -19,12 +19,15 @@ namespace CoreCraft.Core
 
         // Graphics Settings
         [SerializeField] private int _resolutionIndex;
+        [SerializeField] private int _previousResolutionIndex;
         [SerializeField] private Resolution _lastSavedResolution;
         [SerializeField] private Resolution[] _supportedResolutions;
         [SerializeField] private int _displayIndex;
+        [SerializeField] private int _previousDisplayIndex;
         [SerializeField] private DisplayInfo _lastSavedDisplay;
         [SerializeField] private List<DisplayInfo> _supportedDisplays;
         [SerializeField] private int _windowModeIndex;
+        [SerializeField] private int _previousWindowModeIndex;
         [SerializeField] private FullScreenMode _lastSavedWindowMode;
         [SerializeField] private bool _vSync;
         [SerializeField] private int _textureQualityIndex;
@@ -44,6 +47,11 @@ namespace CoreCraft.Core
         public int ResolutionIndex { get => _resolutionIndex; set => _resolutionIndex = value; }
 
         /// <summary>
+        /// Previous index of the resolution dropdown.
+        /// </summary>
+        public int PreviousResolutionIndex { get => _previousResolutionIndex; set => _previousResolutionIndex = value; }
+
+        /// <summary>
         /// Last saved resolution.
         /// </summary>
         public Resolution LastSavedResolution { get => _lastSavedResolution; set => _lastSavedResolution = value; }
@@ -59,6 +67,11 @@ namespace CoreCraft.Core
         public int DisplayIndex { get => _displayIndex; set => _displayIndex = value; }
 
         /// <summary>
+        /// Previous index of the display dropdown.
+        /// </summary>
+        public int PreviousDisplayIndex { get => _previousDisplayIndex; set => _previousDisplayIndex = value; }
+
+        /// <summary>
         /// Last saved display.
         /// </summary>
         public DisplayInfo LastSavedDisplay { get => _lastSavedDisplay; set => _lastSavedDisplay = value; }
@@ -72,6 +85,11 @@ namespace CoreCraft.Core
         /// Saved index of the window mode dropdown.
         /// </summary>
         public int WindowModeIndex { get => _windowModeIndex; set => _windowModeIndex = value; }
+
+        /// <summary>
+        /// Previous index of the window mode dropdown.
+        /// </summary>
+        public int PreviousWindowModeIndex { get => _previousWindowModeIndex; set => _previousWindowModeIndex = value; }
 
         /// <summary>
         /// Last saved window mode.
