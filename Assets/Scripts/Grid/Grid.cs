@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using UnityEngine;
+using CoreCraft.Core;
+
 using Random = UnityEngine.Random;
-using Unity.VisualScripting;
 
 namespace CoreCraft.LudumDare55
 {
     [RequireComponent(typeof(BoxCollider))]
-    public class Grid : MonoBehaviour
+    public class Grid : Singleton<Grid>
     {
         [SerializeField] private int _gridWidth;
         [SerializeField] private int _gridHeight;
@@ -25,6 +26,9 @@ namespace CoreCraft.LudumDare55
         private int _currentGroundLevelHeight;
 
         private BoxCollider _collider => GetComponent<BoxCollider>();
+
+        public int GridWidth { get { return _gridWidth; } }
+        public int GridHeight { get { return _gridHeight; } }
 
         #region Generating Grid
 
@@ -176,6 +180,16 @@ namespace CoreCraft.LudumDare55
             returnCell = _grid[index.x, index.y];
 
             return returnCell;
+        }
+
+        public GridCell GetCellByIndex(Vector2Int index)
+        {
+            if (_grid[0, 0] != null)
+                throw new Exception("Grid has no Cells");
+            if (!(index.x >= 0 && index.x < _gridWidth && index.y >= 0 && index.y < _gridHeight))
+                throw new Exception($"Index: {index} is not in the grid!");
+
+            return _grid[index.x, index.y];
         }
 
         public void MineCell(GridCell cell)
