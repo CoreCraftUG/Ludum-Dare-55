@@ -21,11 +21,16 @@ namespace CoreCraft.Core
         //public event EventHandler OnTurnTableLeftAction;
         //public event EventHandler OnPlaceCardAction;
         public event EventHandler OnPauseAction;
-
+        public event EventHandler OnCanRotateCamera;
+        public event EventHandler OnResetCamera;
+        public event EventHandler OnRightClick;
+        public event EventHandler OnLeftClick;
+        public event EventHandler<Vector2> OnMoveCamera;
         #endregion
 
         public event EventHandler<InputBinding> OnDuplicateKeybindingFound;
         public event EventHandler<ControlScheme> OnInputDeviceChanged;
+
 
         /// <summary>
         /// All actions in the game.
@@ -184,6 +189,48 @@ namespace CoreCraft.Core
             //_gameInput.Player.PlaceCard.performed += PlaceCard_performed;
             //_gameInput.Player.Pause.performed += Pause_performed;
             //InputSystem.onAnyButtonPress.CallOnce(control => Debug.Log("Test"));
+            _gameInput.Player.CameraRotationValue.performed += CameraRotationValue_performed;
+            _gameInput.Player.CameraRotationValue.canceled += CameraRotationValue_canceled;
+            _gameInput.Player.CameraReset.performed += CameraReset_performed;
+            _gameInput.Player.LeftClick.performed += LeftClick_performed;
+            _gameInput.Player.RightClick.performed += RightClick_performed;
+            _gameInput.Player.CameraMovement.performed += CameraMovement_performed;
+            _gameInput.Player.CameraMovement.canceled += CameraMovement_canceled;
+        }
+
+        private void CameraMovement_canceled(InputAction.CallbackContext obj)
+        {
+            OnMoveCamera?.Invoke(this, obj.ReadValue<Vector2>());
+        }
+
+        private void CameraMovement_performed(InputAction.CallbackContext obj)
+        {
+            OnMoveCamera?.Invoke(this, obj.ReadValue<Vector2>());
+        }
+
+        private void RightClick_performed(InputAction.CallbackContext obj)
+        {
+            OnRightClick?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void LeftClick_performed(InputAction.CallbackContext obj)
+        {
+            OnLeftClick?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void CameraReset_performed(InputAction.CallbackContext obj)
+        {
+            OnResetCamera?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void CameraRotationValue_canceled(InputAction.CallbackContext obj)
+        {
+            OnCanRotateCamera?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void CameraRotationValue_performed(InputAction.CallbackContext obj)
+        {
+            OnCanRotateCamera?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
