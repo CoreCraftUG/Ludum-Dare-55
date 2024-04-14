@@ -186,6 +186,25 @@ namespace VHierarchy
                 #endif
 
             }));
+            iconRows.Add(new IconRow(new[]
+            {
+                "d_HorizontalLayoutGroup Icon",
+                "d_VerticalLayoutGroup Icon",
+                "d_Button Icon",
+                "d_Image Icon",
+                "d_Toggle Icon",
+                "d_winbtn_win_max@2x",
+                "d_RectTool@2x",
+                "d_Slider Icon",
+
+            }));
+            iconRows.Add(new IconRow(new []
+            {
+                "d_VisualEffect Icon",
+                "Transform Icon",
+                "d_SaveAs@2x",
+                "d_AnimationClip Icon",
+            }));
 
             this.Dirty();
 
