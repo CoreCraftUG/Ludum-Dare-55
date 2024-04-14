@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5193368376731514123}
   m_Layer: 0
   m_Name: Gold
-  m_TagString: Untagged
+  m_TagString: Resource
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -119,3 +119,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _resource: 3
+  PosCell: {x: 0, y: 0}

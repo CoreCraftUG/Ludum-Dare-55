@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1042200598344759155}
   m_Layer: 0
   m_Name: Schleim
-  m_TagString: Untagged
+  m_TagString: Resource
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -119,3 +119,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _resource: 2
+  PosCell: {x: 0, y: 0}
