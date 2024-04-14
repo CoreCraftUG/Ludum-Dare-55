@@ -167,7 +167,7 @@ namespace CoreCraft.LudumDare55
 
         public GridCell GetCellByDirection(Vector3 hitPosition)
         {
-            if (_grid[0, 0] != null)
+            if (_grid[0, 0] == null)
                 throw new Exception("Grid has no Cells");
 
             GridCell returnCell = _grid[0,0];
