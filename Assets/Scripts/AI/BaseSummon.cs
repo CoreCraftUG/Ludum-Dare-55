@@ -45,6 +45,18 @@ namespace CoreCraft.LudumDare55
         public bool IsMoving => _isMoving;
         public Stack<GridCell> TargetPath => _targetPath;
 
+        private Vector2Int _lookOrientation;
+
+        void Start()
+        {
+
+        }
+
+        void Update()
+        {
+
+        }
+
         public void CheckSightCone(Collider other)
         {
             throw new System.NotImplementedException();
@@ -60,9 +72,10 @@ namespace CoreCraft.LudumDare55
             Destroy(this.gameObject);
         }
 
-        public void Spawn(Vector2Int spawnPosition)
+        public void Spawn(Vector2Int spawnPosition, Vector2Int spawnRotation)
         {
             _currentPosition = spawnPosition;
+            _lookOrientation = spawnRotation;
         }
 
         public bool TakeDamage(int damage)
@@ -73,16 +86,6 @@ namespace CoreCraft.LudumDare55
                 return true;
             }
             return false;
-        }
-
-        void Start()
-        {
-
-        }
-
-        void Update()
-        {
-
         }
     }
 }

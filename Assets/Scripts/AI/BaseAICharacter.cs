@@ -66,14 +66,31 @@ namespace CoreCraft.LudumDare55
                     {
                         _isMoving = true;
 
-                        _moveSequence.Append(transform.DOMove(_targetPath.Pop().WorldPosition, _moveTime).OnComplete(() =>
-                        {
-                            _isMoving = false;
-                        }));
+                        Vector3 rotaion = Vector3.zero;
 
-                        _moveSequence.PlayForward();
+                        if (_targetPath.Peek().GridPosition - _currentPosition == Vector2Int.right)
+                            rotaion = new Vector3(0, 180, 0);
+                        else if (_targetPath.Peek().GridPosition - _currentPosition == Vector2Int.up)
+                            rotaion = new Vector3(0, 90, 0);
+                        else if (_targetPath.Peek().GridPosition - _currentPosition == Vector2Int.left)
+                            rotaion = new Vector3(0, 360, 0);
+                        else if (_targetPath.Peek().GridPosition - _currentPosition == Vector2Int.down)
+                            rotaion = new Vector3(0, 270, 0);
+
+                        _lookOrientation = _targetPath.Peek().GridPosition - _currentPosition;
+
+                        transform.DOLookAt(_targetPath.Peek().WorldPosition, _moveTime).OnComplete(() =>
+                        {
+                            _moveSequence.Append(transform.DOMove(_targetPath.Peek().WorldPosition, _moveTime).OnComplete(() =>
+                            {
+                                _isMoving = false;
+                                _hasTarget = _targetPath.Count > 0;
+                            }));
+                            _currentPosition = _targetPath.Pop().GridPosition;
+
+                            _moveSequence.PlayForward();
+                        });
                     }
-                    _hasTarget = _targetPath.Count > 0;
                 }
                 else
                 {
@@ -109,24 +126,70 @@ namespace CoreCraft.LudumDare55
             GridCell cellToTest = null;
 
             //Test Right
-            cellToTest = Grid.Instance.GetCellByIndex(_currentPosition + TurnRightVector());
+            Vector2Int testDirection = TurnRightVector();
+            cellToTest = Grid.Instance.GetCellByIndexWithNull(_currentPosition + testDirection);
+            Vector3 rotaion = Vector3.zero;
 
             if (cellToTest != null && cellToTest.Block.BlockingType == BlockingType.None)
             {
+                _isMoving = true;
 
+                if (_lookOrientation == Vector2Int.right)
+                    rotaion = new Vector3(0, 180, 0);
+                else if (_lookOrientation == Vector2Int.up)
+                    rotaion = new Vector3(0,90,0);
+                else if (_lookOrientation == Vector2Int.left)
+                    rotaion = new Vector3(0, 360, 0);
+                else if (_lookOrientation == Vector2Int.down)
+                    rotaion = new Vector3(0, 270, 0);
+
+                transform.DOLookAt(cellToTest.WorldPosition, _moveTime).OnComplete(() =>
+                {
+                    _moveSequence.Append(transform.DOMove(cellToTest.WorldPosition, _moveTime).OnComplete(() =>
+                    {
+                        _isMoving = false;
+                    }));
+                    _currentPosition = cellToTest.GridPosition;
+
+                    _moveSequence.PlayForward();
+                    _lookOrientation = testDirection;
+                });
+                return;
             }
 
             //Test Straight
+            cellToTest = Grid.Instance.GetCellByIndexWithNull(_currentPosition + _lookOrientation);
 
+            if (cellToTest != null && cellToTest.Block.BlockingType == BlockingType.None)
+            {
+                _isMoving = true;
+
+                _moveSequence.Append(transform.DOMove(cellToTest.WorldPosition, _moveTime).OnComplete(() =>
+                {
+                    _isMoving = false;
+                }));
+                _currentPosition = cellToTest.GridPosition;
+
+                _moveSequence.PlayForward();
+                return;
+            }
 
             _isMoving = true;
+            _lookOrientation = _lookOrientation * -1;
 
-            _moveSequence.Append(transform.DOMove(_targetPath.Pop().WorldPosition, _moveTime).OnComplete(() =>
+            if (_lookOrientation == Vector2Int.right)
+                rotaion = new Vector3(0, 360, 0);
+            else if (_lookOrientation == Vector2Int.up)
+                rotaion = new Vector3(0, 90, 0);
+            else if (_lookOrientation == Vector2Int.left)
+                rotaion = new Vector3(0, 180, 0);
+            else if (_lookOrientation == Vector2Int.down)
+                rotaion = new Vector3(0, 270, 0);
+
+            transform.DORotate(rotaion, _moveTime, RotateMode.FastBeyond360).OnComplete(() =>
             {
-                _isMoving = false;
-            }));
-
-            _moveSequence.PlayForward();
+                RoamingDefault();
+            });
         }
 
         private void RoamingInverted()
@@ -217,15 +280,34 @@ namespace CoreCraft.LudumDare55
             damageable.TakeDamage(_damage);
         }
 
-        public void Spawn(Vector2Int spawnPosition)
+        public void Spawn(Vector2Int spawnPosition, Vector2Int spawnRotation)
         {
             _currentPosition = spawnPosition;
+            _lookOrientation = spawnRotation;
         }
 
-        [Button("Debug Move Forward")]
+        #region Debug
+#if UNITY_EDITOR
+
+        [Button("Debug Move Forward"), FoldoutGroup("Debug")]
         private void DebugMoveForward()
         {
             transform.DOMove(transform.position + transform.forward, 2f);
         }
+
+
+        [SerializeField, FoldoutGroup("Debug")] private Vector2Int _debugTargetPosition;
+        [Button("Debug Set Target"), FoldoutGroup("Debug")]
+        private void DebugSetTarget()
+        {
+            _targetPosition = _debugTargetPosition;
+
+            _targetPath = AStar.StandardAStar(_currentPosition, _targetPosition, PathfindingMode.Default);
+
+            _hasTarget = _targetPath != null && _targetPath.Count > 0;
+        }
+
+#endif
+        #endregion
     }
 }

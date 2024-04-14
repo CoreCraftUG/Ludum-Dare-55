@@ -34,7 +34,7 @@ namespace CoreCraft.LudumDare55
     {
         Vector2Int CurrentPosition { get; }
 
-        void Spawn(Vector2Int spawnPosition);
+        void Spawn(Vector2Int spawnPosition, Vector2Int spawnRotation);
     }
 
     public interface IMoveInGrid

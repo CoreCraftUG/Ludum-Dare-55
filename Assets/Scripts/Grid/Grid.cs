@@ -42,7 +42,7 @@ namespace CoreCraft.LudumDare55
             _currentGroundLevelHeight = _gridHeight;
 
             _collider.center = new Vector3(((_gridWidth - 1) * _gridCellScale + (_gridWidth - 1) * _gridCellMargin) / 2,
-                                            0,
+                                            _gridCellScale / 2,
                                             ((_gridHeight - 1) * _gridCellScale + (_gridHeight - 1) * _gridCellMargin) / 2);
 
             _collider.size = new Vector3((_gridWidth * _gridCellScale + _gridWidth * _gridCellMargin),
@@ -167,7 +167,7 @@ namespace CoreCraft.LudumDare55
 
         public GridCell GetCellByDirection(Vector3 hitPosition)
         {
-            if (_grid[0, 0] == null)
+            if (_grid == null || _grid.GetLength(0) <= 0 && _grid.GetLength(1) <= 0)
                 throw new Exception("Grid has no Cells");
 
             GridCell returnCell = _grid[0,0];
@@ -281,7 +281,7 @@ namespace CoreCraft.LudumDare55
         private void DebugSpawnDebugEnemy()
         {
             GameObject obj = Instantiate(_debugEnemyObject, _grid[_debugEnemySpawnCell.x, _debugEnemySpawnCell.y].WorldPosition,Quaternion.identity);
-            obj.GetComponent<IInGrid>().Spawn(_debugEnemySpawnCell);
+            obj.GetComponent<IInGrid>().Spawn(_debugEnemySpawnCell, Vector2Int.up);
         }
 
         [SerializeField, FoldoutGroup("Debug")] private GameObject _debugSummonObject;
@@ -290,7 +290,7 @@ namespace CoreCraft.LudumDare55
         private void DebugSpawnDebugSummon()
         {
             GameObject obj = Instantiate(_debugSummonObject, _grid[_debugSummonSpawnCell.x, _debugSummonSpawnCell.y].WorldPosition,Quaternion.identity);
-            obj.GetComponent<IInGrid>().Spawn(_debugSummonSpawnCell);
+            obj.GetComponent<IInGrid>().Spawn(_debugSummonSpawnCell, Vector2Int.up);
         }
 
 #endif

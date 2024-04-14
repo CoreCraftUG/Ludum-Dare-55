@@ -14,8 +14,8 @@ namespace CoreCraft.LudumDare55
 
         protected virtual void Start()
         {
-            _collider.size = new Vector3(_aICharacter.SightDistance, 0.5f, 0.5f);
-            _collider.center = new Vector3(_aICharacter.SightDistance / 2, 0, 0);
+            _collider.size = new Vector3(0.5f, 0.5f, _aICharacter.SightDistance);
+            _collider.center = new Vector3(0, 0, _aICharacter.SightDistance / 2);
         }
 
         protected virtual void OnTriggerEnter(Collider other)

@@ -164,15 +164,11 @@ MonoBehaviour:
     keys: 
     values: []
   _blockPrefabs:
+  - {fileID: 11400000, guid: 56f3200a2686898438abdb5ff28c4f47, type: 2}
+  - {fileID: 11400000, guid: 86777d991b24b4a4e85ddfb3d0225865, type: 2}
+  - {fileID: 11400000, guid: 9015485dfea8bb442ba304ccd6b0e0a6, type: 2}
+  - {fileID: 11400000, guid: 978aa69068b52a54f93273f9b9ebd197, type: 2}
   - {fileID: 11400000, guid: 8ab301595c0e73b49ac48f1ba2f6808d, type: 2}
-  - {fileID: 11400000, guid: 8817e26f4b830c943a275dcd26a9eb1e, type: 2}
-  - {fileID: 11400000, guid: b3d6c71973c36894a814d4cfdcceed44, type: 2}
-  - {fileID: 11400000, guid: b3574c44eb3037a4b922c1760acb97ef, type: 2}
-  - {fileID: 11400000, guid: 24c81e3105d15814fbc4d3f61ac048da, type: 2}
-  - {fileID: 11400000, guid: 5732463042f13944f966538e75f78fdb, type: 2}
-  - {fileID: 11400000, guid: b359b784df3960048833b8828cda1198, type: 2}
-  - {fileID: 11400000, guid: f4b8f4def14db9843a894e171b088869, type: 2}
-  - {fileID: 11400000, guid: fe8b040d38fae7a45a3dacaa5079356f, type: 2}
   _emptyBlock: {fileID: 11400000, guid: 8ab301595c0e73b49ac48f1ba2f6808d, type: 2}
   _debugSelectedCell: {x: 5, y: 5}
   _debugEnemyObject: {fileID: 7480694667077209274, guid: 47b13f7995dd62842839da388bab14ed,
@@ -216,7 +212,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 30.3, y: 1, z: 30.3}
-  m_Center: {x: 14.645, y: 0, z: 14.645}
+  m_Center: {x: 14.645, y: 0.5, z: 14.645}
 --- !u!1 &1131274287
 GameObject:
   m_ObjectHideFlags: 0
