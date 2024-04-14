@@ -217,6 +217,7 @@ namespace CoreCraft.Core
                     Destroy(cell.CellObject);
                     _tempTable = Instantiate(_alchemyTable, cell.WorldPosition, new Quaternion(0,0,0,0));
                     cell.BlockForBuilding(_blockingBlock);
+                    CheckForConstruction();
                 }
                 return true;
             }
