@@ -15,12 +15,14 @@ namespace CoreCraft.LudumDare55
 
         private float _maxRandomOffset = 0.2f;
         private int _randomWeight = 8;
+        private Grid _grid;
 
-        public GridCell(Vector2Int gridPosition,Vector3 worldPosition,int height)
+        public GridCell(Vector2Int gridPosition,Vector3 worldPosition,int height, Grid grid)
         {
             GridPosition = gridPosition;
             WorldPosition = worldPosition;
             Height = height;
+            _grid = grid;
         }
 
         public void SetBlock(Block block, Transform parentGrid)

@@ -19,6 +19,7 @@ namespace CoreCraft.LudumDare55
         [SerializeField] private float _gridCellScale;
         [SerializeField] private float _gridCellMargin;
         [SerializeField] private float _weightFactor;
+        [SerializeField] private ResourceDictionary _resourcesDictionary;
         [SerializeField] private Block[] _blockPrefabs;
         [SerializeField] private Block _emptyBlock;
 
@@ -29,6 +30,7 @@ namespace CoreCraft.LudumDare55
 
         public int GridWidth { get { return _gridWidth; } }
         public int GridHeight { get { return _gridHeight; } }
+        public ResourceDictionary ResourcesDictionary { get { return _resourcesDictionary; } }
 
         #region Generating Grid
 
@@ -54,7 +56,8 @@ namespace CoreCraft.LudumDare55
                                                 new Vector3(transform.position.x + (x * _gridCellScale) + (x * _gridCellMargin),
                                                             transform.position.y,
                                                             transform.position.z + (y * _gridCellScale) + (y * _gridCellMargin)),
-                                                _currentGroundLevelHeight - y);
+                                                _currentGroundLevelHeight - y,
+                                                this);
                 }
             }
 
@@ -93,7 +96,13 @@ namespace CoreCraft.LudumDare55
             {
                 for (int y = 0; y <= _moveSteps; y++)
                 {
-                    tempGrid[x, y].Height = _currentGroundLevelHeight - y;
+                    _grid[x, y] = new GridCell(new Vector2Int(x, y),
+                                                new Vector3(transform.position.x + (x * _gridCellScale) + (x * _gridCellMargin),
+                                                            transform.position.y,
+                                                            transform.position.z + (y * _gridCellScale) + (y * _gridCellMargin)),
+                                                _currentGroundLevelHeight - y,
+                                                this);
+
                     tempGrid[x, y].SetBlock(GetRandomBlockByHeightWithWeight(tempGrid[x, y].Height), transform);
                 }
             }
@@ -265,5 +274,7 @@ namespace CoreCraft.LudumDare55
         }
     }
 
+    [Serializable]
+    public class ResourceDictionary : SerializableDictionary<BlockResources, GameObject> { }
 
 }
