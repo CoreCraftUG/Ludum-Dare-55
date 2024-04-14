@@ -11,6 +11,7 @@ namespace CoreCraft.LudumDare55
         [SerializeField] private bool _destructible;
         [SerializeField] private int _spawnMinDepth;
         [SerializeField] private int _spawnMaxDepth;
+        [SerializeField] private int _spawnWeight;
         [SerializeField] private GameObject _blockPrefab;
 
         public BlockMaterial Material { get { return _material; } }
@@ -19,6 +20,7 @@ namespace CoreCraft.LudumDare55
         public bool Destructible { get { return _destructible; } }
         public int SpawnMinDepth { get { return _spawnMinDepth; } }
         public int SpawnMaxDepth { get { return _spawnMaxDepth; } }
+        public int SpawnWeight { get { return _spawnWeight; } }
         public GameObject BlockPrefab { get { return _blockPrefab; } }
     }
 

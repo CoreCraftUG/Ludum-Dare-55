@@ -19,6 +19,7 @@ namespace CoreCraft.LudumDare55
         [SerializeField] private float _gridCellScale;
         [SerializeField] private float _gridCellMargin;
         [SerializeField] private float _weightFactor;
+        [SerializeField] private bool _useWeightFactorForBlockWeight;
         [SerializeField] private ResourceDictionary _resourcesDictionary;
         [SerializeField] private Block[] _blockPrefabs;
         [SerializeField] private Block _emptyBlock;
@@ -121,7 +122,7 @@ namespace CoreCraft.LudumDare55
                 weightedBlock.Block = block;
                 float weight = (block.SpawnMaxDepth - height) + (block.SpawnMinDepth - height);
                 float range = (block.SpawnMaxDepth - block.SpawnMinDepth);
-                weightedBlock.Weight = (1 - ((Mathf.Abs(weight) / range) * 0.99f)) * _weightFactor;
+                weightedBlock.Weight = (1 - ((Mathf.Abs(weight) / range) * 0.99f)) * _weightFactor + ((_useWeightFactorForBlockWeight)? block.SpawnWeight * _weightFactor : block.SpawnWeight);
 
                 //(5 - 0 = 5) + (0 - 0 = 0) = 5
                 //(5 - 5 = 0) + (0 - 5 = -5) = -5

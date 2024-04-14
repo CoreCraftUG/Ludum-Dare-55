@@ -157,12 +157,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startWhenEnabled: 1
   asynchronousLoad: 0
-  pauseWhenDisabled: 0
-  restartWhenComplete: 0
+  pauseWhenDisabled: 1
+  restartWhenComplete: 1
   logTaskChanges: 0
   group: 0
   resetValuesOnRestart: 0
-  externalBehavior: {fileID: 0}
+  externalBehavior: {fileID: 11400000, guid: a282af8ee0ce3ad45aaff080a11aa781, type: 2}
   mBehaviorSource:
     behaviorName: Behavior
     behaviorDescription: 
@@ -171,7 +171,8 @@ MonoBehaviour:
       parentIndex: 
       startIndex: 
       variableStartIndex: 
-      JSONSerialization: 
+      JSONSerialization: '{"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedVector2Int","Name":"Currentposition","IsShared":true,"Vector2IntmValue":"(0,
+        0)"}]}'
       fieldSerializationData:
         typeName: []
         fieldNameHash: 
@@ -180,7 +181,7 @@ MonoBehaviour:
         unityObjects: []
         byteData: 
         byteDataArray: 
-      Version: 
+      Version: 1.7.9
   gizmoViewMode: 2
   showBehaviorDesignerGizmo: 1
 --- !u!65 &356878418
@@ -299,12 +300,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce8d8fdf23d0fc44a89c3247dd6c886b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gridWidth: 10
-  _gridHeight: 10
+  _gridWidth: 30
+  _gridHeight: 30
   _moveSteps: 1
   _gridCellScale: 1
   _gridCellMargin: 0.01
   _weightFactor: 1000
+  _useWeightFactorForBlockWeight: 0
+  _resourcesDictionary:
+    keys: 
+    values: []
   _blockPrefabs:
   - {fileID: 11400000, guid: 8817e26f4b830c943a275dcd26a9eb1e, type: 2}
   - {fileID: 11400000, guid: b3d6c71973c36894a814d4cfdcceed44, type: 2}
@@ -350,8 +355,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 10.1, y: 1, z: 10.1}
-  m_Center: {x: 4.545, y: 0, z: 4.545}
+  m_Size: {x: 30.3, y: 1, z: 30.3}
+  m_Center: {x: 14.645, y: 0, z: 14.645}
 --- !u!1 &1131274287
 GameObject:
   m_ObjectHideFlags: 0
