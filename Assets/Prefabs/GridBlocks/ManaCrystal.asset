@@ -18,6 +18,6 @@ MonoBehaviour:
   _destructible: 1
   _spawnMinDepth: 0
   _spawnMaxDepth: 10000000
-  _spawnWeight: 0
+  _spawnWeight: 5
   _blockPrefab: {fileID: 3680579442130069774, guid: d6b17fae845e786429cedf4cfce936dc,
     type: 3}

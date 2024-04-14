@@ -289,6 +289,16 @@ namespace CoreCraft.LudumDare55
                 throw new Exception($"Cell: {index} does not exist!");
         }
 
+        public void UnblockCell(Vector2Int index)
+        {
+            if (_grid[index.x, index.y] != null)
+            {
+                ReplaceCell(index);
+            }
+            else
+                throw new Exception($"Cell: {index} does not exist!");
+        }
+
         #endregion
 
         #region Debug

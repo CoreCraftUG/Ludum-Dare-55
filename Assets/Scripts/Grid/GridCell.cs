@@ -63,6 +63,25 @@ namespace CoreCraft.LudumDare55
             }
         }
 
+        public void Unblock()
+        {
+            Block = block;
+
+            if (Block == null)
+                throw new Exception($"Cell: {GridPosition} block = null");
+
+
+            if (Block.BlockPrefab != null)
+            {
+                GameObject tempObj = CellObject;
+
+                CellObject = MonoBehaviour.Instantiate(Block.BlockPrefab, tempObj.transform.position, tempObj.transform.rotation, tempObj.transform.parent);
+                CellObject.name = Block.BlockPrefab.name + GridPosition;
+
+                MonoBehaviour.Destroy(tempObj);
+            }
+        }
+
         public void IncreaseHeight(int heightIncrease)
         {
             Height += heightIncrease;

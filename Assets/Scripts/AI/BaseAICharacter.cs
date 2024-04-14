@@ -1,3 +1,4 @@
+using BehaviorDesigner.Runtime.Tasks.Unity.UnityLayerMask;
 using DG.Tweening;
 using ES3Types;
 using Sirenix.OdinInspector;
@@ -47,6 +48,8 @@ namespace CoreCraft.LudumDare55
         public float AttackTime => _attackTime;
 
         private bool _isInverted;
+        private int _targetValue;
+        private int _enemyValue;
         private float _timer;
         private Sequence _moveSequence;
         private Vector2Int _lookOrientation;
@@ -90,6 +93,8 @@ namespace CoreCraft.LudumDare55
                             {
                                 _isMoving = false;
                                 _hasTarget = _targetPath.Count > 0;
+                                if (!_hasTarget)
+                                    _targetValue = 0;
                             }));
                             _currentPosition = _targetPath.Pop().GridPosition;
 
@@ -120,8 +125,93 @@ namespace CoreCraft.LudumDare55
                 _timer += Time.deltaTime;
                 if (_timer >= _attackTime)
                 {
-                    _currentEnemy = _currentEnemy.TakeDamage(_damage) ? null : _currentEnemy;
+                    if (_currentEnemy.TakeDamage(_damage))
+                    {
+                        _currentEnemy = null;
+                        _enemyValue = 0;
+                    }
+
                     _timer = 0;
+                }
+            }
+        }
+
+        protected virtual void OnTriggerEnter(Collider other)
+        {
+
+            if (other.gameObject.layer == 7 && _enemyValue < 4)
+            {
+                _enemyValue = 4;
+            }
+            else if (other.gameObject.layer == 8 && _enemyValue < 3)
+            {
+                _enemyValue = 3;
+            }
+            else if (other.gameObject.layer == 10 && _enemyValue < 2)
+            {
+                _enemyValue = 2;
+            }
+            else if (other.gameObject.layer == 9 && _enemyValue < 1)
+            {
+                _enemyValue = 1;
+            }
+            else
+            {
+                return;
+            }
+
+
+            if (other.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
+            {
+                _moveSequence.Pause();
+                _isMoving = false;
+                _hasTarget = false;
+                _currentEnemy = damageable;
+            }
+        }
+
+        protected virtual void OnTriggerExit(Collider other)
+        {
+            if (_currentEnemy != null && other.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
+            {
+                if (_currentEnemy == damageable)
+                {
+                    _currentEnemy = null;
+                    _enemyValue = 0;
+                }
+            }
+        }
+
+        public virtual void CheckSightCone(Collider other)
+        {
+            if (_sightLayerMask == (_sightLayerMask | (1 << other.gameObject.layer)) && other.gameObject.TryGetComponent<IInGrid>(out IInGrid inGrid))
+            {
+                if (other.gameObject.layer == 7 && _targetValue < 4)
+                {
+                    _targetValue = 4;
+                }
+                else if (other.gameObject.layer == 8 && _targetValue < 3)
+                {
+                    _targetValue = 3;
+                }
+                else if (other.gameObject.layer == 10 && _targetValue < 2)
+                {
+                    _targetValue = 2;
+                }
+                else if (other.gameObject.layer == 9 && _targetValue < 1)
+                {
+                    _targetValue = 1;
+                }
+
+                if (AStar.StraightCheck(_currentPosition, inGrid.CurrentPosition))
+                {
+                    _targetPosition = inGrid.CurrentPosition;
+
+                    _targetPath = AStar.StandardAStar(_currentPosition, _targetPosition, PathfindingMode.Default);
+
+                    _hasTarget = _targetPath != null && _targetPath.Count > 0;
+                    if (!_hasTarget)
+                        _targetValue = 0;
                 }
             }
         }
@@ -274,46 +364,6 @@ namespace CoreCraft.LudumDare55
             else if( _lookOrientation == Vector2Int.down)
                 return Vector2Int.right;
             return Vector2Int.zero;
-        }
-
-        protected virtual void OnTriggerEnter(Collider other)
-        {
-            if(_currentEnemy == null && other.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
-            {
-                _moveSequence.Pause();
-                _isMoving = false;
-                _hasTarget = true;
-                _currentEnemy = damageable;
-            }
-        }
-
-        protected virtual void OnTriggerStay(Collider other)
-        {
-            
-        }
-
-        protected virtual void OnTriggerExit(Collider other)
-        {
-            if (_currentEnemy != null && other.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
-            {
-                if (_currentEnemy == damageable)
-                    _currentEnemy = null;
-            }
-        }
-
-        public virtual void CheckSightCone(Collider other)
-        {
-            if(_sightLayerMask == (_sightLayerMask | (1 << other.gameObject.layer)) && other.gameObject.TryGetComponent<IInGrid>(out IInGrid inGrid))
-            {
-                if (AStar.StraightCheck(_currentPosition, inGrid.CurrentPosition))
-                {
-                    _targetPosition = inGrid.CurrentPosition;
-
-                    _targetPath = AStar.StandardAStar(_currentPosition, _targetPosition, PathfindingMode.Default);
-
-                    _hasTarget = _targetPath != null && _targetPath.Count > 0;
-                }
-            }
         }
 
         public virtual bool TakeDamage(int damage)
