@@ -15,23 +15,26 @@ namespace CoreCraft.LudumDare55
         [SerializeField] private bool _timerStarted;
         [SerializeField] private TextMeshProUGUI _timerText;
         [SerializeField] private Image _timerProgressbar;
+        [SerializeField] private TextMeshProUGUI _timerProgressBar;
+        [SerializeField] private int _timeRemainingSet;
+        [SerializeField] private Image _timerProgressbarBorder;
 
         private IEnumerator _timerCoroutine;
 
         public static bool AutoStartTimer;
-
         public Action OnTimerFinished;
-
-        [SerializeField] private int _timeRemainingSet;
 
         private void OnTimerExpired()
         {
             Debug.Log("Timer expired!");
+            _timerProgressBar.gameObject.SetActive(true);
             _timerFinished = true;
         }
 
         private void Start()
         {
+            _timerProgressBar.gameObject.SetActive(false);
+
             DisplayTime(_timeRemaining);
 
             if (AutoStartTimer)
@@ -67,7 +70,7 @@ namespace CoreCraft.LudumDare55
                 _timeRemaining = time;
                 DisplayTime(time);
             }
-
+            
             OnTimerFinished?.Invoke();
         }
 
@@ -116,6 +119,7 @@ namespace CoreCraft.LudumDare55
 
             _timerProgressbar.fillAmount = (float)time / _timeRemainingSet;
             _timerProgressbar.color = Color.Lerp(Color.red, Color.white, (float)time / _timeRemainingSet);
+            _timerProgressbarBorder.color = Color.Lerp(Color.red, Color.white, (float)time / _timeRemainingSet);
         }
     }
 }
