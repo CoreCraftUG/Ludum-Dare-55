@@ -8,14 +8,14 @@ namespace CoreCraft.LudumDare55
     {
         private Resource[] resources;
         [SerializeField] private List<GameObject> _summons;
-        private bool isActive;
+        private bool isActivated;
         [SerializeField] private GameObject _finalState;
         [SerializeField] private GameObject _tempsState;
 
         private void Awake()
         {
             resources = new Resource[2];
-            isActive = false;
+            isActivated = false;
         }
         private void OnCollisionEnter(Collision collision)
         {
@@ -28,6 +28,7 @@ namespace CoreCraft.LudumDare55
                 else
                 {
                     resources[1] = collision.transform.GetComponent<Resource>();
+                    if()
                     Summon();
                 }
 
@@ -36,6 +37,7 @@ namespace CoreCraft.LudumDare55
 
         public void Activate()
         {
+            _isActivated = true;
             _finalState.SetActive(true);
             _tempsState.SetActive(false);
         }

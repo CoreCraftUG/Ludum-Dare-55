@@ -48,7 +48,22 @@ namespace CoreCraft.LudumDare55
 
         public void Mined()
         {
-
+            GameObject temp = null;
+            switch (Block.Resources)
+            {
+                case BlockResources.Kristall:
+                    temp = MonoBehaviour.Instantiate(_grid.ResourcesDictionary[BlockResources.Kristall], this.WorldPosition, new Quaternion(0,0,0,0));
+                    temp.GetComponent<Resource>().PosCell = GridPosition;
+                    break;
+                case BlockResources.Gold:
+                    temp = MonoBehaviour.Instantiate(_grid.ResourcesDictionary[BlockResources.Gold], this.WorldPosition, new Quaternion(0, 0, 0, 0));
+                    temp.GetComponent<Resource>().PosCell = GridPosition;
+                    break;
+                case BlockResources.Schleim:
+                    temp = MonoBehaviour.Instantiate(_grid.ResourcesDictionary[BlockResources.Schleim], this.WorldPosition, new Quaternion(0, 0, 0, 0));
+                    temp.GetComponent<Resource>().PosCell = GridPosition;
+                    break;
+            }
         }
 
         private Quaternion GetRandom90DegreeYRotation()
