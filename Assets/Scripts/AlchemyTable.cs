@@ -8,14 +8,14 @@ namespace CoreCraft.LudumDare55
     {
         private Resource[] resources;
         [SerializeField] private List<GameObject> _summons;
-        private bool isActivated;
+        private bool _isActivated;
         [SerializeField] private GameObject _finalState;
         [SerializeField] private GameObject _tempsState;
 
         private void Awake()
         {
             resources = new Resource[2];
-            isActivated = false;
+            _isActivated = false;
         }
         private void OnCollisionEnter(Collision collision)
         {
@@ -28,8 +28,8 @@ namespace CoreCraft.LudumDare55
                 else
                 {
                     resources[1] = collision.transform.GetComponent<Resource>();
-                    if()
-                    Summon();
+                    if(_isActivated)
+                        Summon();
                 }
 
             }
@@ -40,6 +40,8 @@ namespace CoreCraft.LudumDare55
             _isActivated = true;
             _finalState.SetActive(true);
             _tempsState.SetActive(false);
+            if (resources[0] != null && resources[2] != null)
+                Summon();
         }
 
         private void Summon()
@@ -50,10 +52,13 @@ namespace CoreCraft.LudumDare55
                     switch (resources[1].Resources)
                     {
                         case BlockResources.Kristall:
+                            SummonEntity(1);
                             break;
                         case BlockResources.Gold:
+                            SummonEntity(1);
                             break;
                         case BlockResources.Schleim:
+                            SummonEntity(1);
                             break;
                     }
                     break;
@@ -61,10 +66,13 @@ namespace CoreCraft.LudumDare55
                     switch (resources[1].Resources)
                     {
                         case BlockResources.Kristall:
+                            SummonEntity(1);
                             break;
                         case BlockResources.Gold:
+                            SummonEntity(1);
                             break;
                         case BlockResources.Schleim:
+                            SummonEntity(1);
                             break;
                     }
                     break;
@@ -72,10 +80,13 @@ namespace CoreCraft.LudumDare55
                     switch (resources[1].Resources)
                     {
                         case BlockResources.Kristall:
+                            SummonEntity(1);
                             break;
                         case BlockResources.Gold:
+                            SummonEntity(1);
                             break;
                         case BlockResources.Schleim:
+                            SummonEntity(1);
                             break;
                     }
                     break;
