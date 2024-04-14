@@ -115,6 +115,7 @@ namespace CoreCraft.LudumDare55
             Debug.Log((float)time / _timeRemainingSet);
 
             _timerProgressbar.fillAmount = (float)time / _timeRemainingSet;
+            _timerProgressbar.color = Color.Lerp(Color.red, Color.white, (float)time / _timeRemainingSet);
         }
     }
 }
