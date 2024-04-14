@@ -65,8 +65,6 @@ namespace CoreCraft.LudumDare55
 
         public void Unblock()
         {
-            Block = block;
-
             if (Block == null)
                 throw new Exception($"Cell: {GridPosition} block = null");
 
