@@ -40,7 +40,7 @@ namespace CoreCraft.Core
                     _carriedResource = null;
                     temp.GetComponent<BoxCollider>().enabled = true;
                     temp.transform.DOMove(cell.WorldPosition, .1f);
-                    temp.GetComponent<Resource>().PosCell = cell;
+                    temp.GetComponent<Resource>().PosCell = cell.GridPosition;
 
                 }
 
