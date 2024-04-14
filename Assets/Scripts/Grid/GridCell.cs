@@ -38,7 +38,10 @@ namespace CoreCraft.LudumDare55
 
 
             if (Block.BlockPrefab != null)
+            {
                 CellObject = MonoBehaviour.Instantiate(Block.BlockPrefab, WorldPosition - new Vector3(0f, yOffset, 0f), GetRandom90DegreeYRotation(), parentGrid);
+                CellObject.name = Block.BlockPrefab.name + GridPosition;
+            }
         }
 
         public void IncreaseHeight(int heightIncrease)

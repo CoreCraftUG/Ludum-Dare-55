@@ -194,10 +194,20 @@ namespace CoreCraft.LudumDare55
 
         public GridCell GetCellByIndex(Vector2Int index)
         {
-            if (_grid[0, 0] != null)
+            if (_grid[0, 0] == null)
                 throw new Exception("Grid has no Cells");
             if (!(index.x >= 0 && index.x < _gridWidth && index.y >= 0 && index.y < _gridHeight))
                 throw new Exception($"Index: {index} is not in the grid!");
+
+            return _grid[index.x, index.y];
+        }
+
+        public GridCell GetCellByIndexWithNull(Vector2Int index)
+        {
+            if (_grid[0, 0] == null)
+                throw new Exception("Grid has no Cells");
+            if (!(index.x >= 0 && index.x < _gridWidth && index.y >= 0 && index.y < _gridHeight))
+                return null;
 
             return _grid[index.x, index.y];
         }
@@ -263,6 +273,24 @@ namespace CoreCraft.LudumDare55
         private void DebugMineSelectedCell()
         {
             MineCell(_debugSelectedCell);
+        }
+
+        [SerializeField, FoldoutGroup("Debug")] private GameObject _debugEnemyObject;
+        [SerializeField, FoldoutGroup("Debug")] private Vector2Int _debugEnemySpawnCell;
+        [Button("Spawn Debug Enemy"), FoldoutGroup("Debug")]
+        private void DebugSpawnDebugEnemy()
+        {
+            GameObject obj = Instantiate(_debugEnemyObject, _grid[_debugEnemySpawnCell.x, _debugEnemySpawnCell.y].WorldPosition,Quaternion.identity);
+            obj.GetComponent<IInGrid>().Spawn(_debugEnemySpawnCell);
+        }
+
+        [SerializeField, FoldoutGroup("Debug")] private GameObject _debugSummonObject;
+        [SerializeField, FoldoutGroup("Debug")] private Vector2Int _debugSummonSpawnCell;
+        [Button("Spawn Debug Enemy"), FoldoutGroup("Debug")]
+        private void DebugSpawnDebugSummon()
+        {
+            GameObject obj = Instantiate(_debugSummonObject, _grid[_debugSummonSpawnCell.x, _debugSummonSpawnCell.y].WorldPosition,Quaternion.identity);
+            obj.GetComponent<IInGrid>().Spawn(_debugSummonSpawnCell);
         }
 
 #endif

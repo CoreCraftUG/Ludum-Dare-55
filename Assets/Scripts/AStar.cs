@@ -83,13 +83,13 @@ namespace CoreCraft.LudumDare55
         {
             List<Node> neighbourNodes = new List<Node>();
 
-            if (currentNode.Index.x - 1 >= 0 && Grid.Instance.GetCellByIndex(new Vector2Int(currentNode.Index.x - 1, currentNode.Index.y)).Block.BlockingType != BlockingType.None)
+            if (currentNode.Index.x - 1 >= 0 && Grid.Instance.GetCellByIndex(new Vector2Int(currentNode.Index.x - 1, currentNode.Index.y)).Block.BlockingType == BlockingType.None)
                 neighbourNodes.Add(pathGrid[currentNode.Index.x - 1, currentNode.Index.y]);
-            if (currentNode.Index.x + 1 < pathGrid.GetLength(0) && Grid.Instance.GetCellByIndex(new Vector2Int(currentNode.Index.x + 1, currentNode.Index.y)).Block.BlockingType != BlockingType.None)
+            if (currentNode.Index.x + 1 < pathGrid.GetLength(0) && Grid.Instance.GetCellByIndex(new Vector2Int(currentNode.Index.x + 1, currentNode.Index.y)).Block.BlockingType == BlockingType.None)
                 neighbourNodes.Add(pathGrid[currentNode.Index.x + 1, currentNode.Index.y]);
-            if (currentNode.Index.y - 1 >= 0 && Grid.Instance.GetCellByIndex(new Vector2Int(currentNode.Index.x, currentNode.Index.y - 1)).Block.BlockingType != BlockingType.None)
+            if (currentNode.Index.y - 1 >= 0 && Grid.Instance.GetCellByIndex(new Vector2Int(currentNode.Index.x, currentNode.Index.y - 1)).Block.BlockingType == BlockingType.None)
                 neighbourNodes.Add(pathGrid[currentNode.Index.x, currentNode.Index.y - 1]);
-            if (currentNode.Index.y + 1 < pathGrid.GetLength(1) && Grid.Instance.GetCellByIndex(new Vector2Int(currentNode.Index.x, currentNode.Index.y + 1)).Block.BlockingType != BlockingType.None)
+            if (currentNode.Index.y + 1 < pathGrid.GetLength(1) && Grid.Instance.GetCellByIndex(new Vector2Int(currentNode.Index.x, currentNode.Index.y + 1)).Block.BlockingType == BlockingType.None)
                 neighbourNodes.Add(pathGrid[currentNode.Index.x, currentNode.Index.y + 1]);
             
             return neighbourNodes;
@@ -147,7 +147,25 @@ namespace CoreCraft.LudumDare55
 
             returnStack.Reverse();
 
-            return new Stack<GridCell>();
+            return returnStack;
+        }
+
+        public static bool StraightCheck(Vector2Int start, Vector2Int end)
+        {
+            if( MathF.Abs(start.x-end.x) != 0 &&  MathF.Abs(start.y-end.y) != 0)
+                return false;
+
+            Vector2 normalizationVector = end - start;
+            Vector2Int increment = Vector2Int.RoundToInt(normalizationVector.normalized);
+
+            while(start != end)
+            {
+                if(Grid.Instance.GetCellByIndex(start).Block.Material != BlockMaterial.None)
+                    return false;
+                start += increment;
+            }
+
+            return true;
         }
 
         public static bool HalloIchBinJulianUndIchWillWissenObIchNebenIhnenStehe(Vector2Int juliansPosition,  Vector2Int juliansZiel) => Mathf.Abs(juliansPosition.x - juliansZiel.x) + Mathf.Abs(juliansPosition.y - juliansZiel.y) == 1;
