@@ -30,7 +30,7 @@ namespace CoreCraft.Core
         [SerializeField] private int _previousWindowModeIndex;
         [SerializeField] private FullScreenMode _lastSavedWindowMode;
         [SerializeField] private int _frameRateIndex;
-        [SerializeField] private int _frameRate;
+        [SerializeField] private int _lastSavedframeRate;
         [SerializeField] private bool _vSync;
         [SerializeField] private int _textureQualityIndex;
         [SerializeField] private int _shadowQualityIndex;
@@ -104,9 +104,9 @@ namespace CoreCraft.Core
         public int FrameRateIndex { get => _frameRateIndex; set => _frameRateIndex = value; }
 
         /// <summary>
-        /// Saved frame rate value.
+        /// Last saved frame rate value.
         /// </summary>
-        public int FrameRate { get => _frameRate; set => _frameRate = value; }
+        public int LastSavedFrameRate { get => _lastSavedframeRate; set => _lastSavedframeRate = value; }
 
         /// <summary>
         /// Saved toggle state of the V-Sync toggle.
@@ -269,7 +269,7 @@ namespace CoreCraft.Core
 
             if (ES3.KeyExists(USERSETTINGS_LASTSAVEDFRAMERATE, UserSettingsFilePath, _es3settings))
             {
-                _frameRate = ES3.Load<int>(USERSETTINGS_LASTSAVEDFRAMERATE, _userSettingsFilePath, 60, _es3settings);
+                _lastSavedframeRate = ES3.Load<int>(USERSETTINGS_LASTSAVEDFRAMERATE, _userSettingsFilePath, 60, _es3settings);
             }
 
             if (ES3.KeyExists(USERSETTINGS_VSYNC, UserSettingsFilePath, _es3settings))

@@ -235,10 +235,10 @@ namespace CoreCraft.Core
             }
             
             GameSettingsFile.Instance.FrameRateIndex = index;
-            GameSettingsFile.Instance.FrameRate = Application.targetFrameRate;
+            GameSettingsFile.Instance.LastSavedFrameRate = Application.targetFrameRate;
 
             ES3.Save(GameSettingsFile.USERSETTINGS_FRAME_RATE, GameSettingsFile.Instance.FrameRateIndex, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings);
-            ES3.Save(GameSettingsFile.USERSETTINGS_LASTSAVEDFRAMERATE, GameSettingsFile.Instance.FrameRate, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings);
+            ES3.Save(GameSettingsFile.USERSETTINGS_LASTSAVEDFRAMERATE, GameSettingsFile.Instance.LastSavedFrameRate, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings);
         }
 
         /// <summary>
@@ -433,7 +433,7 @@ namespace CoreCraft.Core
                 SetWindowMode(GameSettingsFile.Instance.WindowModeIndex);
             }
 
-            if (Application.targetFrameRate != GameSettingsFile.Instance.FrameRate)
+            if (Application.targetFrameRate != GameSettingsFile.Instance.LastSavedFrameRate)
             {
                 SetFrameRate(GameSettingsFile.Instance.FrameRateIndex);
             }
