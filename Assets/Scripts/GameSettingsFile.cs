@@ -29,6 +29,8 @@ namespace CoreCraft.Core
         [SerializeField] private int _windowModeIndex;
         [SerializeField] private int _previousWindowModeIndex;
         [SerializeField] private FullScreenMode _lastSavedWindowMode;
+        [SerializeField] private int _frameRateIndex;
+        [SerializeField] private int _frameRate;
         [SerializeField] private bool _vSync;
         [SerializeField] private int _textureQualityIndex;
         [SerializeField] private int _shadowQualityIndex;
@@ -97,6 +99,16 @@ namespace CoreCraft.Core
         public FullScreenMode LastSavedWindowMode { get => _lastSavedWindowMode; set => _lastSavedWindowMode = value; }
 
         /// <summary>
+        /// Saved index of the frame rate dropdown.
+        /// </summary>
+        public int FrameRateIndex { get => _frameRateIndex; set => _frameRateIndex = value; }
+
+        /// <summary>
+        /// Saved frame rate value.
+        /// </summary>
+        public int FrameRate { get => _frameRate; set => _frameRate = value; }
+
+        /// <summary>
         /// Saved toggle state of the V-Sync toggle.
         /// </summary>
         public bool VSync { get => _vSync; set => _vSync = value; }
@@ -157,6 +169,8 @@ namespace CoreCraft.Core
         public const string USERSETTINGS_LASTSAVEDDISPLAY = "UserSettings_LastSavedDisplay";
         public const string USERSETTINGS_WINDOW_MODE = "UserSettings_WindowModeValue";
         public const string USERSETTINGS_LASTSAVEDWINDOWMODE = "UserSettings_LastSavedWindowMode";
+        public const string USERSETTINGS_FRAME_RATE = "UserSettings_FrameRateValue";
+        public const string USERSETTINGS_LASTSAVEDFRAMERATE = "UserSettings_LastSavedFrameRateValue";
         public const string USERSETTINGS_VSYNC = "UserSettings_VSyncValue";
         public const string USERSETTINGS_TEXTURE_QUALITY = "UserSettings_TextureQualityValue";
         public const string USERSETTINGS_SHADOW_QUALITY = "UserSettings_ShadowQualityValue";
@@ -246,6 +260,16 @@ namespace CoreCraft.Core
                     Console.WriteLine(e);
                     //throw;
                 }
+            }
+
+            if (ES3.KeyExists(USERSETTINGS_FRAME_RATE, UserSettingsFilePath, _es3settings))
+            {
+                _frameRateIndex = ES3.Load<int>(USERSETTINGS_FRAME_RATE, _userSettingsFilePath, 5, _es3settings);
+            }
+
+            if (ES3.KeyExists(USERSETTINGS_LASTSAVEDFRAMERATE, UserSettingsFilePath, _es3settings))
+            {
+                _frameRate = ES3.Load<int>(USERSETTINGS_LASTSAVEDFRAMERATE, _userSettingsFilePath, 60, _es3settings);
             }
 
             if (ES3.KeyExists(USERSETTINGS_VSYNC, UserSettingsFilePath, _es3settings))

@@ -53,7 +53,7 @@ namespace CoreCraft.Core
 
         private void Start()
         {
-            Application.targetFrameRate = 60;
+            
         }
 
         /// <summary>
@@ -194,9 +194,51 @@ namespace CoreCraft.Core
             }
 
             GameSettingsFile.Instance.WindowModeIndex = index;
+            //GameSettingsFile.Instance.LastSavedWindowMode = Screen.fullScreenMode;
 
             ES3.Save(GameSettingsFile.USERSETTINGS_WINDOW_MODE, GameSettingsFile.Instance.WindowModeIndex, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings);
             ES3.Save(GameSettingsFile.USERSETTINGS_LASTSAVEDWINDOWMODE, GameSettingsFile.Instance.LastSavedWindowMode, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings);
+        }
+
+        /// <summary>
+        /// Sets the frame rate of the application.
+        /// </summary>
+        /// <param name="index">Selected frame rate of the dropdown.</param>
+        public void SetFrameRate(int index)
+        {
+            switch (index)
+            {
+                case 0: // 240
+                    Application.targetFrameRate = 240;
+                    break;
+                case 1: // 165
+                    Application.targetFrameRate = 165;
+                    break;
+                case 2: // 144
+                    Application.targetFrameRate = 144;
+                    break;
+                case 3: // 120
+                    Application.targetFrameRate = 120;
+                    break;
+                case 4: // 90
+                    Application.targetFrameRate = 90;
+                    break;
+                case 5: // 60
+                    Application.targetFrameRate = 60;
+                    break;
+                case 6: // 30
+                    Application.targetFrameRate = 30;
+                    break;
+                case 7: // Unlimited
+                    Application.targetFrameRate = -1;
+                    break;
+            }
+            
+            GameSettingsFile.Instance.FrameRateIndex = index;
+            GameSettingsFile.Instance.FrameRate = Application.targetFrameRate;
+
+            ES3.Save(GameSettingsFile.USERSETTINGS_FRAME_RATE, GameSettingsFile.Instance.FrameRateIndex, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings);
+            ES3.Save(GameSettingsFile.USERSETTINGS_LASTSAVEDFRAMERATE, GameSettingsFile.Instance.FrameRate, GameSettingsFile.Instance.UserSettingsFilePath, GameSettingsFile.Instance.ES3Settings);
         }
 
         /// <summary>
@@ -389,6 +431,11 @@ namespace CoreCraft.Core
             if (Screen.fullScreenMode != GameSettingsFile.Instance.LastSavedWindowMode)
             {
                 SetWindowMode(GameSettingsFile.Instance.WindowModeIndex);
+            }
+
+            if (Application.targetFrameRate != GameSettingsFile.Instance.FrameRate)
+            {
+                SetFrameRate(GameSettingsFile.Instance.FrameRateIndex);
             }
 
             int vSync = GameSettingsFile.Instance.VSync ? 1 : 0;

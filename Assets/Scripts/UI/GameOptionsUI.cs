@@ -34,6 +34,7 @@ namespace CoreCraft.Core
         [SerializeField] private TMP_Dropdown _resolutionDropdown;
         [SerializeField] private TMP_Dropdown _displayDropdown;
         [SerializeField] private TMP_Dropdown _windowModeDropdown;
+        [SerializeField] private TMP_Dropdown _frameRateDropdown;
         [SerializeField] private TMP_Dropdown _textureQualityDropdown;
         [SerializeField] private TMP_Dropdown _shadowQualityDropdown;
 
@@ -41,7 +42,7 @@ namespace CoreCraft.Core
         [SerializeField] private Slider _mainVolumeSlider;
         [SerializeField] private Slider _musicVolumeSlider;
         [SerializeField] private Slider _sfxVolumeSlider;
-
+        
         [Header("UI Toggles")]
         [SerializeField] private Toggle _vSyncToggle;
         [SerializeField] private Toggle _softShadowsToggle;
@@ -85,18 +86,18 @@ namespace CoreCraft.Core
         [Header("Keybindings")]
         [SerializeField] private GameObject _rebindPanel;
         [SerializeField] private TextMeshProUGUI _rebindPanelText;
-        [SerializeField] private TextMeshProUGUI _turnTableRightKeybindingText1;
-        [SerializeField] private TextMeshProUGUI _turnTableRightKeybindingText2;
-        [SerializeField] private Button _turnTableRightKeybindingButton1;
-        [SerializeField] private Button _turnTableRightKeybindingButton2;
-        [SerializeField] private TextMeshProUGUI _turnTableLeftKeybindingText1;
-        [SerializeField] private TextMeshProUGUI _turnTableLeftKeybindingText2;
-        [SerializeField] private Button _turnTableLeftKeybindingButton1;
-        [SerializeField] private Button _turnTableLeftKeybindingButton2;
-        [SerializeField] private TextMeshProUGUI _placeCardKeybindingText1;
-        [SerializeField] private TextMeshProUGUI _placeCardKeybindingText2;
-        [SerializeField] private Button _placeCardKeybindingButton1;
-        [SerializeField] private Button _placeCardKeybindingButton2;
+        //[SerializeField] private TextMeshProUGUI _turnTableRightKeybindingText1;
+        //[SerializeField] private TextMeshProUGUI _turnTableRightKeybindingText2;
+        //[SerializeField] private Button _turnTableRightKeybindingButton1;
+        //[SerializeField] private Button _turnTableRightKeybindingButton2;
+        //[SerializeField] private TextMeshProUGUI _turnTableLeftKeybindingText1;
+        //[SerializeField] private TextMeshProUGUI _turnTableLeftKeybindingText2;
+        //[SerializeField] private Button _turnTableLeftKeybindingButton1;
+        //[SerializeField] private Button _turnTableLeftKeybindingButton2;
+        //[SerializeField] private TextMeshProUGUI _placeCardKeybindingText1;
+        //[SerializeField] private TextMeshProUGUI _placeCardKeybindingText2;
+        //[SerializeField] private Button _placeCardKeybindingButton1;
+        //[SerializeField] private Button _placeCardKeybindingButton2;
 
         #endregion
 
@@ -104,8 +105,8 @@ namespace CoreCraft.Core
         //[SerializeField] private Color _unsavedChangesColor;
         //[SerializeField] private Color _defaultSettingsColor;
         
-        [Header("Camera")]
-        [SerializeField] private CinemachineVirtualCamera _uiCamera;
+        //[Header("Camera")]
+        //[SerializeField] private CinemachineVirtualCamera _uiCamera;
 
         public event EventHandler OnResetToDefault;
 
@@ -237,6 +238,7 @@ namespace CoreCraft.Core
             _resolutionDropdown.onValueChanged.AddListener(delegate { GraphicOptionsChangedPopUpHandler(_resolutionDropdown.value, _resolutionDropdown); });
             _displayDropdown.onValueChanged.AddListener(delegate { GraphicOptionsChangedPopUpHandler(_displayDropdown.value, _displayDropdown); });
             _windowModeDropdown.onValueChanged.AddListener(delegate { GraphicOptionsChangedPopUpHandler(_windowModeDropdown.value, _windowModeDropdown); });
+            _frameRateDropdown.onValueChanged.AddListener(FrameRateDropdown);
             _textureQualityDropdown.onValueChanged.AddListener(TextureQualityDropdown);
             _shadowQualityDropdown.onValueChanged.AddListener(ShadowQualityDropdown);
         }
@@ -399,6 +401,17 @@ namespace CoreCraft.Core
             GameSettingsManager.Instance.SetWindowMode(index);
             _windowModeDropdown.SetValueWithoutNotify(index);
             _windowModeDropdown.RefreshShownValue();
+        }
+
+        /// <summary>
+        /// Handles the functionality of the frame rate dropdown.
+        /// </summary>
+        /// <param name="index">Selected option of the dropdown. In this case - the selected frame rate.</param>
+        private void FrameRateDropdown(int index)
+        {
+            GameSettingsManager.Instance.SetFrameRate(index);
+            _frameRateDropdown.SetValueWithoutNotify(index);
+            _frameRateDropdown.RefreshShownValue();
         }
 
         /// <summary>
@@ -585,7 +598,7 @@ namespace CoreCraft.Core
 
             while (currentTimer >= 0)
             {
-                _graphicOptionsChangedPopUpText.text = $"Would you like to apply this option? It will be reverted in {currentTimer} seconds.";
+                _graphicOptionsChangedPopUpText.text = $"Would you like to apply this option?\nIt will be reverted in {currentTimer} seconds.";
                 yield return new WaitForSecondsRealtime(1);
                 currentTimer--;
 
@@ -732,42 +745,42 @@ namespace CoreCraft.Core
                     //_placeCardKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.PlaceCard, 0);
                     //_placeCardKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.PlaceCard, 1);
 
-                    _turnTableRightKeybindingButton1.onClick.RemoveAllListeners();
-                    _turnTableRightKeybindingButton2.onClick.RemoveAllListeners();
-                    _turnTableLeftKeybindingButton1.onClick.RemoveAllListeners();
-                    _turnTableLeftKeybindingButton2.onClick.RemoveAllListeners();
-                    _placeCardKeybindingButton1.onClick.RemoveAllListeners();
-                    _placeCardKeybindingButton2.onClick.RemoveAllListeners();
+                    //_turnTableRightKeybindingButton1.onClick.RemoveAllListeners();
+                    //_turnTableRightKeybindingButton2.onClick.RemoveAllListeners();
+                    //_turnTableLeftKeybindingButton1.onClick.RemoveAllListeners();
+                    //_turnTableLeftKeybindingButton2.onClick.RemoveAllListeners();
+                    //_placeCardKeybindingButton1.onClick.RemoveAllListeners();
+                    //_placeCardKeybindingButton2.onClick.RemoveAllListeners();
 
-                    _turnTableRightKeybindingButton1.onClick.AddListener(() =>
-                    {
-                        RebindBinding(GameInputManager.Actions.TurnTableRight, 0);
-                    });
+                    //_turnTableRightKeybindingButton1.onClick.AddListener(() =>
+                    //{
+                    //    RebindBinding(GameInputManager.Actions.TurnTableRight, 0);
+                    //});
 
-                    _turnTableRightKeybindingButton2.onClick.AddListener(() =>
-                    {
-                        RebindBinding(GameInputManager.Actions.TurnTableRight, 1);
-                    });
+                    //_turnTableRightKeybindingButton2.onClick.AddListener(() =>
+                    //{
+                    //    RebindBinding(GameInputManager.Actions.TurnTableRight, 1);
+                    //});
 
-                    _turnTableLeftKeybindingButton1.onClick.AddListener(() =>
-                    {
-                        RebindBinding(GameInputManager.Actions.TurnTableLeft, 0);
-                    });
+                    //_turnTableLeftKeybindingButton1.onClick.AddListener(() =>
+                    //{
+                    //    RebindBinding(GameInputManager.Actions.TurnTableLeft, 0);
+                    //});
 
-                    _turnTableLeftKeybindingButton2.onClick.AddListener(() =>
-                    {
-                        RebindBinding(GameInputManager.Actions.TurnTableLeft, 1);
-                    });
+                    //_turnTableLeftKeybindingButton2.onClick.AddListener(() =>
+                    //{
+                    //    RebindBinding(GameInputManager.Actions.TurnTableLeft, 1);
+                    //});
 
-                    _placeCardKeybindingButton1.onClick.AddListener(() =>
-                    {
-                        RebindBinding(GameInputManager.Actions.PlaceCard, 0);
-                    });
+                    //_placeCardKeybindingButton1.onClick.AddListener(() =>
+                    //{
+                    //    RebindBinding(GameInputManager.Actions.PlaceCard, 0);
+                    //});
 
-                    _placeCardKeybindingButton2.onClick.AddListener(() =>
-                    {
-                        RebindBinding(GameInputManager.Actions.PlaceCard, 1);
-                    });
+                    //_placeCardKeybindingButton2.onClick.AddListener(() =>
+                    //{
+                    //    RebindBinding(GameInputManager.Actions.PlaceCard, 1);
+                    //});
                     break;
                 case GameInputManager.ControlScheme.Gamepad:
                     //_turnTableRightKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.TurnTableRight, 2);
@@ -777,42 +790,42 @@ namespace CoreCraft.Core
                     //_placeCardKeybindingText1.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.PlaceCard, 2);
                     //_placeCardKeybindingText2.text = GameInputManager.Instance.GetBindingText(GameInputManager.Actions.PlaceCard, 3);
 
-                    _turnTableRightKeybindingButton1.onClick.RemoveAllListeners();
-                    _turnTableRightKeybindingButton2.onClick.RemoveAllListeners();
-                    _turnTableLeftKeybindingButton1.onClick.RemoveAllListeners();
-                    _turnTableLeftKeybindingButton2.onClick.RemoveAllListeners();
-                    _placeCardKeybindingButton1.onClick.RemoveAllListeners();
-                    _placeCardKeybindingButton2.onClick.RemoveAllListeners();
+                    //_turnTableRightKeybindingButton1.onClick.RemoveAllListeners();
+                    //_turnTableRightKeybindingButton2.onClick.RemoveAllListeners();
+                    //_turnTableLeftKeybindingButton1.onClick.RemoveAllListeners();
+                    //_turnTableLeftKeybindingButton2.onClick.RemoveAllListeners();
+                    //_placeCardKeybindingButton1.onClick.RemoveAllListeners();
+                    //_placeCardKeybindingButton2.onClick.RemoveAllListeners();
 
-                    _turnTableRightKeybindingButton1.onClick.AddListener(() =>
-                    {
-                        RebindBinding(GameInputManager.Actions.TurnTableRight, 2);
-                    });
+                    //_turnTableRightKeybindingButton1.onClick.AddListener(() =>
+                    //{
+                    //    RebindBinding(GameInputManager.Actions.TurnTableRight, 2);
+                    //});
 
-                    _turnTableRightKeybindingButton2.onClick.AddListener(() =>
-                    {
-                        RebindBinding(GameInputManager.Actions.TurnTableRight, 3);
-                    });
+                    //_turnTableRightKeybindingButton2.onClick.AddListener(() =>
+                    //{
+                    //    RebindBinding(GameInputManager.Actions.TurnTableRight, 3);
+                    //});
 
-                    _turnTableLeftKeybindingButton1.onClick.AddListener(() =>
-                    {
-                        RebindBinding(GameInputManager.Actions.TurnTableLeft, 2);
-                    });
+                    //_turnTableLeftKeybindingButton1.onClick.AddListener(() =>
+                    //{
+                    //    RebindBinding(GameInputManager.Actions.TurnTableLeft, 2);
+                    //});
 
-                    _turnTableLeftKeybindingButton2.onClick.AddListener(() =>
-                    {
-                        RebindBinding(GameInputManager.Actions.TurnTableLeft, 3);
-                    });
+                    //_turnTableLeftKeybindingButton2.onClick.AddListener(() =>
+                    //{
+                    //    RebindBinding(GameInputManager.Actions.TurnTableLeft, 3);
+                    //});
 
-                    _placeCardKeybindingButton1.onClick.AddListener(() =>
-                    {
-                        RebindBinding(GameInputManager.Actions.PlaceCard, 2);
-                    });
+                    //_placeCardKeybindingButton1.onClick.AddListener(() =>
+                    //{
+                    //    RebindBinding(GameInputManager.Actions.PlaceCard, 2);
+                    //});
 
-                    _placeCardKeybindingButton2.onClick.AddListener(() =>
-                    {
-                        RebindBinding(GameInputManager.Actions.PlaceCard, 3);
-                    });
+                    //_placeCardKeybindingButton2.onClick.AddListener(() =>
+                    //{
+                    //    RebindBinding(GameInputManager.Actions.PlaceCard, 3);
+                    //});
                     break;
             }
         }
@@ -842,6 +855,11 @@ namespace CoreCraft.Core
             {
                 //_windowModeDropdown.value = GameSettingsFile.Instance.WindowModeIndex;
                 _windowModeDropdown.SetValueWithoutNotify(GameSettingsFile.Instance.WindowModeIndex);
+            }
+
+            if (_frameRateDropdown.value != GameSettingsFile.Instance.FrameRateIndex)
+            {
+                _frameRateDropdown.value = GameSettingsFile.Instance.FrameRateIndex;
             }
 
             if (_vSyncToggle.isOn != GameSettingsFile.Instance.VSync)
