@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2dc98efa4b8ed2459c92b5b15d24dff, type: 3}
   m_Name: ManaCrystal
   m_EditorClassIdentifier: 
-  _material: 1
+  _material: 3
   _resources: 1
   _blockingType: 1
   _destructible: 1

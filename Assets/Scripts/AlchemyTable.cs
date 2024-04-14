@@ -44,6 +44,11 @@ namespace CoreCraft.LudumDare55
                 Summon();
         }
 
+        public void DestroyAlchemyTable()
+        {
+            Destroy(this);
+        }
+
         private void Summon()
         {
             switch (resources[0].Resources)

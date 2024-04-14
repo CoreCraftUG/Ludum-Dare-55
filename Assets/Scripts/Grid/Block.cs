@@ -27,7 +27,10 @@ namespace CoreCraft.LudumDare55
     public enum BlockMaterial
     {
         None,
-        Stone
+        Stone,
+        Schleim,
+        Kristall,
+        Gold
     }
 
     public enum BlockResources
