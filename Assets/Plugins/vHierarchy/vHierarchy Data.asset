@@ -128,6 +128,22 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-cba6250340043df42947e769daa369e6-1668524703-0
         - globalObjectIdString: GlobalObjectId_V1-2-cba6250340043df42947e769daa369e6-1871960248-0
         - globalObjectIdString: GlobalObjectId_V1-2-cba6250340043df42947e769daa369e6-1541483239-0
+        - globalObjectIdString: GlobalObjectId_V1-2-cba6250340043df42947e769daa369e6-894256810-0
+        - globalObjectIdString: GlobalObjectId_V1-2-cba6250340043df42947e769daa369e6-246670613-0
+        - globalObjectIdString: GlobalObjectId_V1-2-cba6250340043df42947e769daa369e6-1805954395-0
+        - globalObjectIdString: GlobalObjectId_V1-2-cba6250340043df42947e769daa369e6-308162376-0
+        - globalObjectIdString: GlobalObjectId_V1-2-cba6250340043df42947e769daa369e6-2048829338-0
+        - globalObjectIdString: GlobalObjectId_V1-2-cba6250340043df42947e769daa369e6-150681588-0
+        - globalObjectIdString: GlobalObjectId_V1-2-cba6250340043df42947e769daa369e6-171292157-0
+        - globalObjectIdString: GlobalObjectId_V1-2-cba6250340043df42947e769daa369e6-789687818-0
+        - globalObjectIdString: GlobalObjectId_V1-2-cba6250340043df42947e769daa369e6-1517710093-0
+        - globalObjectIdString: GlobalObjectId_V1-2-cba6250340043df42947e769daa369e6-568120799-0
+        - globalObjectIdString: GlobalObjectId_V1-2-cba6250340043df42947e769daa369e6-1233783108-0
+        - globalObjectIdString: GlobalObjectId_V1-2-cba6250340043df42947e769daa369e6-1823171671-0
+        - globalObjectIdString: GlobalObjectId_V1-2-cba6250340043df42947e769daa369e6-42580818-0
+        - globalObjectIdString: GlobalObjectId_V1-2-cba6250340043df42947e769daa369e6-124897189-0
+        - globalObjectIdString: GlobalObjectId_V1-2-cba6250340043df42947e769daa369e6-2062217566-0
+        - globalObjectIdString: GlobalObjectId_V1-2-cba6250340043df42947e769daa369e6-1863441339-0
         values:
         - colorIndex: 0
           iconNameOrGuid: Folder Icon
@@ -146,7 +162,7 @@ MonoBehaviour:
         - colorIndex: 0
           iconNameOrGuid: Settings Icon
         - colorIndex: 7
-          iconNameOrGuid: 716bedf654380484bb5eefa8287c881e
+          iconNameOrGuid: d_SaveAs@2x
         - colorIndex: 3
           iconNameOrGuid: EventSystem Icon
         - colorIndex: 5
@@ -329,3 +345,35 @@ MonoBehaviour:
           iconNameOrGuid: d_Button Icon
         - colorIndex: 0
           iconNameOrGuid: d_Button Icon
+        - colorIndex: 0
+          iconNameOrGuid: 2fd6421f253b4ef1a19526541f9ffc0c
+        - colorIndex: 0
+          iconNameOrGuid: Canvas Icon
+        - colorIndex: 0
+          iconNameOrGuid: Canvas Icon
+        - colorIndex: 0
+          iconNameOrGuid: cs Script Icon
+        - colorIndex: 0
+          iconNameOrGuid: d_VerticalLayoutGroup Icon
+        - colorIndex: 0
+          iconNameOrGuid: cs Script Icon
+        - colorIndex: 0
+          iconNameOrGuid: cs Script Icon
+        - colorIndex: 0
+          iconNameOrGuid: d_Button Icon
+        - colorIndex: 0
+          iconNameOrGuid: 2fd6421f253b4ef1a19526541f9ffc0c
+        - colorIndex: 0
+          iconNameOrGuid: d_Button Icon
+        - colorIndex: 0
+          iconNameOrGuid: d_Button Icon
+        - colorIndex: 0
+          iconNameOrGuid: 2fd6421f253b4ef1a19526541f9ffc0c
+        - colorIndex: 0
+          iconNameOrGuid: 2fd6421f253b4ef1a19526541f9ffc0c
+        - colorIndex: 0
+          iconNameOrGuid: Settings Icon
+        - colorIndex: 0
+          iconNameOrGuid: Settings Icon
+        - colorIndex: 0
+          iconNameOrGuid: d_Image Icon

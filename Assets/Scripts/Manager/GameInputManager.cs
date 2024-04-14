@@ -17,9 +17,6 @@ namespace CoreCraft.Core
 
         #region EventHandlers
 
-        //public event EventHandler OnTurnTableRightAction;
-        //public event EventHandler OnTurnTableLeftAction;
-        //public event EventHandler OnPlaceCardAction;
         public event EventHandler OnPauseAction;
         public event EventHandler OnCanRotateCamera;
         public event EventHandler OnResetCamera;
@@ -37,9 +34,9 @@ namespace CoreCraft.Core
         /// </summary>
         public enum Actions
         {
-            TurnTableRight,
-            TurnTableLeft,
-            PlaceCard
+            //TurnTableRight,
+            //TurnTableLeft,
+            //PlaceCard
         }
 
         /// <summary>
@@ -158,21 +155,6 @@ namespace CoreCraft.Core
             }
         }
 
-        //private void PlaceCard_performed(InputAction.CallbackContext obj)
-        //{
-        //    OnPlaceCardAction?.Invoke(this, EventArgs.Empty);
-        //}
-
-        //private void TurnTableCounterClockwise_performed(InputAction.CallbackContext obj)
-        //{
-        //    OnTurnTableLeftAction?.Invoke(this, EventArgs.Empty);
-        //}
-
-        //private void TurnTableClockwise_performed(InputAction.CallbackContext obj)
-        //{
-        //    OnTurnTableRightAction?.Invoke(this, EventArgs.Empty);
-        //}
-
         private void Pause_performed(InputAction.CallbackContext obj)
         {
             OnPauseAction?.Invoke(this, EventArgs.Empty);
@@ -184,10 +166,7 @@ namespace CoreCraft.Core
         /// </summary>
         private void RegisterInputActions()
         {
-            //_gameInput.Player.TurnTableRight.performed += TurnTableClockwise_performed;
-            //_gameInput.Player.TurnTableLeft.performed += TurnTableCounterClockwise_performed;
-            //_gameInput.Player.PlaceCard.performed += PlaceCard_performed;
-            //_gameInput.Player.Pause.performed += Pause_performed;
+            _gameInput.Player.Pause.performed += Pause_performed;
             //InputSystem.onAnyButtonPress.CallOnce(control => Debug.Log("Test"));
             _gameInput.Player.CameraRotationValue.performed += CameraRotationValue_performed;
             _gameInput.Player.CameraRotationValue.canceled += CameraRotationValue_canceled;

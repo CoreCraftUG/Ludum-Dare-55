@@ -14,8 +14,8 @@ namespace CoreCraft.Core
         [SerializeField] private Button _optionsButton;
         [SerializeField] private Button _mainMenuButton;
 
-        [SerializeField] private CinemachineVirtualCamera _virtualCamera;
-        [SerializeField] private Transform _pauseMenuCenterTransform;
+        //[SerializeField] private CinemachineVirtualCamera _virtualCamera;
+        //[SerializeField] private Transform _pauseMenuCenterTransform;
 
         private void Awake()
         {
@@ -87,29 +87,11 @@ namespace CoreCraft.Core
             gameObject.SetActive(true);
 
             _resumeButton.Select();
-
-            _virtualCamera.Follow = _pauseMenuCenterTransform;
-
-            CinemachineComponentBase componentBase = _virtualCamera.GetCinemachineComponent(CinemachineCore.Stage.Body);
-
-            if (componentBase is CinemachineFramingTransposer)
-            {
-                (componentBase as CinemachineFramingTransposer).m_CameraDistance = 1.5f;
-            }
         }
 
         public void Hide()
         {
             gameObject.SetActive(false);
-
-            _virtualCamera.Follow = GameStateManager.Instance.LastPlayerFocusPoint;
-
-            CinemachineComponentBase componentBase = _virtualCamera.GetCinemachineComponent(CinemachineCore.Stage.Body);
-
-            if (componentBase is CinemachineFramingTransposer)
-            {
-                (componentBase as CinemachineFramingTransposer).m_CameraDistance = 3.25f;
-            }
         }
 
         private void OnDestroy()
