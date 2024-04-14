@@ -85,6 +85,10 @@ namespace CoreCraft.LudumDare55
                 die.Die();
                 return true;
             }
+            else
+            {
+                _hP -= damage;
+            }
             return false;
         }
     }

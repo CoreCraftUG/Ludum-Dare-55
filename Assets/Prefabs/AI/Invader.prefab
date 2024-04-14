@@ -395,8 +395,11 @@ MonoBehaviour:
   _sightLayerMask:
     serializedVersion: 2
     m_Bits: 1920
-  _canInvert: 0
-  _invertWeight: 0
+  _canInvert: 1
+  _invertWeight: 0.25
+  _renderers:
+  - {fileID: 3161059645236250802}
+  _invertMaterial: {fileID: 2100000, guid: aa3cd0dd9d0ad1142bef369378256e7f, type: 2}
   _debugTargetPosition: {x: 0, y: 0}
 --- !u!95 &3100208374208646447
 Animator:
@@ -429,13 +432,28 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 07b312b144e1b194ab5bf9d40a573da3,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.296705
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 07b312b144e1b194ab5bf9d40a573da3,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.296705
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 07b312b144e1b194ab5bf9d40a573da3,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.296705
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 07b312b144e1b194ab5bf9d40a573da3,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 07b312b144e1b194ab5bf9d40a573da3,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.115
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 07b312b144e1b194ab5bf9d40a573da3,
         type: 3}
@@ -445,32 +463,32 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 07b312b144e1b194ab5bf9d40a573da3,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.000002946968
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 07b312b144e1b194ab5bf9d40a573da3,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0.0000001428923
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 07b312b144e1b194ab5bf9d40a573da3,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0.9988265
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 07b312b144e1b194ab5bf9d40a573da3,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: 0.048431043
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 07b312b144e1b194ab5bf9d40a573da3,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: 5.552
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 07b312b144e1b194ab5bf9d40a573da3,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -180
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 07b312b144e1b194ab5bf9d40a573da3,
         type: 3}
@@ -481,6 +499,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SM_Spiderbot
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 07b312b144e1b194ab5bf9d40a573da3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

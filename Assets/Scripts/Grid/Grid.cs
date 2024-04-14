@@ -7,6 +7,8 @@ using UnityEngine;
 using CoreCraft.Core;
 
 using Random = UnityEngine.Random;
+using DG.Tweening;
+using System.Collections;
 
 namespace CoreCraft.LudumDare55
 {
@@ -16,6 +18,7 @@ namespace CoreCraft.LudumDare55
         [SerializeField] private int _gridWidth;
         [SerializeField] private int _gridHeight;
         [SerializeField] private int _moveSteps;
+        [SerializeField] private float _moveTime;
         [SerializeField] private float _gridCellScale;
         [SerializeField] private float _gridCellMargin;
         [SerializeField] private float _weightFactor;
@@ -26,6 +29,7 @@ namespace CoreCraft.LudumDare55
 
         private GridCell[,] _grid = new GridCell[,] { };
         private int _currentGroundLevelHeight;
+        private bool _isMovingUp;
 
         private BoxCollider _collider => GetComponent<BoxCollider>();
 
@@ -35,7 +39,7 @@ namespace CoreCraft.LudumDare55
 
         #region Generating Grid
 
-        [Button("Start"), FoldoutGroup("Debug")]
+        [Button("Debug Create Grid / Start"), FoldoutGroup("Debug")]
         private void Start()
         {
             _grid = new GridCell[_gridWidth, _gridHeight];
@@ -76,39 +80,75 @@ namespace CoreCraft.LudumDare55
             }
         }
 
-        private void MoveUp()
+        [Button("Debug Move Up"),FoldoutGroup("Debug")]
+        private void DebugMoveUp()
         {
+            StartCoroutine(MoveUp());
+        }
+
+        private IEnumerator MoveUp()
+        {
+            if (_isMovingUp)
+                yield break;
+
+            _isMovingUp = true;
             GridCell[,] tempGrid = new GridCell[_gridWidth, _gridHeight];
+            GameObject tempObj = null;
+            for (int x = 0 ; x < _gridWidth; x++)
+            {
+                for (int y = _gridHeight - _moveSteps; y < _gridHeight; y++)
+                {
+                    tempObj = _grid[x, y].CellObject;
+
+                    Destroy(tempObj,_moveTime);
+
+                    tempObj.transform.DOMove(new Vector3(transform.position.x + (x * _gridCellScale) + (x * _gridCellMargin), transform.position.y, transform.position.z + +((y + _moveSteps) * _gridCellScale) + ((y + _moveSteps) * _gridCellMargin)), _moveTime).OnComplete(() =>
+                    {
+                        //TODO: Spawn VFX
+                    });
+                }
+            }
+
+            EventManager.Instance.GridMoveUp.Invoke(new Vector3(0, 0, (_moveSteps * _gridCellScale) + (_moveSteps * _gridCellMargin)), _moveTime);
 
             _currentGroundLevelHeight += _moveSteps;
             for (int x = 0; x < _gridWidth; x++)
             {
-                for (int y = 0; y <= _gridHeight - _moveSteps; y++)
+                for (int y = 0; y < _gridHeight - _moveSteps; y++)
                 {
                     tempGrid[x, y + _moveSteps] = _grid[x, y];
                     tempGrid[x, y + _moveSteps].GridPosition = tempGrid[x, y + _moveSteps].GridPosition + new Vector2Int(0, _moveSteps);
                     tempGrid[x, y + _moveSteps].WorldPosition = new Vector3(transform.position.x + (x * _gridCellScale) + (x * _gridCellMargin),
                                                                             transform.position.y,
                                                                             transform.position.z + ((y + _moveSteps) * _gridCellScale) + ((y + _moveSteps) * _gridCellMargin));
+                    tempGrid[x, y + _moveSteps].CellObject.name = $"{tempGrid[x, y + _moveSteps].Block.BlockPrefab.name} {tempGrid[x, y + _moveSteps].GridPosition}";
+                    tempGrid[x, y + _moveSteps].CellObject.transform.DOMove(tempGrid[x, y + _moveSteps].WorldPosition, _moveTime).OnComplete(() =>
+                    {
+                        //TODO: Spawn VFX
+                    });
                 }
             }
 
+            yield return new WaitForSeconds(_moveTime);
+            
             for (int x = 0; x < _gridWidth; x++)
             {
-                for (int y = 0; y <= _moveSteps; y++)
+                for (int y = 0; y < _moveSteps; y++)
                 {
-                    _grid[x, y] = new GridCell(new Vector2Int(x, y),
+                    tempGrid[x, y] = new GridCell(new Vector2Int(x, y),
                                                 new Vector3(transform.position.x + (x * _gridCellScale) + (x * _gridCellMargin),
                                                             transform.position.y,
                                                             transform.position.z + (y * _gridCellScale) + (y * _gridCellMargin)),
                                                 _currentGroundLevelHeight - y,
                                                 this);
 
-                    tempGrid[x, y].SetBlock(GetRandomBlockByHeightWithWeight(tempGrid[x, y].Height), transform);
+                    tempGrid[x, y].SetBlock(GetRandomBlockByHeightWithWeight(_grid[x, y].Height), transform);
                 }
             }
 
+            yield return new WaitForSeconds(0.5f);
             _grid = tempGrid;
+            _isMovingUp = false;
         }
 
         private Block GetRandomBlockByHeightWithWeight(int height)
@@ -286,7 +326,7 @@ namespace CoreCraft.LudumDare55
 
         [SerializeField, FoldoutGroup("Debug")] private GameObject _debugSummonObject;
         [SerializeField, FoldoutGroup("Debug")] private Vector2Int _debugSummonSpawnCell;
-        [Button("Spawn Debug Enemy"), FoldoutGroup("Debug")]
+        [Button("Spawn Debug Summon"), FoldoutGroup("Debug")]
         private void DebugSpawnDebugSummon()
         {
             GameObject obj = Instantiate(_debugSummonObject, _grid[_debugSummonSpawnCell.x, _debugSummonSpawnCell.y].WorldPosition,Quaternion.identity);

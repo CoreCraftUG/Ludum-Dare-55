@@ -17,7 +17,9 @@ namespace CoreCraft.LudumDare55
         [SerializeField] protected float _attackTime;
         [SerializeField] protected LayerMask _sightLayerMask;
         [SerializeField] protected bool _canInvert;
-        [SerializeField, MinMaxSlider(0f, 1f)] protected float _invertWeight;
+        [SerializeField, PropertyRange(0f, 1f)] protected float _invertWeight;
+        [SerializeField] List<MeshRenderer> _renderers;
+        [SerializeField] Material _invertMaterial;
 
         protected Vector2Int _currentPosition;
         protected Vector2Int _targetPosition;
@@ -53,7 +55,10 @@ namespace CoreCraft.LudumDare55
         {
             _moveSequence = DOTween.Sequence().SetAutoKill(false).SetUpdate(true).Pause();
 
-            _isInverted = (Random.Range(0, 1) < _invertWeight && _canInvert) ? true : false;
+            _isInverted = (Random.Range(0f, 1f) < _invertWeight && _canInvert) ? true : false;
+            if (_isInverted)
+                foreach (MeshRenderer renderer in _renderers)
+                    renderer.material = _invertMaterial;
         }
 
         protected virtual void Update()
@@ -106,7 +111,7 @@ namespace CoreCraft.LudumDare55
             }
             else
             {
-                _moveSequence.Kill();
+                _moveSequence.Pause();
 
                 _targetPath.Clear();
                 _isMoving = false;
@@ -133,15 +138,6 @@ namespace CoreCraft.LudumDare55
             if (cellToTest != null && cellToTest.Block.BlockingType == BlockingType.None)
             {
                 _isMoving = true;
-
-                if (_lookOrientation == Vector2Int.right)
-                    rotaion = new Vector3(0, 180, 0);
-                else if (_lookOrientation == Vector2Int.up)
-                    rotaion = new Vector3(0,90,0);
-                else if (_lookOrientation == Vector2Int.left)
-                    rotaion = new Vector3(0, 360, 0);
-                else if (_lookOrientation == Vector2Int.down)
-                    rotaion = new Vector3(0, 270, 0);
 
                 transform.DOLookAt(cellToTest.WorldPosition, _moveTime).OnComplete(() =>
                 {
@@ -178,13 +174,13 @@ namespace CoreCraft.LudumDare55
             _lookOrientation = _lookOrientation * -1;
 
             if (_lookOrientation == Vector2Int.right)
-                rotaion = new Vector3(0, 360, 0);
-            else if (_lookOrientation == Vector2Int.up)
                 rotaion = new Vector3(0, 90, 0);
+            else if (_lookOrientation == Vector2Int.up)
+                rotaion = new Vector3(0, 360, 0);
             else if (_lookOrientation == Vector2Int.left)
-                rotaion = new Vector3(0, 180, 0);
-            else if (_lookOrientation == Vector2Int.down)
                 rotaion = new Vector3(0, 270, 0);
+            else if (_lookOrientation == Vector2Int.down)
+                rotaion = new Vector3(0, 180, 0);
 
             transform.DORotate(rotaion, _moveTime, RotateMode.FastBeyond360).OnComplete(() =>
             {
@@ -194,7 +190,64 @@ namespace CoreCraft.LudumDare55
 
         private void RoamingInverted()
         {
+            GridCell cellToTest = null;
 
+            //Test left
+            Vector2Int testDirection = TurnLeftVector();
+            cellToTest = Grid.Instance.GetCellByIndexWithNull(_currentPosition + testDirection);
+            Vector3 rotaion = Vector3.zero;
+
+            if (cellToTest != null && cellToTest.Block.BlockingType == BlockingType.None)
+            {
+                _isMoving = true;
+
+                transform.DOLookAt(cellToTest.WorldPosition, _moveTime).OnComplete(() =>
+                {
+                    _moveSequence.Append(transform.DOMove(cellToTest.WorldPosition, _moveTime).OnComplete(() =>
+                    {
+                        _isMoving = false;
+                    }));
+                    _currentPosition = cellToTest.GridPosition;
+
+                    _moveSequence.PlayForward();
+                    _lookOrientation = testDirection;
+                });
+                return;
+            }
+
+            //Test Straight
+            cellToTest = Grid.Instance.GetCellByIndexWithNull(_currentPosition + _lookOrientation);
+
+            if (cellToTest != null && cellToTest.Block.BlockingType == BlockingType.None)
+            {
+                _isMoving = true;
+
+                _moveSequence.Append(transform.DOMove(cellToTest.WorldPosition, _moveTime).OnComplete(() =>
+                {
+                    _isMoving = false;
+                }));
+                _currentPosition = cellToTest.GridPosition;
+
+                _moveSequence.PlayForward();
+                return;
+            }
+
+            _isMoving = true;
+            _lookOrientation = _lookOrientation * -1;
+
+            if (_lookOrientation == Vector2Int.right)
+                rotaion = new Vector3(0, 90, 0);
+            else if (_lookOrientation == Vector2Int.up)
+                rotaion = new Vector3(0, 360, 0);
+            else if (_lookOrientation == Vector2Int.left)
+                rotaion = new Vector3(0, 270, 0);
+            else if (_lookOrientation == Vector2Int.down)
+                rotaion = new Vector3(0, 180, 0);
+
+            transform.DORotate(rotaion, _moveTime, RotateMode.FastBeyond360).OnComplete(() =>
+            {
+                RoamingDefault();
+            });
         }
 
         private Vector2Int TurnRightVector()
@@ -225,8 +278,11 @@ namespace CoreCraft.LudumDare55
 
         protected virtual void OnTriggerEnter(Collider other)
         {
-            if(_currentEnemy != null && other.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
+            if(_currentEnemy == null && other.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
             {
+                _moveSequence.Pause();
+                _isMoving = false;
+                _hasTarget = true;
                 _currentEnemy = damageable;
             }
         }
@@ -267,12 +323,16 @@ namespace CoreCraft.LudumDare55
                 die.Die();
                 return true;
             }
+            else
+            {
+                _hP -= damage;
+            }
             return false;
         }
 
         public virtual void Die()
         {
-            throw new System.NotImplementedException();
+            Destroy(this.gameObject);
         }
 
         public virtual void DealDamage(IDamageable damageable)
