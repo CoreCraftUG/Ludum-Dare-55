@@ -169,6 +169,29 @@ namespace CoreCraft.LudumDare55
         }
 
         public static bool HalloIchBinJulianUndIchWillWissenObIchNebenIhnenStehe(Vector2Int juliansPosition,  Vector2Int juliansZiel) => Mathf.Abs(juliansPosition.x - juliansZiel.x) + Mathf.Abs(juliansPosition.y - juliansZiel.y) == 1;
+
+        public static List<GridCell> GetNeighbour(Vector2Int index)
+        {
+            if (Grid.Instance == null || Grid.Instance.GetCellByIndexWithNull(index) == null)
+                return null;
+
+            List<GridCell> neighbours = new List<GridCell>();
+            GridCell neihghbour1 = Grid.Instance.GetCellByIndexWithNull(index + Vector2Int.down);
+            GridCell neihghbour2 = Grid.Instance.GetCellByIndexWithNull(index + Vector2Int.up);
+            GridCell neihghbour3 = Grid.Instance.GetCellByIndexWithNull(index + Vector2Int.right);
+            GridCell neihghbour4 = Grid.Instance.GetCellByIndexWithNull(index + Vector2Int.left);
+
+            if (neihghbour1 != null && neihghbour1.Block.BlockingType == BlockingType.None)
+                neighbours.Add(neihghbour1);
+            if (neihghbour2 != null && neihghbour2.Block.BlockingType == BlockingType.None)
+                neighbours.Add(neihghbour2);
+            if (neihghbour3 != null && neihghbour3.Block.BlockingType == BlockingType.None)
+                neighbours.Add(neihghbour3);
+            if (neihghbour4 != null && neihghbour4.Block.BlockingType == BlockingType.None)
+                neighbours.Add(neihghbour4);
+
+            return neighbours;
+        }
     }
 
     public class Node
