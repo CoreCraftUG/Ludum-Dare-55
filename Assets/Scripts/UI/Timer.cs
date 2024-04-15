@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using CoreCraft.Core;
-using MoreMountains.Tools;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
@@ -46,23 +45,21 @@ namespace CoreCraft.LudumDare55
             }
         }
 
-        private void OnTimerExpired()
-        {
-            Debug.Log("Timer expired!");
-            _timerProgressBar.gameObject.SetActive(true);
-            _timerFinished = true;
-        }
+        //private void OnTimerExpired()
+        //{
+        //    Debug.Log("Timer expired!");
+        //    _timerProgressBar.gameObject.SetActive(true);
+        //    _timerFinished = true;
+        //}
 
         private void Start()
         {
-            _timerProgressBar.gameObject.SetActive(false);
+            //DisplayTime(_timeRemaining);
 
-            DisplayTime(_timeRemaining);
-
-            if (AutoStartTimer)
-            {
-                StartTimer(_timeRemaining, OnTimerExpired);
-            }
+            //if (AutoStartTimer)
+            //{
+            //    StartTimer(_timeRemaining, OnTimerExpired);
+            //}
         }
 
         [Button]
