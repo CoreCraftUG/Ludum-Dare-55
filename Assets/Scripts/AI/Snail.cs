@@ -1,7 +1,5 @@
 using DG.Tweening;
-using MoreMountains.Feel;
 using Sirenix.OdinInspector;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -53,9 +51,6 @@ namespace CoreCraft.LudumDare55
         public bool IsMoving => _isMoving;
         public Stack<GridCell> TargetPath => _targetPath;
 
-        private bool _isInverted;
-        private int _targetValue;
-        private int _enemyValue;
         private float _timer;
         private Sequence _moveSequence;
         private Vector2Int _lookOrientation;
@@ -80,17 +75,6 @@ namespace CoreCraft.LudumDare55
                     {
                         _isMoving = true;
 
-                        Vector3 rotaion = Vector3.zero;
-
-                        if (_targetPath.Peek().GridPosition - _currentPosition == Vector2Int.right)
-                            rotaion = new Vector3(0, 180, 0);
-                        else if (_targetPath.Peek().GridPosition - _currentPosition == Vector2Int.up)
-                            rotaion = new Vector3(0, 90, 0);
-                        else if (_targetPath.Peek().GridPosition - _currentPosition == Vector2Int.left)
-                            rotaion = new Vector3(0, 360, 0);
-                        else if (_targetPath.Peek().GridPosition - _currentPosition == Vector2Int.down)
-                            rotaion = new Vector3(0, 270, 0);
-
                         _lookOrientation = _targetPath.Peek().GridPosition - _currentPosition;
 
                         transform.DOLookAt(_targetPath.Peek().WorldPosition, _moveTime).OnComplete(() =>
@@ -105,8 +89,6 @@ namespace CoreCraft.LudumDare55
                                 
                                 this.Animator.SetBool("Walking", false);
                                 _hasTarget = _targetPath.Count > 0;
-                                if (!_hasTarget)
-                                    _targetValue = 0;
                             }));
                             _currentPosition = _targetPath.Pop().GridPosition;
 
@@ -169,7 +151,6 @@ namespace CoreCraft.LudumDare55
                     if (_currentEnemy.TakeDamage(_damage))
                     {
                         _currentEnemy = null;
-                        _enemyValue = 0;
                         
                         this.Animator.SetBool("Other", false);
                         this.Animator.SetBool("Walking", false);
@@ -255,7 +236,6 @@ namespace CoreCraft.LudumDare55
                 if (_currentEnemy == damageable)
                 {
                     _currentEnemy = null;
-                    _enemyValue = 0;
                     this.Animator.SetBool("Other", false);
                     this.Animator.SetBool("Walking", false);
                 }
@@ -273,8 +253,6 @@ namespace CoreCraft.LudumDare55
                     _targetPath = Pathfinding.StandardAStar(_currentPosition, _targetPosition, PathfindingMode.Default);
 
                     _hasTarget = _targetPath != null && _targetPath.Count > 0;
-                    if (!_hasTarget)
-                        _targetValue = 0;
                 }
             }
         }
