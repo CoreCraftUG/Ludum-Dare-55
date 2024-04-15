@@ -135,6 +135,7 @@ MonoBehaviour:
   _sightLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  _animator: {fileID: 4876489856400598144}
 --- !u!65 &6891180949800531535
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -227,6 +228,12 @@ PrefabInstance:
 --- !u!4 &1024171394880570052 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5922641763541617810, guid: ee69cf67dd785ad4bac62bb438c35efd,
+    type: 3}
+  m_PrefabInstance: {fileID: 6631521009221733974}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &4876489856400598144 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 2281953408753478358, guid: ee69cf67dd785ad4bac62bb438c35efd,
     type: 3}
   m_PrefabInstance: {fileID: 6631521009221733974}
   m_PrefabAsset: {fileID: 0}
