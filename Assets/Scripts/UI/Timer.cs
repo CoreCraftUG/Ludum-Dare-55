@@ -10,7 +10,7 @@ namespace CoreCraft.LudumDare55
 {
     public class Timer : MonoBehaviour
     {
-        [SerializeField] private int _timeRemaining;
+        [SerializeField] public int _timeRemaining;
         [SerializeField] private bool _timerPaused;
         [SerializeField] private bool _timerFinished;
         [SerializeField] private bool _timerStarted;
@@ -91,7 +91,7 @@ namespace CoreCraft.LudumDare55
                 _timeRemaining = time;
                 DisplayTime(time);
             }
-            
+
             OnTimerFinished?.Invoke();
         }
 

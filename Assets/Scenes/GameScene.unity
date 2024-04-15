@@ -1194,6 +1194,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2774403755264474518, guid: 6413bc0d53a5d244d845b4c9dbbc4de5,
+        type: 3}
+      propertyPath: _timer1
+      value: 
+      objectReference: {fileID: 2712426301695962260}
+    - target: {fileID: 2774403755264474518, guid: 6413bc0d53a5d244d845b4c9dbbc4de5,
+        type: 3}
+      propertyPath: _timer2
+      value: 
+      objectReference: {fileID: 89859273875896345}
     - target: {fileID: 7353109920497234480, guid: 6413bc0d53a5d244d845b4c9dbbc4de5,
         type: 3}
       propertyPath: m_Name
@@ -3338,10 +3348,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d62c0fd8d991cd449a2e94abb4319129, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _timeRemaining: 10
+  _timeRemaining: 0
   _timerPaused: 0
   _timerFinished: 0
-  _timerStarted: 1
+  _timerStarted: 0
   _timerText: {fileID: 7963366792039015393}
   _timerProgressbar: {fileID: 2004100923122880529}
   _timerProgressBar: {fileID: 3092459556017531624}
@@ -10814,10 +10824,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d62c0fd8d991cd449a2e94abb4319129, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _timeRemaining: 10
+  _timeRemaining: 0
   _timerPaused: 0
   _timerFinished: 0
-  _timerStarted: 1
+  _timerStarted: 0
   _timerText: {fileID: 2580333941126522375}
   _timerProgressbar: {fileID: 4969370878045898303}
   _timerProgressBar: {fileID: 1805303836149441075}
@@ -29512,7 +29522,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5828225258272025113}
   m_HandleRect: {fileID: 7149247542849253538}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
