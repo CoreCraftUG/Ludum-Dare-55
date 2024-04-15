@@ -65,7 +65,7 @@ GameObject:
   - component: {fileID: 5872534578581101210}
   - component: {fileID: 3446814486097212868}
   - component: {fileID: 8093951878414248003}
-  - component: {fileID: 1042200598344759155}
+  - component: {fileID: 4543290379008384123}
   m_Layer: 10
   m_Name: Schleim
   m_TagString: Resource
@@ -161,7 +161,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.63, y: 1, z: 0.55}
   m_Center: {x: 0, y: 0.34, z: 0}
---- !u!114 &1042200598344759155
+--- !u!114 &4543290379008384123
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -195,10 +195,15 @@ namespace CoreCraft.LudumDare55
 
         private void ReplaceCell(Vector2Int index)
         {
-            _grid[index.x, index.y].CellObject.GetComponent<Animator>().SetBool("DestroyBlock", true);
+            
+            if (_grid[index.x, index.y].CellObject.TryGetComponent<Animator>(out Animator anim))
+            {
+                anim.SetBool("DestroyBlock", true);
+                if (anim != null)
+                    Destroy(_grid[index.x, index.y].CellObject, anim.GetCurrentAnimatorStateInfo(0).length);
+            }
             _grid[index.x, index.y].Mined();
-            if(_grid[index.x, index.y].CellObject != null)
-                Destroy(_grid[index.x, index.y].CellObject, _grid[index.x, index.y].CellObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
+
             //DestroyImmediate(_grid[index.x, index.y].CellObject);
             _grid[index.x, index.y].SetBlock(_emptyBlock, transform);
             

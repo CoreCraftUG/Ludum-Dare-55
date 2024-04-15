@@ -80,7 +80,7 @@ GameObject:
   - component: {fileID: 8397709579539852199}
   m_Layer: 7
   m_Name: PTBS_Elemental
-  m_TagString: Untagged
+  m_TagString: Elemental
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

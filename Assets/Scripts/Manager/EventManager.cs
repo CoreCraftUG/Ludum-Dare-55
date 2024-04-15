@@ -10,5 +10,7 @@ namespace CoreCraft.Core
         public UnityEvent<int> LevelUpEvent = new UnityEvent<int>();
         public UnityEvent OnGameOptionsUIInitialized = new UnityEvent();
         public UnityEvent<Vector3, float> GridMoveUp = new UnityEvent<Vector3,float>();
+        public UnityEvent Summon = new UnityEvent();
+        public UnityEvent SummonComplete = new UnityEvent();
     }
 }

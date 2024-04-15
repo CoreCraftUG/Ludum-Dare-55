@@ -34,6 +34,7 @@ namespace CoreCraft.Core
         private Block _tempBlock;
         [SerializeField] Block _blockingBlock;
         [SerializeField] private float _maxMoveSpeed;
+        private bool _canPlay;
 
         public Vector2Int CurrentPosition => _currentPosition;
 
@@ -63,6 +64,7 @@ namespace CoreCraft.Core
         {
             GameInputManager.Instance.OnRightClick += RightClick;
             GameInputManager.Instance.OnLeftClick += LeftClick;
+            EventManager.Instance.Summon.AddListener(Summon);
             _tempTable = null;
             _isMoving = false;
             _currentPath = null;
@@ -71,15 +73,34 @@ namespace CoreCraft.Core
             _timerActive = false;
             _buildTimer = _baseBuildtimer;
             _adaptiveMoveTime = _moveTime;
+            _canPlay = true;
         }
 
         private void Start()
         {
             _currentPosition = grid.GetCellByDirection(transform.position).GridPosition;
+            SummonManager.Instance.RegisterPlayer(this);
         }
 
+        private void Summon()
+        {
+            AnimateCharacter(AnimationState.Summoning);
+            _canPlay = false;
+            StartCoroutine(CheckSummon());
+
+        }
+
+        private IEnumerator CheckSummon()
+        {
+            yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
+            AnimateCharacter(AnimationState.Idle);
+            _canPlay = true;
+
+        }
         private void LeftClick(object sender, System.EventArgs e)
         {
+            if (!_canPlay)
+                return;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             RaycastHit hit2;
@@ -230,6 +251,8 @@ namespace CoreCraft.Core
 
         private void RightClick(object sender, System.EventArgs e)
         {
+            if (!_canPlay)
+                return;
             //_moveSequence.Kill();
             _timerActive = false;
             _activeBuildTimer = _buildTimer;
@@ -308,6 +331,8 @@ namespace CoreCraft.Core
 
             }
         }
+
+        
 
         public void Die()
         {
