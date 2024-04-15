@@ -1,10 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using CoreCraft.Core;
 using CharacterController = CoreCraft.Core.CharacterController;
-using MoreMountains.Feel;
-using System.Linq;
 
 namespace CoreCraft.LudumDare55
 {
@@ -15,6 +12,7 @@ namespace CoreCraft.LudumDare55
         private CharacterController _player;
 
         public List<IInGrid> SnailList { get { return _snailList; } }
+        public List<Resource> GoldList { get { return _goldList; } }
         public CharacterController Player { get { return _player; } }
 
         public void RegisterSnail(IInGrid snail)
