@@ -44,8 +44,9 @@ namespace CoreCraft.LudumDare55
                 Despawn();
             }
             else
+            {
                 _currentPosition = new Vector2Int(_currentPosition.x, _currentPosition.y + moveIncrements);
-        }
+            }
         }
 
         private void Update()
