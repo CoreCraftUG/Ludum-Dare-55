@@ -9,8 +9,14 @@ namespace CoreCraft.Core
         public UnityEvent<int, float> PlayAudio = new UnityEvent<int, float>();
         public UnityEvent<int> LevelUpEvent = new UnityEvent<int>();
         public UnityEvent OnGameOptionsUIInitialized = new UnityEvent();
-        public UnityEvent<Vector3, float> GridMoveUp = new UnityEvent<Vector3,float>();
+        /// <summary>
+        /// Vector3 = displacement value;
+        /// float = move time;
+        /// int = displacement grid cells
+        /// </summary>
+        public UnityEvent<Vector3, float, int> GridMoveUp = new UnityEvent<Vector3,float, int>();
         public UnityEvent Summon = new UnityEvent();
         public UnityEvent SummonComplete = new UnityEvent();
+        public UnityEvent DiggingEvent = new UnityEvent();
     }
 }

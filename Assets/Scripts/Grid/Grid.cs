@@ -5,10 +5,10 @@ using System.Linq;
 using System;
 using UnityEngine;
 using CoreCraft.Core;
-
-using Random = UnityEngine.Random;
 using DG.Tweening;
 using System.Collections;
+
+using Random = UnityEngine.Random;
 
 namespace CoreCraft.LudumDare55
 {
@@ -86,7 +86,7 @@ namespace CoreCraft.LudumDare55
             StartCoroutine(MoveUp());
         }
 
-        private IEnumerator MoveUp()
+        public IEnumerator MoveUp()
         {
             if (_isMovingUp)
                 yield break;
@@ -109,7 +109,7 @@ namespace CoreCraft.LudumDare55
                 }
             }
 
-            EventManager.Instance.GridMoveUp.Invoke(new Vector3(0, 0, (_moveSteps * _gridCellScale) + (_moveSteps * _gridCellMargin)), _moveTime);
+            EventManager.Instance.GridMoveUp.Invoke(new Vector3(0, 0, (_moveSteps * _gridCellScale) + (_moveSteps * _gridCellMargin)), _moveTime, _moveSteps);
 
             _currentGroundLevelHeight += _moveSteps;
             for (int x = 0; x < _gridWidth; x++)

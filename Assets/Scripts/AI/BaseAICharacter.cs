@@ -1,15 +1,18 @@
 using BehaviorDesigner.Runtime.Tasks.Unity.UnityLayerMask;
+using CoreCraft.Core;
 using DG.Tweening;
 using ES3Types;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace CoreCraft.LudumDare55
 {
     [RequireComponent(typeof(Animator))]
-    public class BaseAICharacter : MonoBehaviour , IDamageable , ICanDie , ICanDamage, ICanSee, IInGrid, IMoveInGrid, IPeripheryTrigger
+    public class BaseAICharacter : MonoBehaviour , IDamageable , ICanDie , ICanDamage, ICanSee, IInGrid, IMoveInGrid, IPeripheryTrigger, IGoToWaitingArea
     {
         [SerializeField] protected int _sightDistance;
         [SerializeField] protected int _hP;
@@ -27,6 +30,7 @@ namespace CoreCraft.LudumDare55
         protected Vector2Int _returnPoint;
         protected bool _hasTarget;
         protected bool _isMoving;
+        protected bool _waveStart;
         protected Stack<GridCell> _targetPath = new Stack<GridCell>();
 
         protected IDamageable _currentEnemy;
@@ -47,12 +51,16 @@ namespace CoreCraft.LudumDare55
         public float MoveTime => _moveTime;
         public float AttackTime => _attackTime;
 
+        public bool WaveStart => _waveStart;
+
         private bool _isInverted;
         private int _targetValue;
         private int _enemyValue;
         private float _timer;
         private Sequence _moveSequence;
         private Vector2Int _lookOrientation;
+
+        private bool _goingBackToEntrance;
 
         protected virtual void Start()
         {
@@ -62,10 +70,49 @@ namespace CoreCraft.LudumDare55
             if (_isInverted)
                 foreach (MeshRenderer renderer in _renderers)
                     renderer.material = _invertMaterial;
+
+            EventManager.Instance.GridMoveUp.AddListener((Vector3 moveVector, float moveTime, int moveIncrements) =>
+            {
+                StartCoroutine(ReturnToGrid(moveVector, moveTime, moveIncrements));
+            });
+        }
+
+        private IEnumerator ReturnToGrid(Vector3 moveVector, float moveTime, int moveIncrements)
+        {
+            bool moveDone = false;
+            transform.DOMove(transform.position + moveVector, moveTime).OnComplete(() =>
+            {
+                moveDone = true;
+            });
+
+            yield return new WaitUntil(() => moveDone);
+
+            if (_currentPosition.y + moveIncrements >= Grid.Instance.GridHeight)
+            {
+                GridCell cell = null;
+                yield return new WaitUntil(() =>
+                {
+                    cell = PlayManager.Instance.GetGridEntrance();
+                    return cell != null;
+                });
+                _currentPosition = cell.GridPosition;
+
+                _goingBackToEntrance = true;
+                transform.DOMove(cell.WorldPosition, _moveTime).OnComplete(() =>
+                {
+                    _goingBackToEntrance = false;
+                });
+            }
         }
 
         protected virtual void Update()
         {
+            if (!_waveStart)
+                return;
+
+            if (_goingBackToEntrance)
+                return;
+
             if (_currentEnemy == null)
             {
                 if (_hasTarget)
@@ -399,6 +446,44 @@ namespace CoreCraft.LudumDare55
         {
             _currentPosition = spawnPosition;
             _lookOrientation = spawnRotation;
+        }
+
+        public IEnumerator GoToSpawnArea(Vector3 position)
+        {
+            bool done = false;
+            _moveSequence.Append(transform.DOMove(position, _moveTime).OnComplete(() =>
+            {
+                done = true;
+            }));
+            _moveSequence.PlayForward();
+            yield return new WaitUntil(() => done);
+        }
+
+        public void WanderAround(Vector3 bottomLeftCorner, Vector3 topRightCorner)
+        {
+            Vector3 position = new Vector3(Random.Range(bottomLeftCorner.x,topRightCorner.x), bottomLeftCorner.y, Random.Range(bottomLeftCorner.z, topRightCorner.z));
+            _moveSequence.Append(transform.DOMove(position, _moveTime).OnComplete(() =>
+            {
+                WanderAround(bottomLeftCorner, topRightCorner);
+            }));
+            _moveSequence.PlayForward();
+        }
+
+        public void GoToStartCell()
+        {
+            GridCell cell = Grid.Instance.GetCellByIndexWithNull(_currentPosition);
+            if (cell == null)
+                Destroy(gameObject);
+
+            _moveSequence.Append(transform.DOMove(cell.WorldPosition, _moveTime).OnComplete(() =>
+            {
+                _waveStart = true;
+
+                _moveSequence.Pause();
+                _moveSequence.Kill();
+                _moveSequence = DOTween.Sequence().SetAutoKill(false).SetUpdate(true).Pause();
+            }));
+            _moveSequence.PlayForward();
         }
 
         #region Debug
