@@ -17,7 +17,6 @@ namespace CoreCraft.Core
     {
         [SerializeField] private Grid grid;
         [SerializeField] private GameObject _carriedResource;
-        [SerializeField] private List<GameObject> _carriedResources;
         [SerializeField] private GameObject _tempTable;
         [SerializeField] private GameObject _alchemyTable;
         private Sequence _moveSequence;
@@ -167,7 +166,7 @@ namespace CoreCraft.Core
                     return;
 
                 }        
-                //if(_carriedResources.Count)
+
             }
             if (Physics.Raycast(ray, out hit2, 1000,_resourceLayer))
             {

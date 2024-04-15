@@ -23,6 +23,7 @@ namespace CoreCraft.Core
         public event EventHandler OnRightClick;
         public event EventHandler OnLeftClick;
         public event EventHandler<Vector2> OnMoveCamera;
+        public event EventHandler<float> OnZoom;
         #endregion
 
         public event EventHandler<InputBinding> OnDuplicateKeybindingFound;
@@ -175,6 +176,18 @@ namespace CoreCraft.Core
             _gameInput.Player.RightClick.performed += RightClick_performed;
             _gameInput.Player.CameraMovement.performed += CameraMovement_performed;
             _gameInput.Player.CameraMovement.canceled += CameraMovement_canceled;
+            _gameInput.Player.Zoom.performed += Zoom_performed;
+            _gameInput.Player.Zoom.canceled += Zoom_canceled;
+        }
+
+        private void Zoom_canceled(InputAction.CallbackContext obj)
+        {
+            OnZoom?.Invoke(this, obj.ReadValue<float>());
+        }
+
+        private void Zoom_performed(InputAction.CallbackContext obj)
+        {
+            OnZoom?.Invoke(this, obj.ReadValue<float>());
         }
 
         private void CameraMovement_canceled(InputAction.CallbackContext obj)
