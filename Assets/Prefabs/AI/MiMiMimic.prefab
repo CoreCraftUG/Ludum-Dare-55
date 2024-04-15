@@ -106,7 +106,7 @@ MonoBehaviour:
   _sightLayerMask:
     serializedVersion: 2
     m_Bits: 1088
-  _feedback: {fileID: 0}
+  _feedback: {fileID: 6705152959875888176}
   _maxDistanceToGold: 4
   _goldPrefab: {fileID: 6466300571113435620, guid: ebd4469d905d8f7499c73f3a58523015,
     type: 3}
@@ -258,6 +258,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4118107086949907645}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6705152959875888176 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7217873293597296781, guid: 3fc25e868c8d10a40a039b4535495cb9,
+    type: 3}
+  m_PrefabInstance: {fileID: 4118107086949907645}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6da43522623d4704e979466dc7650b65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6117026027371514870
 PrefabInstance:
   m_ObjectHideFlags: 0

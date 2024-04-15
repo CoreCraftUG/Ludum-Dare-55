@@ -124,7 +124,7 @@ MonoBehaviour:
   _summons:
   - {fileID: 6255155250253613209, guid: 589e73262fd620041831696f230532e4, type: 3}
   - {fileID: 2434989322240655045, guid: ee52a224f0f50764e9637c21b8793aa6, type: 3}
-  - {fileID: 0}
+  - {fileID: 1181837331690519820, guid: c83e37fd36bf3a24abd76be6edae9424, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 9152955541836691909, guid: b0a1fd11bbc22774a931c3fb252279d9, type: 3}
@@ -174,7 +174,7 @@ PrefabInstance:
     - target: {fileID: 1489052288389090894, guid: 404b43fb87a3ea045810dad9842b42d8,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.067
       objectReference: {fileID: 0}
     - target: {fileID: 1489052288389090894, guid: 404b43fb87a3ea045810dad9842b42d8,
         type: 3}
@@ -254,12 +254,12 @@ PrefabInstance:
     - target: {fileID: 345205904448097412, guid: 2f229f6be35c76c4388dc138c894216d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 345205904448097412, guid: 2f229f6be35c76c4388dc138c894216d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.067
       objectReference: {fileID: 0}
     - target: {fileID: 345205904448097412, guid: 2f229f6be35c76c4388dc138c894216d,
         type: 3}
