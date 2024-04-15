@@ -101,7 +101,7 @@ namespace CoreCraft.Core
                     GameObject temp = _carriedResource;
                     _carriedResource = null;
                     temp.GetComponent<BoxCollider>().enabled = true;
-                    temp.transform.position = cell.WorldPosition;
+                    temp.transform.DOMove(cell.WorldPosition, .1f);
                     temp.GetComponent<Resource>().PosCell = cell.GridPosition;
                     return;
 
@@ -110,6 +110,7 @@ namespace CoreCraft.Core
             if (Physics.Raycast(ray, out hit2, 1000,_resourceLayer))
             {
                 _carriedResource = hit2.transform.gameObject;
+                _carriedResource.transform.DOMove(Input.mousePosition, .1f);
                 _carriedResource.GetComponent<BoxCollider>().enabled = false;
             }
         }
@@ -129,6 +130,7 @@ namespace CoreCraft.Core
                 else
                 {
                     GameObject temp = _tempTable;
+                    grid.UnblockCell(grid.GetCellByDirection(temp.transform.position).GridPosition);
                     grid.MineCell(grid.GetCellByDirection(temp.transform.position));
                     temp.GetComponent<AlchemyTable>().Activate();
                     _tempTable = null;
@@ -174,6 +176,7 @@ namespace CoreCraft.Core
                 AnimateCharacter(AnimationState.Working);
                 _activeBuildTimer = _buildTimer;
                 _timerActive = true;
+                transform.DOLookAt(grid.GetCellByDirection(_tempTable.transform.position).WorldPosition, .1f);
             }
             else
             {
