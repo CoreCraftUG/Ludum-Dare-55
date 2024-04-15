@@ -19,5 +19,5 @@ MonoBehaviour:
   _spawnMinDepth: 0
   _spawnMaxDepth: 10000000
   _spawnWeight: 200
-  _blockPrefab: {fileID: 3912228175390075201, guid: e9a370e7f03c2b7449ad7bfc44ca9c1a,
+  _blockPrefab: {fileID: 3346693638981442410, guid: 0e9c462febce5974e810f306d92b8b67,
     type: 3}

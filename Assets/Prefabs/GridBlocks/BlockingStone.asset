@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e2dc98efa4b8ed2459c92b5b15d24dff, type: 3}
-  m_Name: TempBlockingBlock
+  m_Name: BlockingStone
   m_EditorClassIdentifier: 
-  _material: 0
+  _material: 1
   _resources: 0
   _blockingType: 1
   _destructible: 0
   _spawnMinDepth: 0
-  _spawnMaxDepth: 10000000
-  _spawnWeight: 100
-  _blockPrefab: {fileID: 3346693638981442410, guid: 0e9c462febce5974e810f306d92b8b67,
+  _spawnMaxDepth: 100000000
+  _spawnWeight: 5
+  _blockPrefab: {fileID: 5447350795148995350, guid: 56e23b4e1e0718f49ae1a866f62a9417,
     type: 3}
