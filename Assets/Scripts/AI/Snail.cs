@@ -266,8 +266,9 @@ namespace CoreCraft.LudumDare55
 
         public void TriggerEnter(Collider other)
         {
-            if (_currentEnemy == null && other.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
+            if (_currentEnemy == null && other.tag != "Player" && other.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
             {
+                
                 _moveSequence.Pause();
                 _isMoving = false;
                 _hasTarget = false;
