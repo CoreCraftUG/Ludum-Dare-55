@@ -9,6 +9,7 @@ namespace CoreCraft.LudumDare55
         [SerializeField] float _lifeTime;
         [SerializeField] int _damage;
         [SerializeField] protected LayerMask _sightLayerMask;
+        [SerializeField] private Animator _animator;
         private float _timer;
 
         private void Update()
@@ -29,7 +30,8 @@ namespace CoreCraft.LudumDare55
 
         public void Despawn()
         {
-            Destroy(gameObject);
+            _animator.SetBool("Despawn", true);
+            Destroy(gameObject, _animator.GetCurrentAnimatorStateInfo(transform.gameObject.layer).length);
         }
     }
 }
