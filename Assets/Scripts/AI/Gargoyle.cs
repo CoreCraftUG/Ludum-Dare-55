@@ -20,6 +20,7 @@ namespace CoreCraft.LudumDare55
         [SerializeField] private Animator _animator;
         [SerializeField] private int _attackHPLoss;
 
+
         protected Vector2Int _currentPosition;
         protected Vector2Int _targetPosition;
         protected Vector2Int _returnPoint;

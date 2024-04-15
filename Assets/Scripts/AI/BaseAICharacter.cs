@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using MoreMountains.Feedbacks;
 
 namespace CoreCraft.LudumDare55
 {
@@ -24,6 +25,8 @@ namespace CoreCraft.LudumDare55
         [SerializeField, PropertyRange(0f, 1f)] protected float _invertWeight;
         [SerializeField] List<MeshRenderer> _renderers;
         [SerializeField] Material _invertMaterial;
+        [SerializeField] private MMFeedbacks _feedback;
+        [SerializeField] private Animator _animator;
 
         protected Vector2Int _currentPosition;
         protected Vector2Int _targetPosition;
@@ -32,6 +35,7 @@ namespace CoreCraft.LudumDare55
         protected bool _isMoving;
         protected bool _waveStart;
         protected Stack<GridCell> _targetPath = new Stack<GridCell>();
+
 
         protected IDamageable _currentEnemy;
 
@@ -177,13 +181,12 @@ namespace CoreCraft.LudumDare55
                 {
                     if (_currentEnemy.TakeDamage(_damage))
                     {
-                        AnimateMelee(AnimationState.Attacking);
                         _currentEnemy = null;
                         _enemyValue = 0;
                     }
 
                     _timer = 0;
-                    Animator.SetBool("Attacking", false);
+
                 }
             }
         }
@@ -421,6 +424,7 @@ namespace CoreCraft.LudumDare55
 
         public virtual bool TakeDamage(int damage)
         {
+            _feedback?.PlayFeedbacks();
             if (_hP - damage <= 0 && this.TryGetComponent<ICanDie>(out ICanDie die))
             {
                 die.Die();
@@ -446,7 +450,9 @@ namespace CoreCraft.LudumDare55
 
         public virtual void DealDamage(IDamageable damageable)
         {
+            AnimateMelee(AnimationState.Attacking);
             damageable.TakeDamage(_damage);
+            _animator.SetBool("Attacking", false);
         }
 
         public void Spawn(Vector2Int spawnPosition, Vector2Int spawnRotation)
@@ -497,18 +503,13 @@ namespace CoreCraft.LudumDare55
         {
             switch (state)
             {
-                case AnimationState.Walking:
-                    Animator.SetBool("Walking", _isMoving);
-                    Animator.SetBool("Attacking", false);
-                    break;
+
                 case AnimationState.Attacking:
-                    Animator.SetBool("Walking", false);
-                    Animator.SetBool("Attacking", true);
+                    _animator.SetBool("Attacking", true);
                     break;
                 case AnimationState.Dead:
-                    Animator.SetBool("Walking", false);
-                    Animator.SetBool("Attacking", false);
-                    Animator.SetBool("Dead", false);
+                    _animator.SetBool("Attacking", false);
+                    _animator.SetBool("Dead", false);
 
                     break;
 

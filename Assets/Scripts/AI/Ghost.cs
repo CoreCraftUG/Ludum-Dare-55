@@ -18,6 +18,7 @@ namespace CoreCraft.LudumDare55
         [SerializeField] protected LayerMask _sightLayerMask;
         [SerializeField] protected GameObject _crystalPrefab;
         [SerializeField] private MMFeedbacks _feedback;
+        [SerializeField] private Animator _animator;
 
         protected Vector2Int _currentPosition;
         protected Vector2Int _targetPosition;
@@ -255,17 +256,17 @@ namespace CoreCraft.LudumDare55
             switch (state)
             {
                 case AnimationState.Walking:
-                    Animator.SetBool("Walking", _isMoving);
-                    Animator.SetBool("Attacking", false);
+                    _animator.SetBool("Walking", _isMoving);
+                    _animator.SetBool("Attacking", false);
                     break;
                 case AnimationState.Attacking:
-                    Animator.SetBool("Walking", false);
-                    Animator.SetBool("Attacking", true);
+                    _animator.SetBool("Walking", false);
+                    _animator.SetBool("Attacking", true);
                     break;
                 case AnimationState.Dead:
-                    Animator.SetBool("Walking", false);
-                    Animator.SetBool("Attacking", false);
-                    Animator.SetBool("Dead", false);
+                    _animator.SetBool("Walking", false);
+                    _animator.SetBool("Attacking", false);
+                    _animator.SetBool("Dead", false);
 
                     break;
 

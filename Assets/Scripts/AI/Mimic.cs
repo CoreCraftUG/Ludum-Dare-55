@@ -21,6 +21,7 @@ namespace CoreCraft.LudumDare55
         [SerializeField] private MMFeedbacks _feedback;
         [SerializeField] protected int _maxDistanceToGold;
         [SerializeField] protected GameObject _goldPrefab;
+        [SerializeField] private Animator _animator;
 
         protected Vector2Int _currentPosition;
         protected Vector2Int _targetPosition;
@@ -212,9 +213,11 @@ namespace CoreCraft.LudumDare55
                 {
                     if (_currentEnemy.TakeDamage(_damage))
                     {
+
                         _currentEnemy = null;
                         GameObject temp = MonoBehaviour.Instantiate(_goldPrefab, Grid.Instance.GetCellByIndexWithNull(_currentPosition).WorldPosition, new Quaternion(0, 0, 0, 0));
                         temp.GetComponent<Resource>().PosCell = _currentPosition;
+
                     }
 
                     _timer = 0;
@@ -258,7 +261,9 @@ namespace CoreCraft.LudumDare55
 
         public void DealDamage(IDamageable damageable)
         {
+            AnimateMimic(AnimationState.Attacking);
             damageable.TakeDamage(_damage);
+            _animator.SetBool("Attacking", false);
         }
 
         [Button("Debug Die")]
@@ -303,17 +308,17 @@ namespace CoreCraft.LudumDare55
             switch (state)
             {
                 case AnimationState.Walking:
-                    Animator.SetBool("Walking", _isMoving);
-                    Animator.SetBool("Attacking", false);
+                    _animator.SetBool("Walking", _isMoving);
+                    _animator.SetBool("Attacking", false);
                     break;
                 case AnimationState.Attacking:
-                    Animator.SetBool("Walking", false);
-                    Animator.SetBool("Attacking", true);
+                    _animator.SetBool("Walking", false);
+                    _animator.SetBool("Attacking", true);
                     break;
                 case AnimationState.Dead:
-                    Animator.SetBool("Walking", false);
-                    Animator.SetBool("Attacking", false);
-                    Animator.SetBool("Dead", false);
+                    _animator.SetBool("Walking", false);
+                    _animator.SetBool("Attacking", false);
+                    _animator.SetBool("Dead", false);
 
                     break;
 

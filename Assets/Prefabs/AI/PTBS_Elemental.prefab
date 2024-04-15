@@ -177,6 +177,7 @@ MonoBehaviour:
   _buildSpeedBoost: 1
   _walkSpeedBoost: 0.1
   _feedback: {fileID: 8534612259987542741}
+  _animator: {fileID: 3502988965286012794}
 --- !u!1001 &4403899983283627866
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -333,6 +334,12 @@ PrefabInstance:
 --- !u!4 &999966879342064418 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3530069112441984120, guid: a211526069f36614d853507c89ed95ef,
+    type: 3}
+  m_PrefabInstance: {fileID: 4403899983283627866}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &3502988965286012794 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 973013179234009120, guid: a211526069f36614d853507c89ed95ef,
     type: 3}
   m_PrefabInstance: {fileID: 4403899983283627866}
   m_PrefabAsset: {fileID: 0}

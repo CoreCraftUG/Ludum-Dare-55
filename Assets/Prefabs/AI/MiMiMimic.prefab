@@ -110,6 +110,7 @@ MonoBehaviour:
   _maxDistanceToGold: 4
   _goldPrefab: {fileID: 6466300571113435620, guid: ebd4469d905d8f7499c73f3a58523015,
     type: 3}
+  _animator: {fileID: 6328875958100037556}
 --- !u!1001 &2535192282276855665
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -330,6 +331,12 @@ PrefabInstance:
 --- !u!4 &3191889843697113098 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1544077668743685303, guid: 3fc25e868c8d10a40a039b4535495cb9,
+    type: 3}
+  m_PrefabInstance: {fileID: 4118107086949907645}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &6328875958100037556 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7994693860560925449, guid: 3fc25e868c8d10a40a039b4535495cb9,
     type: 3}
   m_PrefabInstance: {fileID: 4118107086949907645}
   m_PrefabAsset: {fileID: 0}
