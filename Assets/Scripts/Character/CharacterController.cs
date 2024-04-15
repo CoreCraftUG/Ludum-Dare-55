@@ -6,6 +6,7 @@ using CoreCraft.LudumDare55;
 using Grid = CoreCraft.LudumDare55.Grid;
 using DG.Tweening;
 using System.Linq;
+using MoreMountains.Feedbacks;
 
 
 namespace CoreCraft.Core
@@ -14,6 +15,7 @@ namespace CoreCraft.Core
     {
         [SerializeField] private Grid grid;
         [SerializeField] private GameObject _carriedResource;
+        [SerializeField] private List<GameObject> _carriedResources;
         [SerializeField] private GameObject _tempTable;
         [SerializeField] private GameObject _alchemyTable;
         private Sequence _moveSequence;
@@ -99,6 +101,7 @@ namespace CoreCraft.Core
         }
         private void LeftClick(object sender, System.EventArgs e)
         {
+            EventManager.Instance.LeftClickTest.Invoke();
             if (!_canPlay)
                 return;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -112,6 +115,11 @@ namespace CoreCraft.Core
                 GridCell cell = grid.GetCellByDirection(hit.point);
                 if (cell.Block.Destructible && cell.Block.Material != BlockMaterial.None)
                 {
+                    if (cell.CellObject.TryGetComponent<MMFeedbacks>(out MMFeedbacks feedback))
+                    {
+                        feedback?.PlayFeedbacks();
+                    }
+                    
                     grid.MineCell(cell);
                     if (_carriedResource == null)
                         return;
@@ -126,7 +134,8 @@ namespace CoreCraft.Core
                     temp.GetComponent<Resource>().PosCell = cell.GridPosition;
                     return;
 
-                }                
+                }        
+                //if(_carriedResources.Count)
             }
             if (Physics.Raycast(ray, out hit2, 1000,_resourceLayer))
             {
@@ -299,11 +308,7 @@ namespace CoreCraft.Core
 
         public bool TakeDamage(int damage)
         {
-            _hp -= damage;
-            if(_hp <= 0)
-            {
-                Die();               
-            }
+            Die();
             return true;
         }
 

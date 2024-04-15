@@ -128,6 +128,7 @@ MonoBehaviour:
     type: 3}
   _maxMucousTrail: 5
   _animator: {fileID: 3963472603411596183}
+  _feedback: {fileID: 2778791638697552634}
 --- !u!54 &-2072847242302113954
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -366,7 +367,7 @@ PrefabInstance:
     - target: {fileID: 4143460969427403814, guid: f951ef0ac16fd9942a0268fa52c34445,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.091
       objectReference: {fileID: 0}
     - target: {fileID: 4143460969427403814, guid: f951ef0ac16fd9942a0268fa52c34445,
         type: 3}
@@ -443,6 +444,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f951ef0ac16fd9942a0268fa52c34445, type: 3}
+--- !u!114 &2778791638697552634 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5730702058441425942, guid: f951ef0ac16fd9942a0268fa52c34445,
+    type: 3}
+  m_PrefabInstance: {fileID: 7572744967633039084}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6da43522623d4704e979466dc7650b65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!95 &3963472603411596183 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 6779850622514736507, guid: f951ef0ac16fd9942a0268fa52c34445,

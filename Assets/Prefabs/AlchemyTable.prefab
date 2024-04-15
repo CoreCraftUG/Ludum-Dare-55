@@ -122,7 +122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _summons:
-  - {fileID: 0}
+  - {fileID: 6255155250253613209, guid: 589e73262fd620041831696f230532e4, type: 3}
   - {fileID: 2434989322240655045, guid: ee52a224f0f50764e9637c21b8793aa6, type: 3}
   - {fileID: 0}
   - {fileID: 0}

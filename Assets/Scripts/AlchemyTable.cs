@@ -144,7 +144,7 @@ namespace CoreCraft.LudumDare55
 
         private void SummonEntity(int i)
         {
-            GameObject summon = Instantiate(_summons[i], this.transform);
+            GameObject summon = Instantiate(_summons[i], this.transform.position, new Quaternion(0,0,0,0));
             summon.GetComponent<IInGrid>().Spawn(Grid.Instance.GetCellByDirection(this.transform.position).GridPosition, Vector2Int.up);
         }
 

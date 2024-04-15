@@ -1,9 +1,9 @@
 using DG.Tweening;
 using CoreCraft.Core;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using CharacterController = CoreCraft.Core.CharacterController;
+using MoreMountains.Feedbacks;
 
 namespace CoreCraft.LudumDare55
 {
@@ -21,6 +21,7 @@ namespace CoreCraft.LudumDare55
         [SerializeField] protected int _nearPlayerDistance;
         [SerializeField] protected float _buildSpeedBoost;
         [SerializeField] protected float _walkSpeedBoost;
+        [SerializeField] private MMFeedbacks _feedback;
 
         protected Vector2Int _currentPosition;
         protected Vector2Int _targetPosition;
@@ -28,6 +29,7 @@ namespace CoreCraft.LudumDare55
         protected bool _hasTarget;
         protected bool _isMoving;
         protected Stack<GridCell> _targetPath = new Stack<GridCell>();
+
 
         protected IDamageable _currentEnemy;
 
@@ -67,8 +69,6 @@ namespace CoreCraft.LudumDare55
 
         private CharacterController _player;
 
-        private bool _goingBackToEntrance;
-
         void Start()
         {
             _moveSequence = DOTween.Sequence().SetAutoKill(false).SetUpdate(true).Pause();
@@ -76,46 +76,10 @@ namespace CoreCraft.LudumDare55
                 _player = SummonManager.Instance.Player;
             else
                 Die();
-
-            EventManager.Instance.GridMoveUp.AddListener((Vector3 moveVector, float moveTime, int moveIncrements) =>
-            {
-                StartCoroutine(ReturnToGrid(moveVector,moveTime,moveIncrements));
-            });
-        }
-
-        private IEnumerator ReturnToGrid(Vector3 moveVector, float moveTime, int moveIncrements)
-        {
-            bool moveDone = false;
-            transform.DOMove(transform.position + moveVector, moveTime).OnComplete(() =>
-            {
-                moveDone = true;
-            });
-
-            yield return new WaitUntil(() => moveDone);
-
-            if (_currentPosition.y + moveIncrements >= Grid.Instance.GridHeight)
-            {
-                GridCell cell = null;
-                yield return new WaitUntil(() =>
-                {
-                    cell = PlayManager.Instance.GetGridEntrance();
-                    return cell != null;
-                });
-                _currentPosition = cell.GridPosition;
-
-                _goingBackToEntrance = true;
-                transform.DOMove(cell.WorldPosition, _moveTime).OnComplete(() =>
-                {
-                    _goingBackToEntrance = false;
-                });
-            }
         }
 
         void Update()
         {
-            if (_goingBackToEntrance)
-                return;
-
             _coolDownTimer += Time.deltaTime;
 
             _nearPlayer = Pathfinding.CalculateDistance(_player.CurrentPosition, _currentPosition) <= _nearPlayerDistance;
@@ -136,10 +100,10 @@ namespace CoreCraft.LudumDare55
                         _isMoving = true;
 
                         _lookOrientation = _targetPath.Peek().GridPosition - _currentPosition;
-                        AnimateElemental(AnimationState.Walking);
+                        
                         transform.DOLookAt(_targetPath.Peek().WorldPosition, _moveTime).OnComplete(() =>
                         {
-
+                            AnimateElemental(AnimationState.Walking);
                             _moveSequence.Append(transform.DOMove(_targetPath.Peek().WorldPosition, _moveTime).OnComplete(() =>
                             {
                                 _isMoving = false;
@@ -164,10 +128,10 @@ namespace CoreCraft.LudumDare55
                         _lookOrientation = Vector2Int.RoundToInt(normalizedDirection);
 
                         _isMoving = true;
-                        AnimateElemental(AnimationState.Walking);
+                        
                         transform.DOLookAt(newPosition, _moveTime).OnComplete(() =>
                         {
-
+                            AnimateElemental(AnimationState.Walking);
 
                             _moveSequence.Append(transform.DOMove(newPosition, _moveTime).OnComplete(() =>
                             {
@@ -246,6 +210,7 @@ namespace CoreCraft.LudumDare55
 
         public bool TakeDamage(int damage)
         {
+            _feedback?.PlayFeedbacks();
             if (_hP - damage <= 0 && this.TryGetComponent<ICanDie>(out ICanDie die))
             {
                 die.Die();
@@ -269,14 +234,19 @@ namespace CoreCraft.LudumDare55
                     Animator.SetBool("Walking", false);
                     Animator.SetBool("Attacking", true);
                     break;
-
+                case AnimationState.Dead:
+                    Animator.SetBool("Walking", false);
+                    Animator.SetBool("Attacking", false);
+                    Animator.SetBool("Dead", true);
+                    break;
             }
         }
         private enum AnimationState
         {
             Idle,
             Walking,
-            Attacking
+            Attacking,
+            Dead
         }
     }
 }

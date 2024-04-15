@@ -1,10 +1,10 @@
-using CoreCraft.Core;
 using DG.Tweening;
 using Sirenix.OdinInspector;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using MoreMountains.Feedbacks;
+using CoreCraft.Core;
 
 namespace CoreCraft.LudumDare55
 {
@@ -26,6 +26,7 @@ namespace CoreCraft.LudumDare55
         protected bool _hasTarget;
         protected bool _isMoving;
         protected Stack<GridCell> _targetPath = new Stack<GridCell>();
+        [SerializeField] private MMFeedbacks _feedback;
 
         protected IDamageable _currentEnemy;
 
@@ -59,8 +60,6 @@ namespace CoreCraft.LudumDare55
         private Vector2Int _lookOrientation;
         private Queue<Mucous> _mucousTrail = new Queue<Mucous>();
 
-        private bool _goingBackToEntrance;
-
         void Start()
         {
             _moveSequence = DOTween.Sequence().SetAutoKill(false).SetUpdate(true).Pause();
@@ -68,46 +67,20 @@ namespace CoreCraft.LudumDare55
                 SummonManager.Instance.RegisterSnail(this);
             else
                 Destroy(gameObject);
-
-            EventManager.Instance.GridMoveUp.AddListener((Vector3 moveVector, float moveTime, int moveIncrements) =>
-            {
-                StartCoroutine(ReturnToGrid(moveVector, moveTime, moveIncrements));
-            });
         }
 
-        private IEnumerator ReturnToGrid(Vector3 moveVector, float moveTime, int moveIncrements)
-        {
-            bool moveDone = false;
-            transform.DOMove(transform.position + moveVector, moveTime).OnComplete(() =>
-            {
-                moveDone = true;
-            });
+        //private void Awake()
+        //{
+        //    EventManager.Instance.LeftClickTest.AddListener(LeftClick);
+        //}
 
-            yield return new WaitUntil(() => moveDone);
-
-            if (_currentPosition.y + moveIncrements >= Grid.Instance.GridHeight)
-            {
-                GridCell cell = null;
-                yield return new WaitUntil(() =>
-                {
-                    cell = PlayManager.Instance.GetGridEntrance();
-                    return cell != null;
-                });
-                _currentPosition = cell.GridPosition;
-
-                _goingBackToEntrance = true;
-                transform.DOMove(cell.WorldPosition, _moveTime).OnComplete(() =>
-                {
-                    _goingBackToEntrance = false;
-                });
-            }
-        }
-
+        //private void LeftClick()
+        //{
+        //    _feedback?.PlayFeedbacks();
+        //}
         void Update()
         {
-            if (_goingBackToEntrance)
-                return;
-
+            
             if (_currentEnemy == null)
             {
                 if (_hasTarget)
@@ -118,10 +91,10 @@ namespace CoreCraft.LudumDare55
 
                         _lookOrientation = _targetPath.Peek().GridPosition - _currentPosition;
 
-                        AnimateSnail(AnimationState.Walking);
+                        
                         transform.DOLookAt(_targetPath.Peek().WorldPosition, _moveTime).OnComplete(() =>
                         {
-                            
+                            AnimateSnail(AnimationState.Walking);
                             _moveSequence.Append(transform.DOMove(_targetPath.Peek().WorldPosition, _moveTime).OnComplete(() =>
                             {
                                 SlimeAround();
@@ -153,10 +126,10 @@ namespace CoreCraft.LudumDare55
                         if (cellToTest != null && cellToTest.Block.BlockingType == BlockingType.None)
                         {
                             _isMoving = true;
-                            AnimateSnail(AnimationState.Walking);
+                            
                             transform.DOLookAt(cellToTest.WorldPosition, _moveTime).OnComplete(() =>
                             {
-                               
+                                AnimateSnail(AnimationState.Walking);
                                 _moveSequence.Append(transform.DOMove(cellToTest.WorldPosition, _moveTime).OnComplete(() =>
                                 {
                                     SlimeAround();
@@ -321,6 +294,7 @@ namespace CoreCraft.LudumDare55
 
         public bool TakeDamage(int damage)
         {
+            _feedback?.PlayFeedbacks();
             if (_hP - damage <= 0 && this.TryGetComponent<ICanDie>(out ICanDie die))
             {
                 die.Die();

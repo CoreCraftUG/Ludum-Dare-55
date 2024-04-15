@@ -1,10 +1,10 @@
-using CoreCraft.Core;
 using DG.Tweening;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using MoreMountains.Feedbacks;
 
 namespace CoreCraft.LudumDare55
 {
@@ -16,6 +16,7 @@ namespace CoreCraft.LudumDare55
         [SerializeField] protected float _rushMoveTime;
         [SerializeField] protected LayerMask _sightLayerMask;
         [SerializeField] protected GameObject _crystalPrefab;
+        [SerializeField] private MMFeedbacks _feedback;
 
         protected Vector2Int _currentPosition;
         protected Vector2Int _targetPosition;
@@ -51,51 +52,13 @@ namespace CoreCraft.LudumDare55
         private Sequence _moveSequence;
         private Vector2Int _lookOrientation;
 
-        private bool _goingBackToEntrance;
-
         void Start()
         {
             _moveSequence = DOTween.Sequence().SetAutoKill(false).SetUpdate(true).Pause();
-
-            EventManager.Instance.GridMoveUp.AddListener((Vector3 moveVector, float moveTime, int moveIncrements) =>
-            {
-                StartCoroutine(ReturnToGrid(moveVector, moveTime, moveIncrements));
-            });
-        }
-
-        private IEnumerator ReturnToGrid(Vector3 moveVector, float moveTime, int moveIncrements)
-        {
-            bool moveDone = false;
-            transform.DOMove(transform.position + moveVector, moveTime).OnComplete(() =>
-            {
-                moveDone = true;
-            });
-
-            yield return new WaitUntil(() => moveDone);
-
-            if (_currentPosition.y + moveIncrements >= Grid.Instance.GridHeight)
-            {
-                GridCell cell = null;
-                yield return new WaitUntil(() =>
-                {
-                    cell = PlayManager.Instance.GetGridEntrance();
-                    return cell != null;
-                });
-                _currentPosition = cell.GridPosition;
-
-                _goingBackToEntrance = true;
-                transform.DOMove(cell.WorldPosition, _moveTime).OnComplete(() =>
-                {
-                    _goingBackToEntrance = false;
-                });
-            }
         }
 
         void Update()
         {
-            if (_goingBackToEntrance)
-                return;
-
             if (_currentEnemy == null)
             {
                 if (_hasTarget)
@@ -109,12 +72,12 @@ namespace CoreCraft.LudumDare55
                         transform.DOLookAt(_targetPath.Peek().WorldPosition, _rushMoveTime).OnComplete(() =>
                         {
 
-                            this.Animator.SetBool("Walking", true);
+                            AnimateGhost(AnimationState.Walking);
                             _moveSequence.Append(transform.DOMove(_targetPath.Peek().WorldPosition, _rushMoveTime).OnComplete(() =>
                             {
                                 _isMoving = false;
 
-                                this.Animator.SetBool("Walking", false);
+                                AnimateGhost(AnimationState.Walking);
                                 _hasTarget = _targetPath.Count > 0;
                             }));
                             _currentPosition = _targetPath.Pop().GridPosition;
@@ -149,12 +112,12 @@ namespace CoreCraft.LudumDare55
                         transform.DOLookAt(cellToTest.WorldPosition, _moveTime).OnComplete(() =>
                         {
 
-                            this.Animator.SetBool("Walking", true);
+                            AnimateGhost(AnimationState.Walking);
                             _moveSequence.Append(transform.DOMove(cellToTest.WorldPosition, _moveTime).OnComplete(() =>
                             {
                                 _isMoving = false;
 
-                                this.Animator.SetBool("Walking", false);
+                                AnimateGhost(AnimationState.Walking);
                             }));
                             _currentPosition = cellToTest.GridPosition;
 
@@ -165,8 +128,7 @@ namespace CoreCraft.LudumDare55
             }
             else if(_hasTarget)
             {
-                this.Animator.SetBool("Other", true);
-                this.Animator.SetBool("Walking", false);
+                AnimateGhost(AnimationState.Attacking);
                 _moveSequence.Pause();
 
                 _targetPath.Clear();
@@ -197,8 +159,6 @@ namespace CoreCraft.LudumDare55
                 if (_currentEnemy == damageable)
                 {
                     _currentEnemy = null;
-                    this.Animator.SetBool("Other", false);
-                    this.Animator.SetBool("Walking", false);
                 }
             }
         }
@@ -218,7 +178,7 @@ namespace CoreCraft.LudumDare55
         [Button("Debug Die")]
         public void Die()
         {
-            this.Animator.Play("anim_die");
+            AnimateGhost(AnimationState.Dead);
             _moveSequence.Kill();
             _isMoving = false;
             _hasTarget = false;
@@ -238,6 +198,7 @@ namespace CoreCraft.LudumDare55
 
         public bool TakeDamage(int damage)
         {
+            _feedback?.PlayFeedbacks();
             if (_hP - damage <= 0 && this.TryGetComponent<ICanDie>(out ICanDie die))
             {
                 die.Die();
@@ -248,6 +209,37 @@ namespace CoreCraft.LudumDare55
                 _hP -= damage;
             }
             return false;
+        }
+
+
+        private void AnimateGhost(AnimationState state)
+        {
+            switch (state)
+            {
+                case AnimationState.Walking:
+                    Animator.SetBool("Walking", _isMoving);
+                    Animator.SetBool("Attacking", false);
+                    break;
+                case AnimationState.Attacking:
+                    Animator.SetBool("Walking", false);
+                    Animator.SetBool("Attacking", true);
+                    break;
+                case AnimationState.Dead:
+                    Animator.SetBool("Walking", false);
+                    Animator.SetBool("Attacking", false);
+                    Animator.SetBool("Dead", false);
+
+                    break;
+
+            }
+        }
+
+        private enum AnimationState
+        {
+            Idle,
+            Walking,
+            Attacking,
+            Dead
         }
     }
 }
