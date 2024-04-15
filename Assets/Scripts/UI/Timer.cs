@@ -41,7 +41,7 @@ namespace CoreCraft.LudumDare55
             if (_cameraController._xMovement != 0)
             {
                 _parent.position += 0.025f * new Vector3(_cameraController._xMovement, 0, 0);
-                _parent.position = new Vector3(Mathf.Clamp(_parent.position.x, -7f, 9f), _parent.position.y, _parent.position.z);
+                _parent.position = new Vector3(Mathf.Clamp(_parent.position.x, 3.5f, 17.5f), _parent.position.y, _parent.position.z);
             }
         }
 
