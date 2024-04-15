@@ -195,9 +195,11 @@ namespace CoreCraft.Core
                 else
                 {
                     GameObject temp = _tempTable;
-                    Grid.Instance.UnblockCell(Grid.Instance.GetCellByDirection(temp.transform.position).GridPosition);
-                    Grid.Instance.MineCell(Grid.Instance.GetCellByDirection(temp.transform.position));
+                    Vector2Int tablePosition = Grid.Instance.GetCellByDirection(temp.transform.position).GridPosition;
+                    Grid.Instance.UnblockCell(tablePosition);
+                    Grid.Instance.MineCell(tablePosition);
                     temp.GetComponent<AlchemyTable>().Activate();
+                    temp.GetComponent<AlchemyTable>().Spawn(tablePosition, Vector2Int.down);
                     _tempTable = null;
                     _tempBlock = null;
                     AnimateCharacter(AnimationState.Idle);

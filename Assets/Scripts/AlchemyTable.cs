@@ -5,15 +5,19 @@ using CoreCraft.Core;
 
 namespace CoreCraft.LudumDare55
 {
-    public class AlchemyTable : MonoBehaviour, IDamageable
+    public class AlchemyTable : MonoBehaviour, IDamageable, IInGrid
     {
         private Resource[] resources;
         [SerializeField] private List<GameObject> _summons;
         private bool _isActivated;
         [SerializeField] private GameObject _finalState;
         [SerializeField] private GameObject _tempsState;
+        [SerializeField] private Vector2Int _currentPosition;
 
         public int HP => throw new System.NotImplementedException();
+
+        public Vector2Int CurrentPosition => _currentPosition;
+
         [SerializeField] private int _hp;
         private void Awake()
         {
@@ -68,10 +72,9 @@ namespace CoreCraft.LudumDare55
                 Debug.Log("Resource Exit");
                 if (resources[0] == other.transform.GetComponent<Resource>())
                     resources[0] = null;
-                else if(resources[1] == other.transform.GetComponent<Resource>())
+                else if (resources[1] == other.transform.GetComponent<Resource>())
                     resources[1] = null;
             }
-
         }
 
         public void Activate()
@@ -81,6 +84,8 @@ namespace CoreCraft.LudumDare55
             _tempsState.SetActive(false);
             if (resources[0] != null && resources[2] != null)
                 Summon();
+
+            SummonManager.Instance.RegisterTable(this);
         }
 
         public void DestroyAlchemyTable()
@@ -144,17 +149,20 @@ namespace CoreCraft.LudumDare55
 
         private void SummonEntity(int i)
         {
-            GameObject summon = Instantiate(_summons[i], this.transform.position, new Quaternion(0,0,0,0));
+            GameObject summon = Instantiate(_summons[i], this.transform.position, new Quaternion(0, 0, 0, 0));
             summon.GetComponent<IInGrid>().Spawn(Grid.Instance.GetCellByDirection(this.transform.position).GridPosition, Vector2Int.up);
         }
 
         public bool TakeDamage(int damage)
         {
             DestroyAlchemyTable();
+            SummonManager.Instance.UnregisterTable(this);
             return true;
         }
-    }
 
-
-    
+        public void Spawn(Vector2Int spawnPosition, Vector2Int spawnRotation)
+        {
+            _currentPosition = spawnPosition;
+        }
+    }   
 }

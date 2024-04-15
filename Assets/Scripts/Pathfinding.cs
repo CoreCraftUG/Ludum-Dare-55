@@ -15,7 +15,7 @@ namespace CoreCraft.LudumDare55
             if (Grid.Instance.GetCellByIndex(startIndex) == null || Grid.Instance.GetCellByIndex(targetIndex) == null)
                 throw new Exception("The start or target Index is out od bounds!");
 
-            if (Grid.Instance.GetCellByIndex(startIndex).Block.BlockingType != BlockingType.None || Grid.Instance.GetCellByIndex(targetIndex).Block.BlockingType != BlockingType.None)
+            if (Grid.Instance.GetCellByIndex(startIndex).Block.BlockingType != BlockingType.None || Grid.Instance.GetCellByIndex(targetIndex).Block.BlockingType != BlockingType.None && mode != PathfindingMode.Gargoyle)
                 throw new Exception("The start or target Index is blocked!");
 
             Node[,] pathGrid = new Node[Grid.Instance.GridWidth, Grid.Instance.GridHeight];
@@ -56,6 +56,7 @@ namespace CoreCraft.LudumDare55
                 {
                     PathfindingMode.Default => GetNeighbourNodesDefaultMode(currentNode, pathGrid),
                     PathfindingMode.NoWalls => GetNeighbourNodesNoWallsMode(currentNode, pathGrid),
+                    PathfindingMode.Gargoyle => GetNeighbourNodesGargoyleMode(currentNode, pathGrid, targetIndex),
                     _ => new List<Node>()
                 };
 
@@ -90,6 +91,22 @@ namespace CoreCraft.LudumDare55
             if (currentNode.Index.y - 1 >= 0 && Grid.Instance.GetCellByIndex(new Vector2Int(currentNode.Index.x, currentNode.Index.y - 1)).Block.BlockingType == BlockingType.None)
                 neighbourNodes.Add(pathGrid[currentNode.Index.x, currentNode.Index.y - 1]);
             if (currentNode.Index.y + 1 < pathGrid.GetLength(1) && Grid.Instance.GetCellByIndex(new Vector2Int(currentNode.Index.x, currentNode.Index.y + 1)).Block.BlockingType == BlockingType.None)
+                neighbourNodes.Add(pathGrid[currentNode.Index.x, currentNode.Index.y + 1]);
+            
+            return neighbourNodes;
+        }
+
+        private static List<Node> GetNeighbourNodesGargoyleMode(Node currentNode, Node[,] pathGrid, Vector2Int targetIndex)
+        {
+            List<Node> neighbourNodes = new List<Node>();
+
+            if (currentNode.Index.x - 1 >= 0 && (Grid.Instance.GetCellByIndex(new Vector2Int(currentNode.Index.x - 1, currentNode.Index.y)).Block.BlockingType == BlockingType.None || new Vector2Int(currentNode.Index.x - 1, currentNode.Index.y) == targetIndex))
+                neighbourNodes.Add(pathGrid[currentNode.Index.x - 1, currentNode.Index.y]);
+            if (currentNode.Index.x + 1 < pathGrid.GetLength(0) && (Grid.Instance.GetCellByIndex(new Vector2Int(currentNode.Index.x + 1, currentNode.Index.y)).Block.BlockingType == BlockingType.None || new Vector2Int(currentNode.Index.x + 1, currentNode.Index.y) == targetIndex))
+                neighbourNodes.Add(pathGrid[currentNode.Index.x + 1, currentNode.Index.y]);
+            if (currentNode.Index.y - 1 >= 0 && (Grid.Instance.GetCellByIndex(new Vector2Int(currentNode.Index.x, currentNode.Index.y - 1)).Block.BlockingType == BlockingType.None || new Vector2Int(currentNode.Index.x, currentNode.Index.y - 1) == targetIndex))
+                neighbourNodes.Add(pathGrid[currentNode.Index.x, currentNode.Index.y - 1]);
+            if (currentNode.Index.y + 1 < pathGrid.GetLength(1) && (Grid.Instance.GetCellByIndex(new Vector2Int(currentNode.Index.x, currentNode.Index.y + 1)).Block.BlockingType == BlockingType.None || new Vector2Int(currentNode.Index.x, currentNode.Index.y + 1) == targetIndex))
                 neighbourNodes.Add(pathGrid[currentNode.Index.x, currentNode.Index.y + 1]);
             
             return neighbourNodes;
@@ -213,6 +230,7 @@ namespace CoreCraft.LudumDare55
     public enum PathfindingMode
     {
         Default,
-        NoWalls
+        NoWalls,
+        Gargoyle
     }
 }

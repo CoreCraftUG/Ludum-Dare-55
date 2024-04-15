@@ -9,10 +9,12 @@ namespace CoreCraft.LudumDare55
     {
         private List<IInGrid> _snailList = new List<IInGrid>();
         private List<Resource> _goldList = new List<Resource>();
+        private List<AlchemyTable> _summoningTables = new List<AlchemyTable>();
         private CharacterController _player;
 
         public List<IInGrid> SnailList { get { return _snailList; } }
         public List<Resource> GoldList { get { return _goldList; } }
+        public List<AlchemyTable> SummoningTables { get { return _summoningTables; } }
         public CharacterController Player { get { return _player; } }
 
         public void RegisterSnail(IInGrid snail)
@@ -43,6 +45,18 @@ namespace CoreCraft.LudumDare55
         {
             if (gold != null && _goldList.Contains(gold))
                 _goldList.Remove(gold);
+        }
+
+        public void RegisterTable(AlchemyTable table)
+        {
+            if (table != null && !_summoningTables.Contains(table))
+                _summoningTables.Add(table);
+        }
+
+        public void UnregisterTable(AlchemyTable table)
+        {
+            if (table != null && _summoningTables.Contains(table))
+                _summoningTables.Remove(table);
         }
     }
 }
