@@ -73,3 +73,37 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 7298ad09e64f3994694687b0db4f4c96, type: 3}
     compressionPreset: 0
     forceToMono: 0
+  - tag: GameMusic1
+    clips:
+    - {fileID: 8300000, guid: 5a4b231aa0850c14aa2b31887bceb6e0, type: 3}
+    - {fileID: 8300000, guid: 86f00e42325ad6444810256de3c08e92, type: 3}
+    - {fileID: 8300000, guid: 61be82e7371fa624bb7a14aa00352e61, type: 3}
+    - {fileID: 8300000, guid: 7156025cc6f901a4488d7349b3978c79, type: 3}
+    - {fileID: 8300000, guid: 0c8fa2172d469fb48a23eadf728769d3, type: 3}
+    compressionPreset: 0
+    forceToMono: 0
+  - tag: BassSingle
+    clips:
+    - {fileID: 8300000, guid: 5a4b231aa0850c14aa2b31887bceb6e0, type: 3}
+    compressionPreset: 0
+    forceToMono: 0
+  - tag: ClavSingle
+    clips:
+    - {fileID: 8300000, guid: 86f00e42325ad6444810256de3c08e92, type: 3}
+    compressionPreset: 0
+    forceToMono: 0
+  - tag: EPianoSingle
+    clips:
+    - {fileID: 8300000, guid: 61be82e7371fa624bb7a14aa00352e61, type: 3}
+    compressionPreset: 0
+    forceToMono: 0
+  - tag: KlavierSingle
+    clips:
+    - {fileID: 8300000, guid: 7156025cc6f901a4488d7349b3978c79, type: 3}
+    compressionPreset: 0
+    forceToMono: 0
+  - tag: ShakerSingle
+    clips:
+    - {fileID: 8300000, guid: 0c8fa2172d469fb48a23eadf728769d3, type: 3}
+    compressionPreset: 0
+    forceToMono: 0

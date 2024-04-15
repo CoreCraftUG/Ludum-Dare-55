@@ -5,6 +5,10 @@ namespace MelenitasDev.SoundsGood
 		laser,
 		coin,
 		hit,
-		scream
+		scream,
+		DestroyBlocks,
+		GameOver,
+		PlayerDeath,
+		SpawnSFX
 	}
 }

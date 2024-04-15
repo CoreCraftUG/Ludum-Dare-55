@@ -39,3 +39,26 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 4f27f81d41ce1864cbe51e64172d4987, type: 3}
     compressionPreset: 2
     forceToMono: 1
+  - tag: DestroyBlocks
+    clips:
+    - {fileID: 8300000, guid: 08c0360add72f7242bcfeca0cf8c1a2b, type: 3}
+    - {fileID: 8300000, guid: 8f3fada5d3cf43346a55a740c352c620, type: 3}
+    compressionPreset: 1
+    forceToMono: 0
+  - tag: GameOver
+    clips:
+    - {fileID: 8300000, guid: bb518c22597267e499808e36e1e6b3a5, type: 3}
+    - {fileID: 8300000, guid: 99cd238eeb965ac458f373298f4b6b58, type: 3}
+    compressionPreset: 2
+    forceToMono: 0
+  - tag: PlayerDeath
+    clips:
+    - {fileID: 8300000, guid: db8d1e0ab45976240bc4737d8c4b6713, type: 3}
+    - {fileID: 8300000, guid: df3929d7e8eb83344898ec573f811429, type: 3}
+    compressionPreset: 2
+    forceToMono: 0
+  - tag: SpawnSFX
+    clips:
+    - {fileID: 8300000, guid: 51763a4c22912a24b80f3193a3527b35, type: 3}
+    compressionPreset: 1
+    forceToMono: 0

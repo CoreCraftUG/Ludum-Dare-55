@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,7 @@ using CoreCraft.LudumDare55;
 using Grid = CoreCraft.LudumDare55.Grid;
 using DG.Tweening;
 using System.Linq;
+using MelenitasDev.SoundsGood;
 using MoreMountains.Feedbacks;
 
 
@@ -37,6 +39,8 @@ namespace CoreCraft.Core
         [SerializeField] Block _blockingBlock;
         [SerializeField] private float _maxMoveSpeed;
         private bool _canPlay;
+
+        public event EventHandler OnPlayerDeath;
 
         public Vector2Int CurrentPosition => _currentPosition;
 
@@ -101,7 +105,7 @@ namespace CoreCraft.Core
         }
         private void LeftClick(object sender, System.EventArgs e)
         {
-            EventManager.Instance.LeftClickTest.Invoke();
+            //EventManager.Instance.LeftClickTest.Invoke();
             if (!_canPlay)
                 return;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -355,11 +359,16 @@ namespace CoreCraft.Core
         public void Die()
         {
             AnimateCharacter(AnimationState.Death);
+            Sound PlayerDeathSound = new Sound(SFX.PlayerDeath);
+            PlayerDeathSound.Play();
+            OnPlayerDeath?.Invoke(this, EventArgs.Empty);
         }
 
         public void Spawn(Vector2Int spawnPosition, Vector2Int spawnRotation)
         {
             _currentPosition = spawnPosition;
+            Sound SpawnSound = new Sound(SFX.SpawnSFX);
+            SpawnSound.Play();
         }
 
         private enum AnimationState

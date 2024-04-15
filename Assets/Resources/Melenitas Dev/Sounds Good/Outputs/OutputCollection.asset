@@ -16,14 +16,19 @@ MonoBehaviour:
   - name: Master
     output: {fileID: 24300002, guid: 8d1298f5a6039ff419b0e4f5c52250e4, type: 2}
   - name: SFX
-    output: {fileID: -7076932017829611585, guid: 8d1298f5a6039ff419b0e4f5c52250e4, type: 2}
+    output: {fileID: -7076932017829611585, guid: 8d1298f5a6039ff419b0e4f5c52250e4,
+      type: 2}
   - name: Music
     output: {fileID: 759368523459424049, guid: 8d1298f5a6039ff419b0e4f5c52250e4, type: 2}
   - name: Weather
-    output: {fileID: -1757843199672445645, guid: 8d1298f5a6039ff419b0e4f5c52250e4, type: 2}
+    output: {fileID: -1757843199672445645, guid: 8d1298f5a6039ff419b0e4f5c52250e4,
+      type: 2}
   - name: Mobs
-    output: {fileID: 2690210040575026671, guid: 8d1298f5a6039ff419b0e4f5c52250e4, type: 2}
+    output: {fileID: 2690210040575026671, guid: 8d1298f5a6039ff419b0e4f5c52250e4,
+      type: 2}
   - name: Interface
-    output: {fileID: 4341332189902951375, guid: 8d1298f5a6039ff419b0e4f5c52250e4, type: 2}
+    output: {fileID: 4341332189902951375, guid: 8d1298f5a6039ff419b0e4f5c52250e4,
+      type: 2}
   - name: VoiceChat
-    output: {fileID: 8102992201368353575, guid: 8d1298f5a6039ff419b0e4f5c52250e4, type: 2}
+    output: {fileID: 8102992201368353575, guid: 8d1298f5a6039ff419b0e4f5c52250e4,
+      type: 2}
