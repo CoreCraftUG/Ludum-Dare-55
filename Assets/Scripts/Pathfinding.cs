@@ -10,13 +10,13 @@ namespace CoreCraft.LudumDare55
         public static Stack<GridCell> StandardAStar(Vector2Int startIndex, Vector2Int targetIndex, PathfindingMode mode)
         {
             if (Grid.Instance == null)
-                throw new Exception("There is no grid in ths Scene!");
+                return null;
 
             if (Grid.Instance.GetCellByIndex(startIndex) == null || Grid.Instance.GetCellByIndex(targetIndex) == null)
-                throw new Exception("The start or target Index is out od bounds!");
+                return null;
 
             if (Grid.Instance.GetCellByIndex(startIndex).Block.BlockingType != BlockingType.None || Grid.Instance.GetCellByIndex(targetIndex).Block.BlockingType != BlockingType.None && mode != PathfindingMode.Gargoyle)
-                throw new Exception("The start or target Index is blocked!");
+                return null;
 
             Node[,] pathGrid = new Node[Grid.Instance.GridWidth, Grid.Instance.GridHeight];
 

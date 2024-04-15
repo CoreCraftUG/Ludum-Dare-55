@@ -97,7 +97,7 @@ namespace CoreCraft.LudumDare55
             }
             else
             {
-                _currentPosition = new Vector2Int(_currentPosition.y + moveIncrements, _currentPosition.y);
+                _currentPosition = new Vector2Int(_currentPosition.x, _currentPosition.y + moveIncrements);
             }
         }
 
