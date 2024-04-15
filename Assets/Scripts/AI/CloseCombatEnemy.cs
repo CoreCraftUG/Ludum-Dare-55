@@ -108,6 +108,10 @@ namespace CoreCraft.LudumDare55
                     _goingBackToEntrance = false;
                 });
             }
+            else
+            {
+                _currentPosition = new Vector2Int(_currentPosition.y + moveIncrements, _currentPosition.y);
+            }
         }
 
         protected virtual void Update()
@@ -477,7 +481,7 @@ namespace CoreCraft.LudumDare55
             if (_waveStart == true)
                 return;
 
-            Vector3 position = new Vector3(Random.Range(bottomLeftCorner.x,topRightCorner.x), bottomLeftCorner.y, Random.Range(bottomLeftCorner.z, topRightCorner.z));
+            Vector3 position = new Vector3(Random.Range(bottomLeftCorner.x, topRightCorner.x), bottomLeftCorner.y, Random.Range(bottomLeftCorner.z, topRightCorner.z));
             _moveSequence.Append(transform.DOMove(position, _moveTime).OnComplete(() =>
             {
                 WanderAround(bottomLeftCorner, topRightCorner);

@@ -103,6 +103,10 @@ namespace CoreCraft.LudumDare55
                     _goingBackToEntrance = false;
                 });
             }
+            else
+            {
+                _currentPosition = new Vector2Int(_currentPosition.y + moveIncrements, _currentPosition.y);
+            }
         }
 
         void Update()
@@ -263,7 +267,7 @@ namespace CoreCraft.LudumDare55
 
         public void TriggerEnter(Collider other)
         {
-            if (!_hasTarget && other.gameObject.TryGetComponent<IDamageable>(out IDamageable inGrid))
+            if (!_hasTarget && _sightLayerMask == (_sightLayerMask | (1 << other.gameObject.layer)) && other.gameObject.TryGetComponent<IDamageable>(out IDamageable inGrid))
             {
                 _moveSequence.Pause();
                 _isMoving = false;

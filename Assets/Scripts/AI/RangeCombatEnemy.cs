@@ -103,6 +103,10 @@ namespace CoreCraft.LudumDare55
                     _goingBackToEntrance = false;
                 });
             }
+            else
+            {
+                _currentPosition = new Vector2Int(_currentPosition.y + moveIncrements, _currentPosition.y);
+            }
         }
 
         protected virtual void Update()

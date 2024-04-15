@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using CoreCraft.Core;
+using DG.Tweening;
 
 namespace CoreCraft.LudumDare55
 {
@@ -23,7 +24,31 @@ namespace CoreCraft.LudumDare55
         {
             resources = new Resource[2];
             _isActivated = false;
+
+            EventManager.Instance.GridMoveUp.AddListener((Vector3 moveVector, float moveTime, int moveIncrements) =>
+            {
+                StartCoroutine(ReturnToGrid(moveVector, moveTime, moveIncrements));
+            });
         }
+
+        private IEnumerator ReturnToGrid(Vector3 moveVector, float moveTime, int moveIncrements)
+        {
+            bool moveDone = false;
+            transform.DOMove(transform.position + moveVector, moveTime).OnComplete(() =>
+            {
+                moveDone = true;
+            });
+
+            yield return new WaitUntil(() => moveDone);
+
+            if (_currentPosition.y + moveIncrements >= Grid.Instance.GridHeight)
+                TakeDamage(0);
+            else
+            {
+                _currentPosition = new Vector2Int(_currentPosition.y + moveIncrements,_currentPosition.y);
+            }
+        }
+
         //private void OnCollisionEnter(Collision collision)
         //{
 
@@ -82,7 +107,7 @@ namespace CoreCraft.LudumDare55
             _isActivated = true;
             _finalState.SetActive(true);
             _tempsState.SetActive(false);
-            if (resources[0] != null && resources[2] != null)
+            if (resources[0] != null && resources[1] != null)
                 Summon();
 
             SummonManager.Instance.RegisterTable(this);

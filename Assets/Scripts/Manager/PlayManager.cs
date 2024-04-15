@@ -154,7 +154,7 @@ namespace CoreCraft.LudumDare55
                         spawnCounter++;
                         _spawnCell = GetGridEntrance();
                         inGrid.Spawn(_spawnCell.GridPosition, Vector2Int.down);
-                        yield return StartCoroutine(go.GoToSpawnArea(_spawnAreaTopRightCorner.position - _spawnAreaBottomLeftCorner.position));
+                        yield return StartCoroutine(go.GoToSpawnArea(_spawnAreaBottomLeftCorner.position + _spawnAreaTopRightCorner.position - _spawnAreaBottomLeftCorner.position));
 
                         go.WanderAround(_spawnAreaBottomLeftCorner.position, _spawnAreaTopRightCorner.position);
 

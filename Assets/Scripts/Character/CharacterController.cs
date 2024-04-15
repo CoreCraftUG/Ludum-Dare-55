@@ -113,6 +113,10 @@ namespace CoreCraft.Core
                 yield return new WaitForSeconds(0.1f);
                 transform.position = cell.WorldPosition;
             }
+            else
+            {
+                _currentPosition = new Vector2Int(_currentPosition.y + moveIncrements, _currentPosition.y);
+            }
         }
 
         private void Summon()
