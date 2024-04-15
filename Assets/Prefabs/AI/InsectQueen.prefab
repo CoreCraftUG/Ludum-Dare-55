@@ -163,9 +163,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a178ae68572f8349bccea06ef7dc096, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sightDistance: 0
-  _hP: 0
-  _moveTime: 0
+  _sightDistance: 2
+  _hP: 40
+  _moveTime: 2
   _rushMoveTime: 0
   _sightLayerMask:
     serializedVersion: 2

@@ -97,16 +97,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ca80f9d4b1738f4f8be54d989ef0b52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sightDistance: 0
-  _hP: 0
-  _damage: 0
-  _moveTime: 0
+  _sightDistance: 3
+  _hP: 100
+  _damage: 50
+  _moveTime: 1
   _attackTime: 0
   _sightLayerMask:
     serializedVersion: 2
     m_Bits: 64
   _animator: {fileID: 8965381598678124277}
-  _attackHPLoss: 0
+  _attackHPLoss: 10
   _feedback: {fileID: 4056403513704840050}
 --- !u!1 &4992204709066570892
 GameObject:
