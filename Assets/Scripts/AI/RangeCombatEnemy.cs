@@ -130,6 +130,7 @@ namespace CoreCraft.LudumDare55
 
                 _targetPath.Clear();
                 _isMoving = false;
+                AnimateRange(AnimationState.Walking);
                 _hasTarget = false;
 
                 _timer += Time.deltaTime;
@@ -208,9 +209,11 @@ namespace CoreCraft.LudumDare55
 
                 transform.DOLookAt(cellToTest.WorldPosition, _moveTime).OnComplete(() =>
                 {
+                    AnimateRange(AnimationState.Walking);
                     _moveSequence.Append(transform.DOMove(cellToTest.WorldPosition, _moveTime).OnComplete(() =>
                     {
                         _isMoving = false;
+                        AnimateRange(AnimationState.Walking);
                     }));
                     _currentPosition = cellToTest.GridPosition;
 
@@ -226,10 +229,11 @@ namespace CoreCraft.LudumDare55
             if (cellToTest != null && cellToTest.Block.BlockingType == BlockingType.None)
             {
                 _isMoving = true;
-
+                AnimateRange(AnimationState.Walking);
                 _moveSequence.Append(transform.DOMove(cellToTest.WorldPosition, _moveTime).OnComplete(() =>
                 {
                     _isMoving = false;
+                    AnimateRange(AnimationState.Walking);
                 }));
                 _currentPosition = cellToTest.GridPosition;
 
@@ -270,9 +274,11 @@ namespace CoreCraft.LudumDare55
 
                 transform.DOLookAt(cellToTest.WorldPosition, _moveTime).OnComplete(() =>
                 {
+                    AnimateRange(AnimationState.Walking);
                     _moveSequence.Append(transform.DOMove(cellToTest.WorldPosition, _moveTime).OnComplete(() =>
                     {
                         _isMoving = false;
+                        AnimateRange(AnimationState.Walking);
                     }));
                     _currentPosition = cellToTest.GridPosition;
 
@@ -288,10 +294,11 @@ namespace CoreCraft.LudumDare55
             if (cellToTest != null && cellToTest.Block.BlockingType == BlockingType.None)
             {
                 _isMoving = true;
-
+                AnimateRange(AnimationState.Walking);
                 _moveSequence.Append(transform.DOMove(cellToTest.WorldPosition, _moveTime).OnComplete(() =>
                 {
                     _isMoving = false;
+                    AnimateRange(AnimationState.Walking);
                 }));
                 _currentPosition = cellToTest.GridPosition;
 
@@ -427,12 +434,17 @@ namespace CoreCraft.LudumDare55
         {
             switch (state)
             {
-
+                case AnimationState.Walking:
+                    _animator.SetBool("Walking", _isMoving);
+                    _animator.SetBool("Attacking", false);
+                    break;
                 case AnimationState.Attacking:
                     _animator.SetBool("Attacking", true);
+                    _animator.SetBool("Walking", false);
                     break;
                 case AnimationState.Dead:
                     _animator.SetBool("Attacking", false);
+                    _animator.SetBool("Walking", false);
                     _animator.SetBool("Dead", false);
 
                     break;

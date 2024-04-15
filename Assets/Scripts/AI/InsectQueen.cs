@@ -20,6 +20,7 @@ namespace CoreCraft.LudumDare55
         [SerializeField] private GameObject _dronePrefab;
         [SerializeField] private int _maxDroneCount;
         [SerializeField] private float _droneSpawnCoolDown;
+        [SerializeField] private Animator _animator;
 
         protected Vector2Int _currentPosition;
         protected Vector2Int _targetPosition;
@@ -143,12 +144,12 @@ namespace CoreCraft.LudumDare55
                     transform.DOLookAt(_targetPath.Peek().WorldPosition, _rushMoveTime).OnComplete(() =>
                     {
 
-                        AnimateMimic(AnimationState.Walking);
+                        AnimateQueen(AnimationState.Walking);
                         _moveSequence.Append(transform.DOMove(_targetPath.Peek().WorldPosition, _rushMoveTime).OnComplete(() =>
                         {
                             _isMoving = false;
 
-                            AnimateMimic(AnimationState.Walking);
+                            AnimateQueen(AnimationState.Walking);
                             _hasTarget = _targetPath.Count > 0;
                         }));
                         _currentPosition = _targetPath.Pop().GridPosition;
@@ -178,12 +179,12 @@ namespace CoreCraft.LudumDare55
 
                     transform.DOLookAt(cellToTest.WorldPosition, _moveTime).OnComplete(() =>
                     {
-                        AnimateMimic(AnimationState.Walking);
+                        AnimateQueen(AnimationState.Walking);
                         _moveSequence.Append(transform.DOMove(cellToTest.WorldPosition, _moveTime).OnComplete(() =>
                         {
                             _isMoving = false;
 
-                            AnimateMimic(AnimationState.Walking);
+                            AnimateQueen(AnimationState.Walking);
                         }));
                         _currentPosition = cellToTest.GridPosition;
 
@@ -207,6 +208,7 @@ namespace CoreCraft.LudumDare55
                 GameObject obj = Instantiate(_dronePrefab, cell.WorldPosition,Quaternion.identity);
                 if(obj != null && obj.TryGetComponent<IInGrid>(out IInGrid inGrid) && obj.TryGetComponent<Simp>(out Simp drone))
                 {
+                    AnimateQueen(AnimationState.Spawning);
                     inGrid.Spawn(cell.GridPosition, _lookOrientation);
                     _drones.Add(drone);
                 }
@@ -251,7 +253,7 @@ namespace CoreCraft.LudumDare55
         [Button("Debug Die")]
         public void Die()
         {
-            AnimateMimic(AnimationState.Dead);
+            AnimateQueen(AnimationState.Dead);
             _moveSequence.Kill();
             _isMoving = false;
             _hasTarget = false;
@@ -286,21 +288,21 @@ namespace CoreCraft.LudumDare55
         }
 
 
-        private void AnimateMimic(AnimationState state)
+        private void AnimateQueen(AnimationState state)
         {
             switch (state)
             {
                 case AnimationState.Walking:
                     Animator.SetBool("Walking", _isMoving);
-                    Animator.SetBool("Attacking", false);
+                    Animator.SetBool("Spawning", false);
                     break;
-                case AnimationState.Attacking:
+                case AnimationState.Spawning:
                     Animator.SetBool("Walking", false);
-                    Animator.SetBool("Attacking", true);
+                    Animator.SetBool("Spawning", true);
                     break;
                 case AnimationState.Dead:
                     Animator.SetBool("Walking", false);
-                    Animator.SetBool("Attacking", false);
+                    Animator.SetBool("Spawning", false);
                     Animator.SetBool("Dead", false);
 
                     break;
@@ -312,7 +314,7 @@ namespace CoreCraft.LudumDare55
         {
             Idle,
             Walking,
-            Attacking,
+            Spawning,
             Dead
         }
     }

@@ -145,6 +145,7 @@ namespace CoreCraft.LudumDare55
 
                 _targetPath.Clear();
                 _isMoving = false;
+                AnimateFly(AnimationState.Walking);
                 _hasTarget = false;
 
                 _timer += Time.deltaTime;
@@ -292,12 +293,17 @@ namespace CoreCraft.LudumDare55
         {
             switch (state)
             {
-
+                case AnimationState.Walking:
+                    _animator.SetBool("Walking", _isMoving);
+                    _animator.SetBool("Attacking", false);
+                    break;
                 case AnimationState.Attacking:
                     _animator.SetBool("Attacking", true);
+                    _animator.SetBool("Walking", false);
                     break;
                 case AnimationState.Dead:
                     _animator.SetBool("Attacking", false);
+                    _animator.SetBool("Walking", false);
                     _animator.SetBool("Dead", false);
 
                     break;

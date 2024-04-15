@@ -125,11 +125,12 @@ MonoBehaviour:
   - {fileID: 6255155250253613209, guid: 589e73262fd620041831696f230532e4, type: 3}
   - {fileID: 2434989322240655045, guid: ee52a224f0f50764e9637c21b8793aa6, type: 3}
   - {fileID: 1181837331690519820, guid: c83e37fd36bf3a24abd76be6edae9424, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1805187080112137537, guid: bf8661b79601fed48a684b6627950569, type: 3}
+  - {fileID: 518411635612348841, guid: 4d3419ad49163334dad1b78fba996553, type: 3}
   - {fileID: 9152955541836691909, guid: b0a1fd11bbc22774a931c3fb252279d9, type: 3}
   _finalState: {fileID: 8846819235204006713}
   _tempsState: {fileID: 9218609025627319298}
+  _currentPosition: {x: 0, y: 0}
   _hp: 0
 --- !u!54 &8598181899174036392
 Rigidbody:

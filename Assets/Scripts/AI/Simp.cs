@@ -299,7 +299,7 @@ namespace CoreCraft.LudumDare55
         {
             AnimateSimp(AnimationState.Attacking);
             damageable.TakeDamage(_damage);
-            //_animator.SetBool("Attacking", false);
+            _animator.SetBool("Attacking", false);
         }
 
         [Button("Debug Die")]
