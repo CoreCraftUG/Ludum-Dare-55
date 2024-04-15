@@ -67,6 +67,7 @@ namespace CoreCraft.Core
         private void ResetCamera(object sender, System.EventArgs e)
         {
             this.transform.position = _startPos;
+            Camera.main.orthographicSize = _baseZoom;
         }
 
 

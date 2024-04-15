@@ -68,17 +68,18 @@ namespace CoreCraft.LudumDare55
             _possibleEntrances.Add(startCell);
 
 
+            StartCoroutine(SpawnWave());
             _spawnTimer.StartTimer((int)_waveTime, () =>
             {
-                _currentMoveTimer = 0;
-                StartCoroutine(MoveGrid());
+                _currentWaveTimer = 0;
+                _currentWave++;
+                StartCoroutine(SpawnWave());
             });
 
             _gridMoveTimer.StartTimer((int)_gridMoveUpTime, () =>
             {
-                _currentWaveTimer = 0;
-                _currentWaveTimer++;
-                StartCoroutine(SpawnWave());
+                _currentMoveTimer = 0;
+                StartCoroutine(MoveGrid());
             });
 
         }
@@ -113,18 +114,17 @@ namespace CoreCraft.LudumDare55
                     _possibleEntrances.Add(cell);
                 }
             }
-            _gridMoveTimer.ResumeTimer(() =>
+            _gridMoveTimer.StartTimer((int)_gridMoveUpTime, () =>
             {
-                _currentWaveTimer = 0;
-                _currentWaveTimer++;
-                StartCoroutine(SpawnWave());
+                _currentMoveTimer = 0;
+                StartCoroutine(MoveGrid());
             });
         }
 
         private IEnumerator SpawnWave()
         {
             _spawnTimer.PauseTimer();
-            yield return new WaitUntil(()=>_spawningInProgress);
+            yield return new WaitUntil(()=>!_spawningInProgress);
 
             foreach(IGoToWaitingArea enemy in _waitingEnemies)
             {
@@ -132,10 +132,11 @@ namespace CoreCraft.LudumDare55
             }
 
             yield return new WaitForSeconds(0.5f);
-            _spawnTimer.ResumeTimer(() => 
+            _spawnTimer.StartTimer((int)_waveTime, () =>
             {
-                _currentMoveTimer = 0;
-                StartCoroutine(MoveGrid());
+                _currentWaveTimer = 0;
+                _currentWave++;
+                StartCoroutine(SpawnWave());
             });
             _waitingEnemies.Clear();
             _spawningInProgress = true;
@@ -151,6 +152,7 @@ namespace CoreCraft.LudumDare55
                     if(enemyObj != null && enemyObj.TryGetComponent<IGoToWaitingArea>(out IGoToWaitingArea go) && enemyObj.TryGetComponent<IInGrid>(out IInGrid inGrid))
                     {
                         spawnCounter++;
+                        _spawnCell = GetGridEntrance();
                         inGrid.Spawn(_spawnCell.GridPosition, Vector2Int.down);
                         yield return StartCoroutine(go.GoToSpawnArea(_spawnAreaTopRightCorner.position - _spawnAreaBottomLeftCorner.position));
 

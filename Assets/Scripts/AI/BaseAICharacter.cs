@@ -474,6 +474,9 @@ namespace CoreCraft.LudumDare55
 
         public void WanderAround(Vector3 bottomLeftCorner, Vector3 topRightCorner)
         {
+            if (_waveStart == true)
+                return;
+
             Vector3 position = new Vector3(Random.Range(bottomLeftCorner.x,topRightCorner.x), bottomLeftCorner.y, Random.Range(bottomLeftCorner.z, topRightCorner.z));
             _moveSequence.Append(transform.DOMove(position, _moveTime).OnComplete(() =>
             {
