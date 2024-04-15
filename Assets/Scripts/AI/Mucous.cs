@@ -8,7 +8,7 @@ namespace CoreCraft.LudumDare55
     {
         [SerializeField] float _lifeTime;
         [SerializeField] int _damage;
-
+        [SerializeField] protected LayerMask _sightLayerMask;
         private float _timer;
 
         private void Update()
@@ -21,7 +21,7 @@ namespace CoreCraft.LudumDare55
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
+            if (other.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable) && _sightLayerMask == (_sightLayerMask | (1 << other.gameObject.layer)))
             {
                 damageable.TakeDamage(_damage);
             }

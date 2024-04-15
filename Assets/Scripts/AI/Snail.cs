@@ -16,6 +16,7 @@ namespace CoreCraft.LudumDare55
         [SerializeField] protected LayerMask _sightLayerMask;
         [SerializeField] protected GameObject _mucousObject;
         [SerializeField] protected int _maxMucousTrail;
+        [SerializeField] private Animator _animator;
 
         protected Vector2Int _currentPosition;
         protected Vector2Int _targetPosition;
@@ -77,17 +78,16 @@ namespace CoreCraft.LudumDare55
 
                         _lookOrientation = _targetPath.Peek().GridPosition - _currentPosition;
 
+                        AnimateSnail(AnimationState.Walking);
                         transform.DOLookAt(_targetPath.Peek().WorldPosition, _moveTime).OnComplete(() =>
                         {
                             
-                            this.Animator.SetBool("Walking", true);
                             _moveSequence.Append(transform.DOMove(_targetPath.Peek().WorldPosition, _moveTime).OnComplete(() =>
                             {
                                 SlimeAround();
 
                                 _isMoving = false;
-                                
-                                this.Animator.SetBool("Walking", false);
+                                AnimateSnail(AnimationState.Walking);
                                 _hasTarget = _targetPath.Count > 0;
                             }));
                             _currentPosition = _targetPath.Pop().GridPosition;
@@ -113,18 +113,17 @@ namespace CoreCraft.LudumDare55
                         if (cellToTest != null && cellToTest.Block.BlockingType == BlockingType.None)
                         {
                             _isMoving = true;
-
+                            AnimateSnail(AnimationState.Walking);
                             transform.DOLookAt(cellToTest.WorldPosition, _moveTime).OnComplete(() =>
                             {
-                                
-                                this.Animator.SetBool("Walking", true);
+                               
                                 _moveSequence.Append(transform.DOMove(cellToTest.WorldPosition, _moveTime).OnComplete(() =>
                                 {
                                     SlimeAround();
 
                                     _isMoving = false;
-                                    
-                                    this.Animator.SetBool("Walking", false);
+
+                                    AnimateSnail(AnimationState.Walking);
                                 }));
                                 _currentPosition = cellToTest.GridPosition;
 
@@ -137,13 +136,13 @@ namespace CoreCraft.LudumDare55
             }
             else
             {
-                this.Animator.SetBool("Other", true);
-                this.Animator.SetBool("Walking", false);
+
                 _moveSequence.Pause();
 
                 _targetPath.Clear();
                 _isMoving = false;
                 _hasTarget = false;
+                AnimateSnail(AnimationState.Walking);
 
                 _timer += Time.deltaTime;
                 if (_timer >= _attackTime)
@@ -151,9 +150,6 @@ namespace CoreCraft.LudumDare55
                     if (_currentEnemy.TakeDamage(_damage))
                     {
                         _currentEnemy = null;
-                        
-                        this.Animator.SetBool("Other", false);
-                        this.Animator.SetBool("Walking", false);
                     }
 
                     _timer = 0;
@@ -236,8 +232,6 @@ namespace CoreCraft.LudumDare55
                 if (_currentEnemy == damageable)
                 {
                     _currentEnemy = null;
-                    this.Animator.SetBool("Other", false);
-                    this.Animator.SetBool("Walking", false);
                 }
             }
         }
@@ -259,13 +253,15 @@ namespace CoreCraft.LudumDare55
 
         public void DealDamage(IDamageable damageable)
         {
+            AnimateSnail(AnimationState.Attacking);
             damageable.TakeDamage(_damage);
+            _animator.SetBool("Attacking", false);
         }
 
         [Button("Debug Die")]
         public void Die()
         {
-            this.Animator.Play("anim_die");
+            AnimateSnail(AnimationState.Dead);
             _moveSequence.Kill();
             _isMoving = false;
             _hasTarget = false;
@@ -296,5 +292,37 @@ namespace CoreCraft.LudumDare55
             }
             return false;
         }
+
+        private void AnimateSnail(AnimationState state)
+        {
+            switch (state)
+            {
+                case AnimationState.Walking:
+                    _animator.SetBool("Walking", _isMoving);
+                    _animator.SetBool("Attacking", false);
+                    break;
+                case AnimationState.Attacking:
+                    _animator.SetBool("Walking", false);
+                    _animator.SetBool("Attacking", true);
+                    break;
+                case AnimationState.Dead:
+                    _animator.SetBool("Walking", false);
+                    _animator.SetBool("Attacking", false);
+                    _animator.SetBool("Dead", false);
+
+                    break;
+
+            }
+        }
+
+        private enum AnimationState
+        {
+            Idle,
+            Walking,
+            Attacking,
+            Dead
+        }
     }
+
+
 }

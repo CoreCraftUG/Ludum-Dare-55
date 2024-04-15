@@ -51,7 +51,7 @@ MonoBehaviour:
   _tempTable: {fileID: 0}
   _alchemyTable: {fileID: 4417585468111549051, guid: 87c430fcef8ebdf4bafaff8d874e4ebb,
     type: 3}
-  _moveTime: 0.5
+  _moveTime: 1
   _adaptiveMoveTime: 0
   _turnTime: 0.1
   _hp: 4

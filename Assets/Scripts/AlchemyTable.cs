@@ -91,51 +91,51 @@ namespace CoreCraft.LudumDare55
         private void Summon()
         {
             EventManager.Instance.Summon.Invoke();
-            //switch (resources[0].Resources)
-            //{
-            //    case BlockResources.Kristall:
-            //        switch (resources[1].Resources)
-            //        {
-            //            case BlockResources.Kristall:
-            //                SummonEntity(0);
-            //                break;
-            //            case BlockResources.Gold:
-            //                SummonEntity(4);
-            //                break;
-            //            case BlockResources.Schleim:
-            //                SummonEntity(5);
-            //                break;
-            //        }
-            //        break;
-            //    case BlockResources.Gold:
-            //        switch (resources[1].Resources)
-            //        {
-            //            case BlockResources.Kristall:
-            //                SummonEntity(4);
-            //                break;
-            //            case BlockResources.Gold:
-            //                SummonEntity(2);
-            //                break;
-            //            case BlockResources.Schleim:
-            //                SummonEntity(3);
-            //                break;
-            //        }
-            //        break;
-            //    case BlockResources.Schleim:
-            //        switch (resources[1].Resources)
-            //        {
-            //            case BlockResources.Kristall:
-            //                SummonEntity(5);
-            //                break;
-            //            case BlockResources.Gold:
-            //                SummonEntity(3);
-            //                break;
-            //            case BlockResources.Schleim:
-            //                SummonEntity(1);
-            //                break;
-            //        }
-            //        break;
-            //}
+            switch (resources[0].Resources)
+            {
+                case BlockResources.Kristall:
+                    switch (resources[1].Resources)
+                    {
+                        case BlockResources.Kristall:
+                            SummonEntity(5);
+                            break;
+                        case BlockResources.Gold:
+                            SummonEntity(4);
+                            break;
+                        case BlockResources.Schleim:
+                            SummonEntity(0);
+                            break;
+                    }
+                    break;
+                case BlockResources.Gold:
+                    switch (resources[1].Resources)
+                    {
+                        case BlockResources.Kristall:
+                            SummonEntity(4);
+                            break;
+                        case BlockResources.Gold:
+                            SummonEntity(2);
+                            break;
+                        case BlockResources.Schleim:
+                            SummonEntity(3);
+                            break;
+                    }
+                    break;
+                case BlockResources.Schleim:
+                    switch (resources[1].Resources)
+                    {
+                        case BlockResources.Kristall:
+                            SummonEntity(0);
+                            break;
+                        case BlockResources.Gold:
+                            SummonEntity(3);
+                            break;
+                        case BlockResources.Schleim:
+                            SummonEntity(1);
+                            break;
+                    }
+                    break;
+            }
             Destroy(resources[0].transform.gameObject);
             Destroy(resources[1].transform.gameObject);
             resources[0] = null;

@@ -119,7 +119,7 @@ MonoBehaviour:
   _sightDistance: 2
   _hP: 40
   _damage: 1
-  _moveTime: 1
+  _moveTime: 3
   _attackTime: 1
   _sightLayerMask:
     serializedVersion: 2
@@ -127,6 +127,7 @@ MonoBehaviour:
   _mucousObject: {fileID: 4283025326028162076, guid: fd90919b9e7b71f4097ef1b433c2e7a5,
     type: 3}
   _maxMucousTrail: 5
+  _animator: {fileID: 3963472603411596183}
 --- !u!54 &-2072847242302113954
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -442,6 +443,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f951ef0ac16fd9942a0268fa52c34445, type: 3}
+--- !u!95 &3963472603411596183 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6779850622514736507, guid: f951ef0ac16fd9942a0268fa52c34445,
+    type: 3}
+  m_PrefabInstance: {fileID: 7572744967633039084}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5807194500989086410 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4143460969427403814, guid: f951ef0ac16fd9942a0268fa52c34445,

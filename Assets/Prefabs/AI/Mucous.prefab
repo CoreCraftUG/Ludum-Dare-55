@@ -132,6 +132,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lifeTime: 20
   _damage: 1
+  _sightLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!65 &6891180949800531535
 BoxCollider:
   m_ObjectHideFlags: 0

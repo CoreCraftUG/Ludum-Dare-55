@@ -97,16 +97,15 @@ namespace CoreCraft.LudumDare55
                         _isMoving = true;
 
                         _lookOrientation = _targetPath.Peek().GridPosition - _currentPosition;
-
+                        AnimateElemental(AnimationState.Walking);
                         transform.DOLookAt(_targetPath.Peek().WorldPosition, _moveTime).OnComplete(() =>
                         {
 
-                            this.Animator.SetBool("Walking", true);
                             _moveSequence.Append(transform.DOMove(_targetPath.Peek().WorldPosition, _moveTime).OnComplete(() =>
                             {
                                 _isMoving = false;
 
-                                this.Animator.SetBool("Walking", false);
+                                AnimateElemental(AnimationState.Walking);
                             }));
                             _currentPosition = _targetPath.Pop().GridPosition;
 
@@ -126,16 +125,15 @@ namespace CoreCraft.LudumDare55
                         _lookOrientation = Vector2Int.RoundToInt(normalizedDirection);
 
                         _isMoving = true;
-
+                        AnimateElemental(AnimationState.Walking);
                         transform.DOLookAt(newPosition, _moveTime).OnComplete(() =>
                         {
 
-                            this.Animator.SetBool("Walking", true);
+
                             _moveSequence.Append(transform.DOMove(newPosition, _moveTime).OnComplete(() =>
                             {
                                 _isMoving = false;
-
-                                this.Animator.SetBool("Walking", false);
+                                AnimateElemental(AnimationState.Walking);
                             }));
                             _currentPosition = _player.CurrentPosition;
 
@@ -146,23 +144,19 @@ namespace CoreCraft.LudumDare55
             }
             else
             {
-                this.Animator.SetBool("Other", true);
-                this.Animator.SetBool("Walking", false);
                 _moveSequence.Pause();
 
                 _targetPath.Clear();
                 _isMoving = false;
                 _hasTarget = false;
-
+                AnimateElemental(AnimationState.Walking);
                 _timer += Time.deltaTime;
                 if (_timer >= _attackTime)
                 {
                     _currentEnemy.TakeDamage(_damage);
 
                     _currentEnemy = null;
-
-                    this.Animator.SetBool("Other", false);
-                    this.Animator.SetBool("Walking", false);
+                    Animator.SetBool("Attacking", false);
 
                     _timer = 0;
                     _coolDownTimer = 0;
@@ -193,7 +187,7 @@ namespace CoreCraft.LudumDare55
 
         public void Die()
         {
-            this.Animator.Play("anim_die");
+            //this.Animator.Play("anim_die");
             _moveSequence.Kill();
             _isMoving = false;
             _hasTarget = false;
@@ -223,6 +217,27 @@ namespace CoreCraft.LudumDare55
                 _hP -= damage;
             }
             return false;
+        }
+        private void AnimateElemental(AnimationState state)
+        {
+            switch (state)
+            {
+                case AnimationState.Walking:
+                    Animator.SetBool("Walking", _isMoving);
+                    Animator.SetBool("Attacking", false);
+                    break;
+                case AnimationState.Attacking:
+                    Animator.SetBool("Walking", false);
+                    Animator.SetBool("Attacking", true);
+                    break;
+
+            }
+        }
+        private enum AnimationState
+        {
+            Idle,
+            Walking,
+            Attacking
         }
     }
 }

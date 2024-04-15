@@ -174,8 +174,8 @@ MonoBehaviour:
   _minDistancePlayer: 0.1
   _maxDistancePlayer: 0.3
   _nearPlayerDistance: 1
-  _buildSpeedBoost: 0.01
-  _walkSpeedBoost: 0.01
+  _buildSpeedBoost: 1
+  _walkSpeedBoost: 0.1
 --- !u!1001 &4403899983283627866
 PrefabInstance:
   m_ObjectHideFlags: 0

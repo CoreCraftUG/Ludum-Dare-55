@@ -110,7 +110,7 @@ namespace CoreCraft.Core
                 Debug.Log(hit);
                 Debug.DrawLine(Camera.main.transform.position, hit.point, Color.green);
                 GridCell cell = grid.GetCellByDirection(hit.point);
-                if (cell.Block.Material != BlockMaterial.None)
+                if (cell.Block.Destructible && cell.Block.Material != BlockMaterial.None)
                 {
                     grid.MineCell(cell);
                     if (_carriedResource == null)
@@ -309,17 +309,17 @@ namespace CoreCraft.Core
 
         public void AdjustSpeed(float buildValue, float speedValue)
         {
-            _buildTimer += buildValue;
+            _buildTimer -= buildValue;
             if (_buildTimer < _minimumBuildTime)
                 _buildTimer = _minimumBuildTime;
             if (_buildTimer > _baseBuildtimer)
                 _buildTimer = _baseBuildtimer;
 
-            _adaptiveMoveTime += speedValue;
+            _adaptiveMoveTime -= speedValue;
 
-            if (_adaptiveMoveTime < _moveTime)
+            if (_adaptiveMoveTime > _moveTime)
                 _adaptiveMoveTime = _moveTime;
-            if (_adaptiveMoveTime > _maxMoveSpeed)
+            if (_adaptiveMoveTime < _maxMoveSpeed)
                 _adaptiveMoveTime = _maxMoveSpeed;
 
         }
@@ -328,11 +328,24 @@ namespace CoreCraft.Core
         {
             if(other.tag == "Elemental")
             {
-
+                if (other.TryGetComponent<Elemental>(out Elemental elemental))
+                {
+                    AdjustSpeed(elemental.BuildingSpeedBoos, elemental.WalkingSpeedBoost);
+                }
             }
         }
 
-        
+        private void OnTriggerExit(Collider other)
+        {
+
+            if (other.tag == "Elemental")
+            {
+                if (other.TryGetComponent<Elemental>(out Elemental elemental))
+                {
+                    AdjustSpeed(elemental.BuildingSpeedBoos * -1, elemental.WalkingSpeedBoost * -1);
+                }
+            }
+        }
 
         public void Die()
         {
