@@ -9,9 +9,9 @@ namespace CoreCraft.Core
     {
         private bool _canRotate;
         [SerializeField] private float _rotationSpeed;
-        [SerializeField] private float _movementSpeed;
+        [SerializeField] public float _movementSpeed;
         private Quaternion _startingPos;
-        private float _xMovement;
+        public float _xMovement;
         private float _zMovement;
 
 
@@ -22,7 +22,6 @@ namespace CoreCraft.Core
             GameInputManager.Instance.OnCanRotateCamera += CanRotateCamera;
             GameInputManager.Instance.OnResetCamera += ResetCamera;
             GameInputManager.Instance.OnMoveCamera += MoveCamera;
-            
         }
 
 

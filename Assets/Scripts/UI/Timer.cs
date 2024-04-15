@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using CoreCraft.Core;
+using MoreMountains.Tools;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
@@ -18,11 +20,31 @@ namespace CoreCraft.LudumDare55
         [SerializeField] private TextMeshProUGUI _timerProgressBar;
         [SerializeField] private int _timeRemainingSet;
         [SerializeField] private Image _timerProgressbarBorder;
-
+        [SerializeField] private Transform _parent;
+        [SerializeField] private CameraController _cameraController;
         private IEnumerator _timerCoroutine;
 
         public static bool AutoStartTimer;
         public Action OnTimerFinished;
+
+        private void Awake()
+        {
+            GameInputManager.Instance.OnMoveCamera += Instance_OnMoveCamera;
+        }
+
+        private void Instance_OnMoveCamera(object sender, Vector2 e)
+        {
+            _cameraController._xMovement = e.x;
+        }
+
+        private void Update()
+        {
+            if (_cameraController._xMovement != 0)
+            {
+                _parent.position += 0.025f * new Vector3(_cameraController._xMovement, 0, 0);
+                _parent.position = new Vector3(Mathf.Clamp(_parent.position.x, -7f, 9f), _parent.position.y, _parent.position.z);
+            }
+        }
 
         private void OnTimerExpired()
         {
@@ -59,6 +81,8 @@ namespace CoreCraft.LudumDare55
             _timerCoroutine = StartTimerCoroutine(time);
             StartCoroutine(_timerCoroutine);
             _timerStarted = true;
+            _timerFinished = false;
+            _timerPaused = false;
         }
 
         private IEnumerator StartTimerCoroutine(int time)
@@ -115,7 +139,7 @@ namespace CoreCraft.LudumDare55
 
             _timerText.text = string.Format("{0:00} : {1:00}", minutes, seconds);
 
-            Debug.Log((float)time / _timeRemainingSet);
+            //Debug.Log((float)time / _timeRemainingSet);
 
             _timerProgressbar.fillAmount = (float)time / _timeRemainingSet;
             _timerProgressbar.color = Color.Lerp(Color.red, Color.white, (float)time / _timeRemainingSet);
