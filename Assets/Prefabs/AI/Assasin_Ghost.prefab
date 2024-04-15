@@ -164,8 +164,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sightDistance: 6
-  _hP: 1
-  _moveTime: 1
+  _hP: 10
+  _moveTime: 0.5
   _rushMoveTime: 0.1
   _sightLayerMask:
     serializedVersion: 2

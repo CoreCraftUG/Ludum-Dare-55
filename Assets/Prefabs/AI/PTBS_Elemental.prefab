@@ -163,9 +163,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sightDistance: 6
-  _hP: 1
-  _damage: 1
-  _moveTime: 1
+  _hP: 100
+  _damage: 20
+  _moveTime: 2
   _attackTime: 1
   _sightLayerMask:
     serializedVersion: 2

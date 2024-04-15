@@ -96,10 +96,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 788f8199542112d48abeee7fa704b91a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sightDistance: 0
-  _hP: 0
-  _damage: 0
-  _moveTime: 0
+  _sightDistance: 5
+  _hP: 50
+  _damage: 50
+  _moveTime: 0.5
   _attackTime: 0
   _sightLayerMask:
     serializedVersion: 2
