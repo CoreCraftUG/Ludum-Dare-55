@@ -68,7 +68,7 @@ namespace CoreCraft.Core
             // Load the game scene.
             _playButton.onClick.AddListener(() =>
             {
-                
+                Loader.Load("GameScene");
             });
 
             // Show the options menu and hide the pause menu.

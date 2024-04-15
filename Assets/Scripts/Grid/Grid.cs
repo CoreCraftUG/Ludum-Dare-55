@@ -7,7 +7,7 @@ using UnityEngine;
 using CoreCraft.Core;
 using DG.Tweening;
 using System.Collections;
-
+using MelenitasDev.SoundsGood;
 using Random = UnityEngine.Random;
 
 namespace CoreCraft.LudumDare55
@@ -200,7 +200,11 @@ namespace CoreCraft.LudumDare55
             {
                 anim.SetBool("DestroyBlock", true);
                 if (anim != null)
+                {
                     Destroy(_grid[index.x, index.y].CellObject, anim.GetCurrentAnimatorStateInfo(0).length);
+                    Sound destroySound = new Sound(SFX.DestroyBlocks);
+                    destroySound.Play();
+                }
             }
             _grid[index.x, index.y].Mined();
 
