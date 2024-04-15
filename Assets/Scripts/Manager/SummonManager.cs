@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using CoreCraft.Core;
 using CharacterController = CoreCraft.Core.CharacterController;
+using MoreMountains.Feel;
+using System.Linq;
 
 namespace CoreCraft.LudumDare55
 {
     public class SummonManager : Singleton<SummonManager>
     {
         private List<IInGrid> _snailList = new List<IInGrid>();
+        private List<Resource> _goldList = new List<Resource>();
         private CharacterController _player;
 
         public List<IInGrid> SnailList { get { return _snailList; } }
@@ -30,6 +33,18 @@ namespace CoreCraft.LudumDare55
         {
             if (player != null && _player != player)
                 _player = player;
+        }
+
+        public void RegisterGold(Resource gold)
+        {
+            if (gold != null && !_goldList.Contains(gold))
+                _goldList.Add(gold);
+        }
+
+        public void UnregisterGold(Resource gold)
+        {
+            if (gold != null && _goldList.Contains(gold))
+                _goldList.Remove(gold);
         }
     }
 }

@@ -7,6 +7,7 @@ using UnityEngine;
 using CharacterController = CoreCraft.Core.CharacterController;
 using Random = UnityEngine.Random;
 using Sirenix.OdinInspector;
+using MelenitasDev.SoundsGood;
 
 namespace CoreCraft.LudumDare55
 {
@@ -22,6 +23,8 @@ namespace CoreCraft.LudumDare55
         [SerializeField] private Transform _spawnPoint;
         [SerializeField] private Transform _spawnAreaBottomLeftCorner;
         [SerializeField] private Transform _spawnAreaTopRightCorner;
+        [SerializeField] private Timer _gridMoveTimer;
+        [SerializeField] private Timer _spawnTimer;
 
         private bool _spawningInProgress = false;
         private int _currentWave;
@@ -63,6 +66,21 @@ namespace CoreCraft.LudumDare55
 
             _characterController.Spawn(startCell.GridPosition, Vector2Int.down);
             _possibleEntrances.Add(startCell);
+
+
+            _spawnTimer.StartTimer((int)_waveTime, () =>
+            {
+                _currentMoveTimer = 0;
+                StartCoroutine(MoveGrid());
+            });
+
+            _gridMoveTimer.StartTimer((int)_gridMoveUpTime, () =>
+            {
+                _currentWaveTimer = 0;
+                _currentWaveTimer++;
+                StartCoroutine(SpawnWave());
+            });
+
         }
 
         public GridCell GetGridEntrance()
@@ -71,27 +89,6 @@ namespace CoreCraft.LudumDare55
                 return _possibleEntrances[Random.Range(0,_possibleEntrances.Count)];
             else
                 return null;
-        }
-
-        void Update()
-        {
-            if (TimePause)
-                return;
-
-            _currentMoveTimer += Time.deltaTime;
-            _currentWaveTimer += Time.deltaTime;
-
-            if(_currentMoveTimer >= _gridMoveUpTime)
-            {
-                _currentMoveTimer = 0;
-                StartCoroutine(MoveGrid());
-            }
-            if(_currentWaveTimer >= _waveTime)
-            {
-                _currentWaveTimer = 0;
-                _currentWaveTimer++;
-                StartCoroutine(SpawnWave());
-            }
         }
 
         [Button("Debug Move Grid")]
@@ -103,6 +100,8 @@ namespace CoreCraft.LudumDare55
 
         private IEnumerator MoveGrid()
         {
+            _gridMoveTimer.PauseTimer();
+            //Sound moveGridSound = SFX.
             yield return StartCoroutine(Grid.Instance.MoveUp());
 
             for(int x = 0; x < Grid.Instance.GridWidth; x++)
@@ -114,10 +113,12 @@ namespace CoreCraft.LudumDare55
                     _possibleEntrances.Add(cell);
                 }
             }
+            _gridMoveTimer.ResumeTimer();
         }
 
         private IEnumerator SpawnWave()
         {
+            _spawnTimer.PauseTimer();
             yield return new WaitUntil(()=>_spawningInProgress);
 
             foreach(IGoToWaitingArea enemy in _waitingEnemies)
@@ -126,6 +127,7 @@ namespace CoreCraft.LudumDare55
             }
 
             yield return new WaitForSeconds(0.5f);
+            _spawnTimer.ResumeTimer();
             _waitingEnemies.Clear();
             _spawningInProgress = true;
 
