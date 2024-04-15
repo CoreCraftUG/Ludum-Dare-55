@@ -382,7 +382,12 @@ namespace CoreCraft.LudumDare55
 
         public virtual void Die()
         {
-            Destroy(this.gameObject);
+            _moveSequence.Pause();
+            _moveSequence.Kill();
+            _isMoving = false;
+            _hasTarget = false;
+            _currentEnemy = null;
+            Destroy(this.gameObject,1f);
         }
 
         public virtual void DealDamage(IDamageable damageable)

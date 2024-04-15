@@ -239,7 +239,7 @@ namespace CoreCraft.LudumDare55
 
         public void TriggerEnter(Collider other)
         {
-            if (_currentEnemy != null && other.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
+            if (_currentEnemy == null && other.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
             {
                 _moveSequence.Pause();
                 _isMoving = false;
@@ -256,13 +256,15 @@ namespace CoreCraft.LudumDare55
                 {
                     _currentEnemy = null;
                     _enemyValue = 0;
+                    this.Animator.SetBool("Other", false);
+                    this.Animator.SetBool("Walking", false);
                 }
             }
         }
 
         public void CheckSightCone(Collider other)
         {
-            if (_sightLayerMask == (_sightLayerMask | (1 << other.gameObject.layer)) && other.gameObject.TryGetComponent<IInGrid>(out IInGrid inGrid))
+            if (!_hasTarget && _sightLayerMask == (_sightLayerMask | (1 << other.gameObject.layer)) && other.gameObject.TryGetComponent<IInGrid>(out IInGrid inGrid))
             {
                 if (Pathfinding.StraightCheck(_currentPosition, inGrid.CurrentPosition))
                 {
