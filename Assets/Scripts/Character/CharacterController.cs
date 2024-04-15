@@ -162,14 +162,18 @@ namespace CoreCraft.Core
                     _carriedResource = null;
                     temp.GetComponent<BoxCollider>().enabled = true;
                     temp.transform.DOMove(cell.WorldPosition, .1f);
-                    temp.GetComponent<Resource>().PosCell = cell.GridPosition;
+                    Resource resource = temp.GetComponent<Resource>();
+                    resource.PosCell = cell.GridPosition;
+                    if(resource.Resources == BlockResources.Gold)
+                        SummonManager.Instance.RegisterGold(resource);
                     return;
-
-                }        
-
+                }
             }
             if (Physics.Raycast(ray, out hit2, 1000,_resourceLayer))
             {
+                Resource resource = hit2.transform.gameObject.GetComponent<Resource>();
+                if (resource.Resources == BlockResources.Gold)
+                    SummonManager.Instance.UnregisterGold(resource);
                 _carriedResource = hit2.transform.gameObject;
                 _carriedResource.transform.DOMove(Input.mousePosition, .1f);
                 _carriedResource.GetComponent<BoxCollider>().enabled = false;

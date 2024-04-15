@@ -113,7 +113,12 @@ namespace CoreCraft.LudumDare55
                     _possibleEntrances.Add(cell);
                 }
             }
-            _gridMoveTimer.ResumeTimer();
+            _gridMoveTimer.ResumeTimer(() =>
+            {
+                _currentWaveTimer = 0;
+                _currentWaveTimer++;
+                StartCoroutine(SpawnWave());
+            });
         }
 
         private IEnumerator SpawnWave()
@@ -127,7 +132,11 @@ namespace CoreCraft.LudumDare55
             }
 
             yield return new WaitForSeconds(0.5f);
-            _spawnTimer.ResumeTimer();
+            _spawnTimer.ResumeTimer(() => 
+            {
+                _currentMoveTimer = 0;
+                StartCoroutine(MoveGrid());
+            });
             _waitingEnemies.Clear();
             _spawningInProgress = true;
 

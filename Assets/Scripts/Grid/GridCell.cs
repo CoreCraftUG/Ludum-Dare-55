@@ -97,6 +97,7 @@ namespace CoreCraft.LudumDare55
                 case BlockResources.Gold:
                     temp = MonoBehaviour.Instantiate(_grid.ResourcesDictionary[BlockResources.Gold], this.WorldPosition, new Quaternion(0, 0, 0, 0));
                     temp.GetComponent<Resource>().PosCell = GridPosition;
+                    SummonManager.Instance.RegisterGold(temp.GetComponent<Resource>());
                     break;
                 case BlockResources.Schleim:
                     temp = MonoBehaviour.Instantiate(_grid.ResourcesDictionary[BlockResources.Schleim], this.WorldPosition, new Quaternion(0, 0, 0, 0));
