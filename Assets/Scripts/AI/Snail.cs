@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using MoreMountains.Feedbacks;
 using CoreCraft.Core;
+using System.Collections;
 
 namespace CoreCraft.LudumDare55
 {
@@ -60,6 +61,8 @@ namespace CoreCraft.LudumDare55
         private Vector2Int _lookOrientation;
         private Queue<Mucous> _mucousTrail = new Queue<Mucous>();
 
+        private bool _goingBackToEntrance;
+
         void Start()
         {
             _moveSequence = DOTween.Sequence().SetAutoKill(false).SetUpdate(true).Pause();
@@ -67,6 +70,38 @@ namespace CoreCraft.LudumDare55
                 SummonManager.Instance.RegisterSnail(this);
             else
                 Destroy(gameObject);
+
+            EventManager.Instance.GridMoveUp.AddListener((Vector3 moveVector, float moveTime, int moveIncrements) =>
+            {
+                StartCoroutine(ReturnToGrid(moveVector, moveTime, moveIncrements));
+            });
+        }
+        private IEnumerator ReturnToGrid(Vector3 moveVector, float moveTime, int moveIncrements)
+        {
+            bool moveDone = false;
+            transform.DOMove(transform.position + moveVector, moveTime).OnComplete(() =>
+            {
+                moveDone = true;
+            });
+
+            yield return new WaitUntil(() => moveDone);
+
+            if (_currentPosition.y + moveIncrements >= Grid.Instance.GridHeight)
+            {
+                GridCell cell = null;
+                yield return new WaitUntil(() =>
+                {
+                    cell = PlayManager.Instance.GetGridEntrance();
+                    return cell != null;
+                });
+                _currentPosition = cell.GridPosition;
+
+                _goingBackToEntrance = true;
+                transform.DOMove(cell.WorldPosition, _moveTime).OnComplete(() =>
+                {
+                    _goingBackToEntrance = false;
+                });
+            }
         }
 
         //private void Awake()
@@ -80,7 +115,9 @@ namespace CoreCraft.LudumDare55
         //}
         void Update()
         {
-            
+            if (_goingBackToEntrance)
+                return;
+
             if (_currentEnemy == null)
             {
                 if (_hasTarget)
