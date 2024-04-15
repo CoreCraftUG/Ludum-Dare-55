@@ -6,6 +6,7 @@ using UnityEngine;
 
 using CharacterController = CoreCraft.Core.CharacterController;
 using Random = UnityEngine.Random;
+using Sirenix.OdinInspector;
 
 namespace CoreCraft.LudumDare55
 {
@@ -91,6 +92,13 @@ namespace CoreCraft.LudumDare55
                 _currentWaveTimer++;
                 StartCoroutine(SpawnWave());
             }
+        }
+
+        [Button("Debug Move Grid")]
+        private void DebugMoveGrid()
+        {
+            _currentMoveTimer = 0;
+            StartCoroutine(MoveGrid());
         }
 
         private IEnumerator MoveGrid()

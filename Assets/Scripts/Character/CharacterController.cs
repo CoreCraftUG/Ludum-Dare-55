@@ -39,8 +39,8 @@ namespace CoreCraft.Core
         [SerializeField] Block _blockingBlock;
         [SerializeField] private float _maxMoveSpeed;
         private bool _canPlay;
-
-        public event EventHandler OnPlayerDeath;
+        [SerializeField] private GameObject _tPEffect;
+        [SerializeField] private float _tP_Time;
 
         public Vector2Int CurrentPosition => _currentPosition;
 
@@ -66,7 +66,8 @@ namespace CoreCraft.Core
 
 
         private AnimationState _animState;
-        private void Awake()
+
+        private void Start()
         {
             GameInputManager.Instance.OnRightClick += RightClick;
             GameInputManager.Instance.OnLeftClick += LeftClick;
@@ -80,12 +81,39 @@ namespace CoreCraft.Core
             _buildTimer = _baseBuildtimer;
             _adaptiveMoveTime = _moveTime;
             _canPlay = true;
+
+            EventManager.Instance.GridMoveUp.AddListener((Vector3 moveVector, float moveTime, int moveIncrements) =>
+            {
+                StartCoroutine(ReturnToGrid(moveVector, moveTime, moveIncrements));
+            });
         }
 
-        private void Start()
+        private IEnumerator ReturnToGrid(Vector3 moveVector, float moveTime, int moveIncrements)
         {
-            _currentPosition = grid.GetCellByDirection(transform.position).GridPosition;
-            SummonManager.Instance.RegisterPlayer(this);
+            bool moveDone = false;
+            transform.DOMove(transform.position + moveVector, moveTime).OnComplete(() =>
+            {
+                moveDone = true;
+            });
+
+            yield return new WaitUntil(() => moveDone);
+
+            if (_currentPosition.y + moveIncrements >= Grid.Instance.GridHeight)
+            {
+                GridCell cell = null;
+                yield return new WaitUntil(() =>
+                {
+                    cell = PlayManager.Instance.GetGridEntrance();
+                    return cell != null;
+                });
+
+
+                Instantiate(_tPEffect, transform.position, Quaternion.identity);
+                yield return new WaitForSeconds(_tP_Time);
+                Instantiate(_tPEffect, cell.WorldPosition, Quaternion.identity);
+                yield return new WaitForSeconds(0.1f);
+                transform.position = cell.WorldPosition;
+            }
         }
 
         private void Summon()
@@ -116,7 +144,7 @@ namespace CoreCraft.Core
                 //Debug.DrawRay(Camera.main.transform.position, hit.transform.forward, Color.green, 10);
                 Debug.Log(hit);
                 Debug.DrawLine(Camera.main.transform.position, hit.point, Color.green);
-                GridCell cell = grid.GetCellByDirection(hit.point);
+                GridCell cell = Grid.Instance.GetCellByDirection(hit.point);
                 if (cell.Block.Destructible && cell.Block.Material != BlockMaterial.None)
                 {
                     if (cell.CellObject.TryGetComponent<MMFeedbacks>(out MMFeedbacks feedback))
@@ -124,7 +152,7 @@ namespace CoreCraft.Core
                         feedback?.PlayFeedbacks();
                     }
                     
-                    grid.MineCell(cell);
+                    Grid.Instance.MineCell(cell);
                     if (_carriedResource == null)
                         return;
                 }
@@ -164,8 +192,8 @@ namespace CoreCraft.Core
                 else
                 {
                     GameObject temp = _tempTable;
-                    grid.UnblockCell(grid.GetCellByDirection(temp.transform.position).GridPosition);
-                    grid.MineCell(grid.GetCellByDirection(temp.transform.position));
+                    Grid.Instance.UnblockCell(Grid.Instance.GetCellByDirection(temp.transform.position).GridPosition);
+                    Grid.Instance.MineCell(Grid.Instance.GetCellByDirection(temp.transform.position));
                     temp.GetComponent<AlchemyTable>().Activate();
                     _tempTable = null;
                     _tempBlock = null;
@@ -205,12 +233,12 @@ namespace CoreCraft.Core
 
         private void CheckForConstruction()
         {
-            if (Pathfinding.HalloIchBinJulianUndIchWillWissenObIchNebenIhnenStehe(_currentPosition, grid.GetCellByDirection(_tempTable.transform.position).GridPosition))
+            if (Pathfinding.HalloIchBinJulianUndIchWillWissenObIchNebenIhnenStehe(_currentPosition, Grid.Instance.GetCellByDirection(_tempTable.transform.position).GridPosition))
             {
                 AnimateCharacter(AnimationState.Working);
                 _activeBuildTimer = _buildTimer;
                 _timerActive = true;
-                transform.DOLookAt(grid.GetCellByDirection(_tempTable.transform.position).WorldPosition, .1f);
+                transform.DOLookAt(Grid.Instance.GetCellByDirection(_tempTable.transform.position).WorldPosition, .1f);
             }
             else
             {
@@ -227,7 +255,7 @@ namespace CoreCraft.Core
             if (Physics.Raycast(ray, out hit, 100))
             {
                 
-                GridCell cell = grid.GetCellByDirection(hit.point);
+                GridCell cell = Grid.Instance.GetCellByDirection(hit.point);
                 //if (cell.GridPosition == _currentPosition)
                 //    return false;
 
@@ -247,7 +275,7 @@ namespace CoreCraft.Core
                 {
                     if (_tempTable != null)
                     {
-                        grid.GetCellByDirection(_tempTable.transform.position).SetBlock(_tempBlock, grid.transform);
+                        Grid.Instance.GetCellByDirection(_tempTable.transform.position).SetBlock(_tempBlock, Grid.Instance.transform);
                         Destroy(_tempTable);
                     }
                     _tempBlock = cell.Block;
@@ -361,13 +389,14 @@ namespace CoreCraft.Core
             AnimateCharacter(AnimationState.Death);
             Sound PlayerDeathSound = new Sound(SFX.PlayerDeath);
             PlayerDeathSound.Play();
-            OnPlayerDeath?.Invoke(this, EventArgs.Empty);
+            EventManager.Instance.GameOverEvent?.Invoke();
         }
 
         public void Spawn(Vector2Int spawnPosition, Vector2Int spawnRotation)
         {
             _currentPosition = spawnPosition;
             Sound SpawnSound = new Sound(SFX.SpawnSFX);
+            SummonManager.Instance.RegisterPlayer(this);
             SpawnSound.Play();
         }
 

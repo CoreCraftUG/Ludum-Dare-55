@@ -51,7 +51,11 @@ MonoBehaviour:
   _diggingTimeReduction: 1
   _minStartSpawnPosition: 5
   _maxStartSpawnPosition: 10
-  SpawnEnemies: []
+  SpawnEnemies:
+  - MinSpawnCount: 2
+    MaxSpawnCount: 20
+    EnemyPrefab: {fileID: 7480694667077209274, guid: 47b13f7995dd62842839da388bab14ed,
+      type: 3}
   _spawnPoint: {fileID: 0}
   _spawnAreaBottomLeftCorner: {fileID: 0}
   _spawnAreaTopRightCorner: {fileID: 0}
