@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4050720003941067153}
   - component: {fileID: 7959776815404808262}
   - component: {fileID: 8598181899174036392}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: AlchemyTable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -223,8 +223,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2297396037571728628, guid: 404b43fb87a3ea045810dad9842b42d8,
         type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2297396037571728628, guid: 404b43fb87a3ea045810dad9842b42d8,
+        type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3406275800831087409, guid: 404b43fb87a3ea045810dad9842b42d8,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -305,6 +315,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SM_Altar_low_inProgress
+      objectReference: {fileID: 0}
+    - target: {fileID: 1117379088849262142, guid: 2f229f6be35c76c4388dc138c894216d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 1117379088849262142, guid: 2f229f6be35c76c4388dc138c894216d,
         type: 3}
