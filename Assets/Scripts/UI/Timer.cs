@@ -99,9 +99,9 @@ namespace CoreCraft.LudumDare55
         }
 
         [Button]
-        public void ResumeTimer()
+        public void ResumeTimer(Action onTimerExpired)
         {
-            StartTimer(_timeRemaining, OnTimerExpired);
+            StartTimer(_timeRemaining, onTimerExpired);
             _timerPaused = false;
         }
 
