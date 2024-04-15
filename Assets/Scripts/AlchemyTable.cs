@@ -53,11 +53,11 @@ namespace CoreCraft.LudumDare55
                 Debug.Log("Resource Enter");
                 if (resources[0] == null)
                 {
-                    resources[0] = other.transform.parent.GetComponent<Resource>();
+                    resources[0] = other.transform.GetComponent<Resource>();
                 }
                 else
                 {
-                    resources[1] = other.transform.parent.GetComponent<Resource>();
+                    resources[1] = other.transform.GetComponent<Resource>();
                     if (_isActivated)
                         Summon();
                 }
