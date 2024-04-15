@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace CoreCraft.LudumDare55
 {
-    public static class AStar
+    public static class Pathfinding
     {
         public static Stack<GridCell> StandardAStar(Vector2Int startIndex, Vector2Int targetIndex, PathfindingMode mode)
         {

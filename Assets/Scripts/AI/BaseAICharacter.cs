@@ -8,8 +8,8 @@ using UnityEngine;
 
 namespace CoreCraft.LudumDare55
 {
-    [RequireComponent(typeof(Collider), typeof(Animator))]
-    public class BaseAICharacter : MonoBehaviour , IDamageable , ICanDie , ICanDamage, ICanSee, IInGrid, IMoveInGrid
+    [RequireComponent(typeof(Animator))]
+    public class BaseAICharacter : MonoBehaviour , IDamageable , ICanDie , ICanDamage, ICanSee, IInGrid, IMoveInGrid, IPeripheryTrigger
     {
         [SerializeField] protected int _sightDistance;
         [SerializeField] protected int _hP;
@@ -136,7 +136,7 @@ namespace CoreCraft.LudumDare55
             }
         }
 
-        protected virtual void OnTriggerEnter(Collider other)
+        public virtual void TriggerEnter(Collider other)
         {
 
             if (other.gameObject.layer == 7 && _enemyValue < 4)
@@ -170,7 +170,7 @@ namespace CoreCraft.LudumDare55
             }
         }
 
-        protected virtual void OnTriggerExit(Collider other)
+        public virtual void TriggerExit(Collider other)
         {
             if (_currentEnemy != null && other.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
             {
@@ -203,11 +203,11 @@ namespace CoreCraft.LudumDare55
                     _targetValue = 1;
                 }
 
-                if (AStar.StraightCheck(_currentPosition, inGrid.CurrentPosition))
+                if (Pathfinding.StraightCheck(_currentPosition, inGrid.CurrentPosition))
                 {
                     _targetPosition = inGrid.CurrentPosition;
 
-                    _targetPath = AStar.StandardAStar(_currentPosition, _targetPosition, PathfindingMode.Default);
+                    _targetPath = Pathfinding.StandardAStar(_currentPosition, _targetPosition, PathfindingMode.Default);
 
                     _hasTarget = _targetPath != null && _targetPath.Count > 0;
                     if (!_hasTarget)
@@ -412,7 +412,7 @@ namespace CoreCraft.LudumDare55
         {
             _targetPosition = _debugTargetPosition;
 
-            _targetPath = AStar.StandardAStar(_currentPosition, _targetPosition, PathfindingMode.Default);
+            _targetPath = Pathfinding.StandardAStar(_currentPosition, _targetPosition, PathfindingMode.Default);
 
             _hasTarget = _targetPath != null && _targetPath.Count > 0;
         }

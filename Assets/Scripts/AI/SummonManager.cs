@@ -14,7 +14,7 @@ namespace CoreCraft.LudumDare55
 
         public void RegisterSnail(IInGrid snail)
         {
-            if (snail != null && _snailList.Contains(snail))
+            if (snail != null && !_snailList.Contains(snail))
                 _snailList.Add(snail);
         }
 

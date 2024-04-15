@@ -47,4 +47,10 @@ namespace CoreCraft.LudumDare55
         bool IsMoving { get; }
         Stack<GridCell> TargetPath { get; }
     }
+
+    public interface IPeripheryTrigger
+    {
+        void TriggerEnter(Collider other);
+        void TriggerExit(Collider other);
+    }
 }

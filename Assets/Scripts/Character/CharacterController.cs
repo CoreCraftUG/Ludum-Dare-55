@@ -169,7 +169,7 @@ namespace CoreCraft.Core
 
         private void CheckForConstruction()
         {
-            if (AStar.HalloIchBinJulianUndIchWillWissenObIchNebenIhnenStehe(_currentPosition, grid.GetCellByDirection(_tempTable.transform.position).GridPosition))
+            if (Pathfinding.HalloIchBinJulianUndIchWillWissenObIchNebenIhnenStehe(_currentPosition, grid.GetCellByDirection(_tempTable.transform.position).GridPosition))
             {
                 AnimateCharacter(AnimationState.Working);
                 _activeBuildTimer = _buildTimer;
@@ -198,7 +198,7 @@ namespace CoreCraft.Core
                 if (cell.Block.Material == BlockMaterial.None)
                 {
                     _targetPosition = cell.GridPosition;
-                    _currentPath = AStar.StandardAStar(_currentPosition, cell.GridPosition, PathfindingMode.Default);
+                    _currentPath = Pathfinding.StandardAStar(_currentPosition, cell.GridPosition, PathfindingMode.Default);
                     if (_currentPath == null)
                     {
                         _hasTarget = false;

@@ -1,11 +1,14 @@
 using DG.Tweening;
+using MoreMountains.Feel;
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace CoreCraft.LudumDare55
 {
-    public class Snail : MonoBehaviour, IDamageable, ICanDie, ICanDamage, ICanSee, IInGrid, IMoveInGrid
+    public class Snail : MonoBehaviour, IDamageable, ICanDie, ICanDamage, ICanSee, IInGrid, IMoveInGrid, IPeripheryTrigger
     {
         [SerializeField] protected int _sightDistance;
         [SerializeField] protected int _hP;
@@ -13,6 +16,8 @@ namespace CoreCraft.LudumDare55
         [SerializeField] protected float _moveTime;
         [SerializeField] protected float _attackTime;
         [SerializeField] protected LayerMask _sightLayerMask;
+        [SerializeField] protected GameObject _mucousObject;
+        [SerializeField] protected int _maxMucousTrail;
 
         protected Vector2Int _currentPosition;
         protected Vector2Int _targetPosition;
@@ -27,7 +32,7 @@ namespace CoreCraft.LudumDare55
         public int HP => _hP;
 
         //Can Die
-        public Animator Animator => GetComponent<Animator>();
+        public Animator Animator => GetComponentInChildren<Animator>();
 
         //Can Damage
         public int Damage => _damage;
@@ -54,6 +59,7 @@ namespace CoreCraft.LudumDare55
         private float _timer;
         private Sequence _moveSequence;
         private Vector2Int _lookOrientation;
+        private Queue<Mucous> _mucousTrail = new Queue<Mucous>();
 
         void Start()
         {
@@ -89,9 +95,15 @@ namespace CoreCraft.LudumDare55
 
                         transform.DOLookAt(_targetPath.Peek().WorldPosition, _moveTime).OnComplete(() =>
                         {
+                            
+                            this.Animator.SetBool("Walking", true);
                             _moveSequence.Append(transform.DOMove(_targetPath.Peek().WorldPosition, _moveTime).OnComplete(() =>
                             {
+                                SlimeAround();
+
                                 _isMoving = false;
+                                
+                                this.Animator.SetBool("Walking", false);
                                 _hasTarget = _targetPath.Count > 0;
                                 if (!_hasTarget)
                                     _targetValue = 0;
@@ -107,12 +119,44 @@ namespace CoreCraft.LudumDare55
                     if (!_isMoving)
                     {
                         // Roaming
+                        GridCell cellToTest = GetCellFurthestFromAnySnail();
+                        if (cellToTest == null)
+                            return;
 
+                        Vector2 normalizedDirection = cellToTest.GridPosition - _currentPosition;
+                        normalizedDirection.Normalize();
+
+                        _lookOrientation = Vector2Int.RoundToInt(normalizedDirection);
+
+                        if (cellToTest != null && cellToTest.Block.BlockingType == BlockingType.None)
+                        {
+                            _isMoving = true;
+
+                            transform.DOLookAt(cellToTest.WorldPosition, _moveTime).OnComplete(() =>
+                            {
+                                
+                                this.Animator.SetBool("Walking", true);
+                                _moveSequence.Append(transform.DOMove(cellToTest.WorldPosition, _moveTime).OnComplete(() =>
+                                {
+                                    SlimeAround();
+
+                                    _isMoving = false;
+                                    
+                                    this.Animator.SetBool("Walking", false);
+                                }));
+                                _currentPosition = cellToTest.GridPosition;
+
+                                _moveSequence.PlayForward();
+                            });
+                            return;
+                        }
                     }
                 }
             }
             else
             {
+                this.Animator.SetBool("Other", true);
+                this.Animator.SetBool("Walking", false);
                 _moveSequence.Pause();
 
                 _targetPath.Clear();
@@ -126,6 +170,9 @@ namespace CoreCraft.LudumDare55
                     {
                         _currentEnemy = null;
                         _enemyValue = 0;
+                        
+                        this.Animator.SetBool("Other", false);
+                        this.Animator.SetBool("Walking", false);
                     }
 
                     _timer = 0;
@@ -133,58 +180,125 @@ namespace CoreCraft.LudumDare55
             }
         }
 
+        private void SlimeAround()
+        {
+            if(_mucousTrail.Count >= _maxMucousTrail)
+            {
+                Mucous mucous = _mucousTrail.Dequeue();
+                if(mucous != null)
+                    mucous.Despawn();
+            }
+
+            _mucousTrail.Enqueue(Instantiate(_mucousObject, Grid.Instance.GetCellByIndex(_currentPosition).WorldPosition, Quaternion.identity).GetComponent<Mucous>());
+        }
+
         private GridCell GetCellFurthestFromAnySnail()
         {
-            List<GridCell> neighbours = AStar.GetNeighbour(_currentPosition);
+            List<GridCell> neighbours = Pathfinding.GetNeighbour(_currentPosition);
 
             if (neighbours == null || neighbours.Count == 0)
                 return null;
 
-            int distance = 0;
-            GridCell returnCell = null;
-            foreach (IInGrid snail in SummonManager.Instance.SnailList)
+            int distance = int.MaxValue;
+            GridCell returnCell = neighbours[Random.Range(0, neighbours.Count)];
+
+            IInGrid nearestSnail = null;
+            if (SummonManager.Instance.SnailList.Count <= 0)
+                return returnCell;
+
+            foreach (IInGrid snail in SummonManager.Instance.SnailList.Where(s => 10 > Pathfinding.CalculateDistance(_currentPosition, s.CurrentPosition)))
             {
-                foreach (GridCell cell in neighbours)
+                int i = Pathfinding.CalculateDistance(_currentPosition, snail.CurrentPosition);
+                if (i < distance)
                 {
-                    int i = AStar.CalculateDistance(cell.GridPosition, snail.CurrentPosition);
-                    if(i > distance)
-                    {
-                        distance = i;
-                        returnCell = cell;
-                    }
+                    distance = i;
+                    nearestSnail = snail;
                 }
+            }
+
+            distance = 0;
+            foreach (GridCell cell in neighbours)
+            {
+                int i = Pathfinding.CalculateDistance(cell.GridPosition, nearestSnail.CurrentPosition);
+                if (i > distance)
+                {
+                    distance = i;
+                    returnCell = cell;
+                }
+                else if (i == distance)
+                {
+                    int j = Random.Range(0, 2);
+                    if (j > 0)
+                        returnCell = cell;
+                }
+
             }
 
             return returnCell;
         }
 
-        private void OnTriggerEnter(Collider other)
+        public void TriggerEnter(Collider other)
         {
-            
+            if (_currentEnemy != null && other.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
+            {
+                _moveSequence.Pause();
+                _isMoving = false;
+                _hasTarget = false;
+                _currentEnemy = damageable;
+            }
         }
 
-        private void OnTriggerExit(Collider other)
+        public void TriggerExit(Collider other)
         {
-            
+            if (_currentEnemy != null && other.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
+            {
+                if (_currentEnemy == damageable)
+                {
+                    _currentEnemy = null;
+                    _enemyValue = 0;
+                }
+            }
         }
 
         public void CheckSightCone(Collider other)
         {
-            throw new System.NotImplementedException();
+            if (_sightLayerMask == (_sightLayerMask | (1 << other.gameObject.layer)) && other.gameObject.TryGetComponent<IInGrid>(out IInGrid inGrid))
+            {
+                if (Pathfinding.StraightCheck(_currentPosition, inGrid.CurrentPosition))
+                {
+                    _targetPosition = inGrid.CurrentPosition;
+
+                    _targetPath = Pathfinding.StandardAStar(_currentPosition, _targetPosition, PathfindingMode.Default);
+
+                    _hasTarget = _targetPath != null && _targetPath.Count > 0;
+                    if (!_hasTarget)
+                        _targetValue = 0;
+                }
+            }
         }
 
         public void DealDamage(IDamageable damageable)
         {
-            throw new System.NotImplementedException();
+            damageable.TakeDamage(_damage);
         }
 
+        [Button("Debug Die")]
         public void Die()
         {
-            Destroy(this.gameObject);
+            this.Animator.Play("anim_die");
+            _moveSequence.Kill();
+            _isMoving = false;
+            _hasTarget = false;
+            _currentEnemy = null;
+            Destroy(this.gameObject,1f);
         }
 
         public void Spawn(Vector2Int spawnPosition, Vector2Int spawnRotation)
         {
+            if (SummonManager.Instance != null)
+                SummonManager.Instance.RegisterSnail(this);
+            else
+                Destroy(gameObject);
             _currentPosition = spawnPosition;
             _lookOrientation = spawnRotation;
         }
