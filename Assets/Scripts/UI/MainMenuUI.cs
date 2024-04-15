@@ -20,6 +20,8 @@ namespace CoreCraft.Core
         [SerializeField] private Button _quitYesButton;
         [SerializeField] private Button _quitNoButton;
 
+        [SerializeField] private GameObject _creditsPanel;
+
         [Header("Camera")]
         [SerializeField] private CinemachineVirtualCamera _uiCamera;
         
@@ -40,6 +42,7 @@ namespace CoreCraft.Core
         private void Start()
         {
             _quitPanel.SetActive(false);
+            _creditsPanel.SetActive(false);
 
             if (GameInputManager.Instance != null)
             {
@@ -87,8 +90,7 @@ namespace CoreCraft.Core
             
             _creditsButton.onClick.AddListener(() =>
             {
-                //Credits.Instance.Show();
-                //Hide();
+                _creditsPanel.SetActive(true);
             });
 
             // Close the program.
