@@ -1041,6 +1041,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8772507414923819049, guid: 5c08cae682451a34ba759248bdd23f75,
         type: 3}
+      propertyPath: _spawnPoint
+      value: 
+      objectReference: {fileID: 352880148}
+    - target: {fileID: 8772507414923819049, guid: 5c08cae682451a34ba759248bdd23f75,
+        type: 3}
       propertyPath: _spawnTimer
       value: 
       objectReference: {fileID: 2712426301695962260}
@@ -1049,6 +1054,48 @@ PrefabInstance:
       propertyPath: _gridMoveTimer
       value: 
       objectReference: {fileID: 89859273875896345}
+    - target: {fileID: 8772507414923819049, guid: 5c08cae682451a34ba759248bdd23f75,
+        type: 3}
+      propertyPath: SpawnEnemies.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8772507414923819049, guid: 5c08cae682451a34ba759248bdd23f75,
+        type: 3}
+      propertyPath: _spawnAreaTopRightCorner
+      value: 
+      objectReference: {fileID: 744924784}
+    - target: {fileID: 8772507414923819049, guid: 5c08cae682451a34ba759248bdd23f75,
+        type: 3}
+      propertyPath: _spawnAreaBottomLeftCorner
+      value: 
+      objectReference: {fileID: 1939061356}
+    - target: {fileID: 8772507414923819049, guid: 5c08cae682451a34ba759248bdd23f75,
+        type: 3}
+      propertyPath: SpawnEnemies.Array.data[1].EnemyPrefab
+      value: 
+      objectReference: {fileID: 3816266356650647867, guid: f5e65f79e87c2234aa930d8a28ef4cb8,
+        type: 3}
+    - target: {fileID: 8772507414923819049, guid: 5c08cae682451a34ba759248bdd23f75,
+        type: 3}
+      propertyPath: SpawnEnemies.Array.data[2].EnemyPrefab
+      value: 
+      objectReference: {fileID: 491812304261293701, guid: 865bf172642d53f41acbce41d08226b5,
+        type: 3}
+    - target: {fileID: 8772507414923819049, guid: 5c08cae682451a34ba759248bdd23f75,
+        type: 3}
+      propertyPath: SpawnEnemies.Array.data[1].MaxSpawnCount
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8772507414923819049, guid: 5c08cae682451a34ba759248bdd23f75,
+        type: 3}
+      propertyPath: SpawnEnemies.Array.data[1].MinSpawnCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8772507414923819049, guid: 5c08cae682451a34ba759248bdd23f75,
+        type: 3}
+      propertyPath: SpawnEnemies.Array.data[2].MaxSpawnCount
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1712,6 +1759,50 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1147511134}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1552409049
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1552409051}
+  - component: {fileID: 1552409050}
+  m_Layer: 0
+  m_Name: summoner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1552409050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552409049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38a22294e539bec45aa15ee44d58fe4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1552409051
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552409049}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 15.820562, y: 7.1321907, z: 6.778868}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1556249527
 GameObject:
   m_ObjectHideFlags: 0
@@ -29522,7 +29613,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5828225258272025113}
   m_HandleRect: {fileID: 7149247542849253538}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -30413,3 +30504,4 @@ SceneRoots:
   - {fileID: 3857802788021325880}
   - {fileID: 825753992}
   - {fileID: 1700899459}
+  - {fileID: 1552409051}
