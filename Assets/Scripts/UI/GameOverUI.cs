@@ -14,10 +14,10 @@ namespace CoreCraft.Core
         [SerializeField] private Button _retryButton;
         [SerializeField] private Button _mainMenuButton;
 
-        [Header("UI Texts")]
+        //[Header("UI Texts")]
 
-        [SerializeField] private CinemachineVirtualCamera _virtualCamera;
-        [SerializeField] private Transform _gameOverUICenterTransform;
+        //[SerializeField] private CinemachineVirtualCamera _virtualCamera;
+        //[SerializeField] private Transform _gameOverUICenterTransform;
 
         private void Awake()
         {
@@ -27,6 +27,12 @@ namespace CoreCraft.Core
             }
 
             Instance = this;
+
+            EventManager.Instance.GameOverEvent.AddListener(() =>
+            {
+                GameStateManager.Instance.IsGameOver = true;
+                Show();
+            });
             
             _retryButton.onClick.AddListener(() =>
             {
@@ -75,29 +81,11 @@ namespace CoreCraft.Core
             gameObject.SetActive(true);
 
             _retryButton.Select();
-
-            _virtualCamera.Follow = _gameOverUICenterTransform;
-
-            CinemachineComponentBase componentBase = _virtualCamera.GetCinemachineComponent(CinemachineCore.Stage.Body);
-
-            if (componentBase is CinemachineFramingTransposer)
-            {
-                (componentBase as CinemachineFramingTransposer).m_CameraDistance = 1.5f;
-            }
         }
 
         public void Hide()
         {
             gameObject.SetActive(false);
-
-            _virtualCamera.Follow = GameStateManager.Instance.LastPlayerFocusPoint;
-
-            CinemachineComponentBase componentBase = _virtualCamera.GetCinemachineComponent(CinemachineCore.Stage.Body);
-
-            if (componentBase is CinemachineFramingTransposer)
-            {
-                (componentBase as CinemachineFramingTransposer).m_CameraDistance = 3.25f;
-            }
         }
     }
 }
