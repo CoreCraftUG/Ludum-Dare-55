@@ -1,19 +1,14 @@
-using BehaviorDesigner.Runtime.Tasks.Unity.UnityLayerMask;
 using CoreCraft.Core;
 using DG.Tweening;
-using ES3Types;
+using MoreMountains.Feedbacks;
 using Sirenix.OdinInspector;
-using Sirenix.Utilities;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
-using MoreMountains.Feedbacks;
 
 namespace CoreCraft.LudumDare55
 {
-    [RequireComponent(typeof(Animator))]
-    public class BaseAICharacter : MonoBehaviour , IDamageable , ICanDie , ICanDamage, ICanSee, IInGrid, IMoveInGrid, IPeripheryTrigger, IGoToWaitingArea
+    public class RangeCombatEnemy : MonoBehaviour, IDamageable, ICanDie, ICanDamage, ICanSee, IInGrid, IMoveInGrid, IPeripheryTrigger, IGoToWaitingArea
     {
         [SerializeField] protected int _sightDistance;
         [SerializeField] protected int _hP;
@@ -102,7 +97,7 @@ namespace CoreCraft.LudumDare55
                 _currentPosition = cell.GridPosition;
 
                 _goingBackToEntrance = true;
-                
+
                 transform.DOMove(cell.WorldPosition, _moveTime).OnComplete(() =>
                 {
                     _goingBackToEntrance = false;
@@ -120,52 +115,13 @@ namespace CoreCraft.LudumDare55
 
             if (_currentEnemy == null)
             {
-                if (_hasTarget)
+                if (!_isMoving)
                 {
-                    if (!_isMoving)
-                    {
-                        _isMoving = true;
-
-                        Vector3 rotaion = Vector3.zero;
-
-                        if (_targetPath.Peek().GridPosition - _currentPosition == Vector2Int.right)
-                            rotaion = new Vector3(0, 180, 0);
-                        else if (_targetPath.Peek().GridPosition - _currentPosition == Vector2Int.up)
-                            rotaion = new Vector3(0, 90, 0);
-                        else if (_targetPath.Peek().GridPosition - _currentPosition == Vector2Int.left)
-                            rotaion = new Vector3(0, 360, 0);
-                        else if (_targetPath.Peek().GridPosition - _currentPosition == Vector2Int.down)
-                            rotaion = new Vector3(0, 270, 0);
-
-                        _lookOrientation = _targetPath.Peek().GridPosition - _currentPosition;
-
-                        transform.DOLookAt(_targetPath.Peek().WorldPosition, _moveTime).OnComplete(() =>
-                        {
-                            AnimateMelee(AnimationState.Walking);
-                            _moveSequence.Append(transform.DOMove(_targetPath.Peek().WorldPosition, _moveTime).OnComplete(() =>
-                            {
-                                _isMoving = false;
-                                AnimateMelee(AnimationState.Walking);
-                                _hasTarget = _targetPath.Count > 0;
-                                if (!_hasTarget)
-                                    _targetValue = 0;
-                            }));
-                            _currentPosition = _targetPath.Pop().GridPosition;
-
-                            _moveSequence.PlayForward();
-                        });
-                    }
-                }
-                else
-                {
-                    if (!_isMoving)
-                    {
-                        // Roaming
-                        if (_isInverted)
-                            RoamingInverted();
-                        else
-                            RoamingDefault();
-                    }
+                    // Roaming
+                    if (_isInverted)
+                        RoamingDefault();
+                    else
+                        RoamingInverted();
                 }
             }
             else
@@ -191,40 +147,7 @@ namespace CoreCraft.LudumDare55
             }
         }
 
-        public virtual void TriggerEnter(Collider other)
-        {
-
-            if (other.gameObject.layer == 7 && _enemyValue < 4)
-            {
-                _enemyValue = 4;
-            }
-            else if (other.gameObject.layer == 8 && _enemyValue < 3)
-            {
-                _enemyValue = 3;
-            }
-            else if (other.gameObject.layer == 10 && _enemyValue < 2)
-            {
-                _enemyValue = 2;
-            }
-            else if (other.gameObject.layer == 9 && _enemyValue < 1)
-            {
-                _enemyValue = 1;
-            }
-            else
-            {
-                return;
-            }
-
-
-            if (other.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
-            {
-                _moveSequence.Pause();
-                _isMoving = false;
-                AnimateMelee(AnimationState.Walking);
-                _hasTarget = false;
-                _currentEnemy = damageable;
-            }
-        }
+        public virtual void TriggerEnter(Collider other) { }
 
         public virtual void TriggerExit(Collider other)
         {
@@ -240,7 +163,7 @@ namespace CoreCraft.LudumDare55
 
         public virtual void CheckSightCone(Collider other)
         {
-            if (_sightLayerMask == (_sightLayerMask | (1 << other.gameObject.layer)) && other.gameObject.TryGetComponent<IInGrid>(out IInGrid inGrid))
+            if (_sightLayerMask == (_sightLayerMask | (1 << other.gameObject.layer)) && other.gameObject.TryGetComponent<IInGrid>(out IInGrid inGrid) && other.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
             {
                 if (other.gameObject.layer == 7 && _targetValue < 4)
                 {
@@ -261,13 +184,11 @@ namespace CoreCraft.LudumDare55
 
                 if (Pathfinding.StraightCheck(_currentPosition, inGrid.CurrentPosition))
                 {
-                    _targetPosition = inGrid.CurrentPosition;
-
-                    _targetPath = Pathfinding.StandardAStar(_currentPosition, _targetPosition, PathfindingMode.Default);
-
-                    _hasTarget = _targetPath != null && _targetPath.Count > 0;
-                    if (!_hasTarget)
-                        _targetValue = 0;
+                    _moveSequence.Pause();
+                    _isMoving = false;
+                    AnimateRange(AnimationState.Walking);
+                    _hasTarget = false;
+                    _currentEnemy = damageable;
                 }
             }
         }
@@ -398,26 +319,26 @@ namespace CoreCraft.LudumDare55
 
         private Vector2Int TurnRightVector()
         {
-            if(_lookOrientation == Vector2Int.right)
+            if (_lookOrientation == Vector2Int.right)
                 return Vector2Int.down;
-            else if(_lookOrientation == Vector2Int.up)
+            else if (_lookOrientation == Vector2Int.up)
                 return Vector2Int.right;
-            else if(_lookOrientation == Vector2Int.left)
+            else if (_lookOrientation == Vector2Int.left)
                 return Vector2Int.up;
-            else if( _lookOrientation == Vector2Int.down)
+            else if (_lookOrientation == Vector2Int.down)
                 return Vector2Int.left;
             return Vector2Int.zero;
         }
 
         private Vector2Int TurnLeftVector()
         {
-            if(_lookOrientation == Vector2Int.right)
+            if (_lookOrientation == Vector2Int.right)
                 return Vector2Int.up;
-            else if(_lookOrientation == Vector2Int.up)
+            else if (_lookOrientation == Vector2Int.up)
                 return Vector2Int.left;
-            else if(_lookOrientation == Vector2Int.left)
+            else if (_lookOrientation == Vector2Int.left)
                 return Vector2Int.down;
-            else if( _lookOrientation == Vector2Int.down)
+            else if (_lookOrientation == Vector2Int.down)
                 return Vector2Int.right;
             return Vector2Int.zero;
         }
@@ -439,18 +360,18 @@ namespace CoreCraft.LudumDare55
 
         public virtual void Die()
         {
-            AnimateMelee(AnimationState.Dead);
+            AnimateRange(AnimationState.Dead);
             _moveSequence.Pause();
             _moveSequence.Kill();
             _isMoving = false;
             _hasTarget = false;
             _currentEnemy = null;
-            Destroy(this.gameObject,1f);
+            Destroy(this.gameObject, 1f);
         }
 
         public virtual void DealDamage(IDamageable damageable)
         {
-            AnimateMelee(AnimationState.Attacking);
+            AnimateRange(AnimationState.Attacking);
             damageable.TakeDamage(_damage);
             _animator.SetBool("Attacking", false);
         }
@@ -477,7 +398,7 @@ namespace CoreCraft.LudumDare55
             if (_waveStart == true)
                 return;
 
-            Vector3 position = new Vector3(Random.Range(bottomLeftCorner.x,topRightCorner.x), bottomLeftCorner.y, Random.Range(bottomLeftCorner.z, topRightCorner.z));
+            Vector3 position = new Vector3(Random.Range(bottomLeftCorner.x, topRightCorner.x), bottomLeftCorner.y, Random.Range(bottomLeftCorner.z, topRightCorner.z));
             _moveSequence.Append(transform.DOMove(position, _moveTime).OnComplete(() =>
             {
                 WanderAround(bottomLeftCorner, topRightCorner);
@@ -502,7 +423,7 @@ namespace CoreCraft.LudumDare55
             _moveSequence.PlayForward();
         }
 
-        private void AnimateMelee(AnimationState state)
+        private void AnimateRange(AnimationState state)
         {
             switch (state)
             {
@@ -526,29 +447,5 @@ namespace CoreCraft.LudumDare55
             Attacking,
             Dead
         }
-
-        #region Debug
-#if UNITY_EDITOR
-
-        [Button("Debug Move Forward"), FoldoutGroup("Debug")]
-        private void DebugMoveForward()
-        {
-            transform.DOMove(transform.position + transform.forward, 2f);
-        }
-
-
-        [SerializeField, FoldoutGroup("Debug")] private Vector2Int _debugTargetPosition;
-        [Button("Debug Set Target"), FoldoutGroup("Debug")]
-        private void DebugSetTarget()
-        {
-            _targetPosition = _debugTargetPosition;
-
-            _targetPath = Pathfinding.StandardAStar(_currentPosition, _targetPosition, PathfindingMode.Default);
-
-            _hasTarget = _targetPath != null && _targetPath.Count > 0;
-        }
-
-#endif
-        #endregion
     }
 }
