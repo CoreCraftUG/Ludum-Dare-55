@@ -98,6 +98,7 @@ namespace CoreCraft.LudumDare55
                 _currentPosition = cell.GridPosition;
 
                 _goingBackToEntrance = true;
+                
                 transform.DOMove(cell.WorldPosition, _moveTime).OnComplete(() =>
                 {
                     _goingBackToEntrance = false;
@@ -136,9 +137,11 @@ namespace CoreCraft.LudumDare55
 
                         transform.DOLookAt(_targetPath.Peek().WorldPosition, _moveTime).OnComplete(() =>
                         {
+                            AnimateMelee(AnimationState.Walking);
                             _moveSequence.Append(transform.DOMove(_targetPath.Peek().WorldPosition, _moveTime).OnComplete(() =>
                             {
                                 _isMoving = false;
+                                AnimateMelee(AnimationState.Walking);
                                 _hasTarget = _targetPath.Count > 0;
                                 if (!_hasTarget)
                                     _targetValue = 0;
@@ -174,11 +177,13 @@ namespace CoreCraft.LudumDare55
                 {
                     if (_currentEnemy.TakeDamage(_damage))
                     {
+                        AnimateMelee(AnimationState.Attacking);
                         _currentEnemy = null;
                         _enemyValue = 0;
                     }
 
                     _timer = 0;
+                    Animator.SetBool("Attacking", false);
                 }
             }
         }
@@ -212,6 +217,7 @@ namespace CoreCraft.LudumDare55
             {
                 _moveSequence.Pause();
                 _isMoving = false;
+                AnimateMelee(AnimationState.Walking);
                 _hasTarget = false;
                 _currentEnemy = damageable;
             }
@@ -429,6 +435,7 @@ namespace CoreCraft.LudumDare55
 
         public virtual void Die()
         {
+            AnimateMelee(AnimationState.Dead);
             _moveSequence.Pause();
             _moveSequence.Kill();
             _isMoving = false;
@@ -484,6 +491,36 @@ namespace CoreCraft.LudumDare55
                 _moveSequence = DOTween.Sequence().SetAutoKill(false).SetUpdate(true).Pause();
             }));
             _moveSequence.PlayForward();
+        }
+
+        private void AnimateMelee(AnimationState state)
+        {
+            switch (state)
+            {
+                case AnimationState.Walking:
+                    Animator.SetBool("Walking", _isMoving);
+                    Animator.SetBool("Attacking", false);
+                    break;
+                case AnimationState.Attacking:
+                    Animator.SetBool("Walking", false);
+                    Animator.SetBool("Attacking", true);
+                    break;
+                case AnimationState.Dead:
+                    Animator.SetBool("Walking", false);
+                    Animator.SetBool("Attacking", false);
+                    Animator.SetBool("Dead", false);
+
+                    break;
+
+            }
+        }
+
+        private enum AnimationState
+        {
+            Idle,
+            Walking,
+            Attacking,
+            Dead
         }
 
         #region Debug
