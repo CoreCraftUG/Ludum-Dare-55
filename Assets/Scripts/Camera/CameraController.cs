@@ -50,7 +50,7 @@ namespace CoreCraft.Core
 
             if(_zMovement != 0 || _xMovement != 0)
             {
-                transform.position = _movementSpeed * new Vector3(Mathf.Clamp(transform.position.x + _xMovement * _movementSpeed, _minX, _maxX), transform.position.y, Mathf.Clamp(transform.position.z + _xMovement * _movementSpeed, _minZ, _maxZ));
+                transform.position = _movementSpeed * new Vector3(Mathf.Clamp(transform.position.x + _xMovement * _movementSpeed, _minX, _maxX), transform.position.y, Mathf.Clamp(transform.position.z + _zMovement * _movementSpeed, _minZ, _maxZ));
             }
 
             if(_zoomValue != 0)
