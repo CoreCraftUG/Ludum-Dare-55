@@ -5920,20 +5920,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7089067523123309783}
   m_CullTransparentMesh: 1
---- !u!114 &1171667838474334205
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5821270542424744027}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2ae4ec6a8531a049b36c477b0f2fddd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _timer1: {fileID: 0}
-  _timer2: {fileID: 0}
 --- !u!222 &1181325724536808240
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12978,21 +12964,6 @@ RectTransform:
   m_AnchoredPosition: {x: 739, y: -125}
   m_SizeDelta: {x: 1478, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!4 &3784577384838951266
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5821270542424744027}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3784853684944104000
 GameObject:
   m_ObjectHideFlags: 0
@@ -19510,23 +19481,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &5821270542424744027
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3784577384838951266}
-  - component: {fileID: 1171667838474334205}
-  m_Layer: 0
-  m_Name: GameStateManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!224 &5838548978588704737
 RectTransform:
   m_ObjectHideFlags: 0
@@ -27118,7 +27072,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6735955847966711944}
   m_HandleRect: {fileID: 7975827774895766067}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -29521,6 +29475,5 @@ SceneRoots:
   - {fileID: 731137596}
   - {fileID: 2834795696389548440}
   - {fileID: 2026486975347025048}
-  - {fileID: 3784577384838951266}
   - {fileID: 8879743795740628079}
   - {fileID: 3969622518181607239}

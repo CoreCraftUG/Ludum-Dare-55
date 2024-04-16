@@ -10,7 +10,7 @@ namespace CoreCraft.Core
 
         public static GameSettingsFile Instance { get; private set; }
 
-        private readonly string _userSettingsFilePath = $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\\My Games\\Ludum Dare 55\\GameUserSettings.ini";
+        private readonly string _userSettingsFilePath = $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\\My Games\\Mine-O-Mancer\\GameUserSettings.ini";
         private const string USERSETTINGS_ENCRIPTIONPASSWORD = "CoreCraftsSuperSavePassword";
         private ES3Settings _es3settings;
         public ES3Settings ES3Settings { get => _es3settings; }

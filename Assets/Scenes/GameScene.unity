@@ -912,12 +912,12 @@ PrefabInstance:
         type: 3}
       propertyPath: _spawnTimer
       value: 
-      objectReference: {fileID: 2712426301695962260}
+      objectReference: {fileID: 89859273875896345}
     - target: {fileID: 8772507414923819049, guid: 5c08cae682451a34ba759248bdd23f75,
         type: 3}
       propertyPath: _gridMoveTimer
       value: 
-      objectReference: {fileID: 89859273875896345}
+      objectReference: {fileID: 2712426301695962260}
     - target: {fileID: 8772507414923819049, guid: 5c08cae682451a34ba759248bdd23f75,
         type: 3}
       propertyPath: SpawnEnemies.Array.size
@@ -4264,6 +4264,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5082522836586311670}
   m_CullTransparentMesh: 1
+--- !u!4 &377536318266019535
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7021548208198213622}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &385061056140003873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7834,7 +7849,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1699524286586954276
 GameObject:
   m_ObjectHideFlags: 0
@@ -9766,6 +9781,20 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 1
+--- !u!114 &2448370380079910992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7021548208198213622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2ae4ec6a8531a049b36c477b0f2fddd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _timer1: {fileID: 2712426301695962260}
+  _timer2: {fileID: 89859273875896345}
 --- !u!114 &2453004700735962703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23571,6 +23600,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &7021548208198213622
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 377536318266019535}
+  - component: {fileID: 2448370380079910992}
+  m_Layer: 0
+  m_Name: GameStateManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &7022219826077229257
 GameObject:
   m_ObjectHideFlags: 0
@@ -30173,3 +30219,4 @@ SceneRoots:
   - {fileID: 7725519482686581315}
   - {fileID: 3857802788021325880}
   - {fileID: 1552409051}
+  - {fileID: 377536318266019535}
