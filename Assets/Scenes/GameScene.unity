@@ -905,6 +905,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8772507414923819049, guid: 5c08cae682451a34ba759248bdd23f75,
         type: 3}
+      propertyPath: _waveTime
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 8772507414923819049, guid: 5c08cae682451a34ba759248bdd23f75,
+        type: 3}
       propertyPath: _spawnPoint
       value: 
       objectReference: {fileID: 352880148}
@@ -912,12 +917,17 @@ PrefabInstance:
         type: 3}
       propertyPath: _spawnTimer
       value: 
-      objectReference: {fileID: 89859273875896345}
+      objectReference: {fileID: 2712426301695962260}
     - target: {fileID: 8772507414923819049, guid: 5c08cae682451a34ba759248bdd23f75,
         type: 3}
       propertyPath: _gridMoveTimer
       value: 
-      objectReference: {fileID: 2712426301695962260}
+      objectReference: {fileID: 89859273875896345}
+    - target: {fileID: 8772507414923819049, guid: 5c08cae682451a34ba759248bdd23f75,
+        type: 3}
+      propertyPath: _gridMoveUpTime
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 8772507414923819049, guid: 5c08cae682451a34ba759248bdd23f75,
         type: 3}
       propertyPath: SpawnEnemies.Array.size
