@@ -435,9 +435,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a75ed955d3f1c8246b7412601a3060d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sightDistance: 4
-  _hP: 100
-  _damage: 20
+  _sightDistance: 3
+  _hP: 50
+  _damage: 10
   _moveTime: 1
   _attackTime: 1
   _sightLayerMask:
