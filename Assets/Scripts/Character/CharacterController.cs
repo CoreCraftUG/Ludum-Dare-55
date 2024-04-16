@@ -179,15 +179,15 @@ namespace CoreCraft.Core
                 if (resource.Resources == BlockResources.Gold)
                     SummonManager.Instance.UnregisterGold(resource);
                 _carriedResource = hit2.transform.gameObject;
-                _carriedResource.transform.DOMove(Input.mousePosition, .1f);
-                _carriedResource.GetComponent<BoxCollider>().enabled = false;
+                _carriedResource.transform.DOMove(new Vector3(_carriedResource.transform.position.x, _carriedResource.transform.position.y - 10, _carriedResource.transform.position.z), .1f);
+                //_carriedResource.GetComponent<BoxCollider>().enabled = false;
             }
         }
 
         private void Update()
         {
-            if (_carriedResource != null)
-                _carriedResource.transform.position = Input.mousePosition;
+            //if (_carriedResource != null)
+            //    _carriedResource.transform.position = Input.mousePosition;
 
             if (_timerActive)
             {
